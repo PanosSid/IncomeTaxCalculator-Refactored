@@ -45,12 +45,3 @@ City: sdfsd
 Street: sdfs
 Number: 1
 
-Receipt ID: 6
-Date: 1/1/2022
-Kind: Travel
-Amount: 50.0
-Company: ADSF
-Country: AFDS
-City: DFA
-Street: FDAS
-Number: 44

@@ -33,6 +33,7 @@ import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 
+@SuppressWarnings("serial")
 public class TaxpayerData extends JFrame {
 
   private static final short ENTERTAINMENT = 0;
