@@ -33,6 +33,7 @@ import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 
+@SuppressWarnings("serial")
 public class GraphicalInterface extends JFrame {
 
   private JPanel contentPane;
