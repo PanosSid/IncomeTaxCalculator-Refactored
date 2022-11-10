@@ -1,5 +1,7 @@
 package incometaxcalculator.data.management;
 
+import java.util.Objects;
+
 public class Date {
 
   private int day;
@@ -27,4 +29,19 @@ public class Date {
   public String toString() {
     return day + "/" + month + "/" + year;
   }
+
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+	return true;
+    if (obj == null)
+	return false;
+    if (getClass() != obj.getClass())
+	return false;
+    Date other = (Date) obj;
+    return day == other.day && month == other.month && year == other.year;
+}
+  
+  
 }

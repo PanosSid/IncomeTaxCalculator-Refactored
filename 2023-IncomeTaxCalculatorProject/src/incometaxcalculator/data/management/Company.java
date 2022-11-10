@@ -1,10 +1,17 @@
 package incometaxcalculator.data.management;
 
+import java.util.Objects;
+
 public class Company {
 
   private final String name;
   private final Address address;
 
+  public Company() {	// gia testing 
+    this.name = "";
+    this.address = null;
+  }
+  
   public Company(String name, String country, String city, String street, int number) {
     this.name = name;
     this.address = new Address(country, city, street, number);
@@ -34,4 +41,22 @@ public class Company {
   public int getNumber() {
     return address.getNumber();
   }
+
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+	return true;
+    if (obj == null)
+	return false;
+    if (getClass() != obj.getClass())
+	return false;
+    Company other = (Company) obj;
+    return Objects.equals(address, other.address) && Objects.equals(name, other.name);
+}
+
+
+
+  
+  
 }
