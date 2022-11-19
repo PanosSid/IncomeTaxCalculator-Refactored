@@ -13,7 +13,8 @@ public class TestFilePool {
 //    private String operations[] = {"load", "add", "delete", "log"}; 
     private List<String> fileTypes = new ArrayList<String>();
     private List<String> operations = new ArrayList<String>();
-    private Map<String, HashMap<String, File>> testFiles = new HashMap<>(); //new  HashMap<String, HashMap<String, File>>();
+    private Map<String, HashMap<String, File>> testFiles = new HashMap<>(); // new HashMap<String, HashMap<String,
+									    // File>>();
 
 //    public TestFilePool() {
 //	super();
@@ -43,7 +44,7 @@ public class TestFilePool {
 //	}
 //	
 //    }
-    
+
     public TestFilePool() {
 	super();
 	fileTypes.add("txt");
@@ -52,32 +53,32 @@ public class TestFilePool {
 	operations.add("add");
 	operations.add("delete");
 	operations.add("log");
-		
+
 	for (String fType : fileTypes) {
 	    HashMap<String, File> operationsMap = new HashMap<String, File>();
 	    for (String oper : operations) {
-		String filePath = resourcesPath + oper +"_"+taxRegistrationNumber;
-		if ( oper.equals("log")) {
-		    filePath += "_LOG."+fType;			   		    
+		String filePath = resourcesPath + oper + "_" + taxRegistrationNumber;
+		if (oper.equals("log")) {
+		    filePath += "_LOG." + fType;
 		} else {
-		    filePath += "_INFO."+fType;
+		    filePath += "_INFO." + fType;
 		}
 		File file = new File(filePath);
 		operationsMap.put(oper, file);
 	    }
 	    testFiles.put(fType, operationsMap);
 	}
-	
+
     }
-    
+
     public List<String> getFileTypes() {
-        return fileTypes;
+	return fileTypes;
     }
 
     public File getTestFile(String fileType, String operation) {
 	return testFiles.get(fileType).get(operation);
     }
-    
+
 //    public File getTxtFileForOperation(String operation) {
 //	return testFiles.get("txt").get(operation);
 //    }
@@ -85,7 +86,7 @@ public class TestFilePool {
 //    public File getXmlFileForOperation(String operation) {
 //	return testFiles.get("xml").get(operation);
 //    }
-    
+
     @Override
     public String toString() {
 	return "TestFilePool [taxRegistrationNumber=" + taxRegistrationNumber + ", resourcesPath=" + resourcesPath
@@ -95,9 +96,8 @@ public class TestFilePool {
     public static void main(String[] args) {
 	TestFilePool testFilePool = new TestFilePool();
 	System.out.println(testFilePool);
-	
+
 	System.out.println(testFilePool.getTestFile("txt", "log"));
     }
-    
 
 }
