@@ -1,0 +1,28 @@
+<Name> Robert Martin </Name>
+<AFM> 111111111 </AFM>
+<Status> Married Filing Jointly </Status>
+<Income> 100000.0 </Income>
+
+<Receipts>
+
+<ReceiptID> 1 </ReceiptID>
+<Date> 10/10/2010 </Date>
+<Kind> Basic </Kind>
+<Amount> 100.0 </Amount>
+<Company> aCompany1 </Company>
+<Country> aCountry1 </Country>
+<City> aCity1 </City>
+<Street> aStreet1 </Street>
+<Number> 10 </Number>
+
+<ReceiptID> 2 </ReceiptID>
+<Date> 20/2/2020 </Date>
+<Kind> Travel </Kind>
+<Amount> 200.0 </Amount>
+<Company> aCompany2 </Company>
+<Country> aCountry2 </Country>
+<City> aCity2 </City>
+<Street> aStreet2 </Street>
+<Number> 20 </Number>
+
+</Receipts>

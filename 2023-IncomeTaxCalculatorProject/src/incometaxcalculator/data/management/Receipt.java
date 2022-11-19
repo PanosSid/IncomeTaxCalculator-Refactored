@@ -1,5 +1,7 @@
 package incometaxcalculator.data.management;
 
+import java.util.Objects;
+
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 
 public class Receipt {
@@ -49,4 +51,33 @@ public class Receipt {
   public Company getCompany() {
     return company;
   }
+
+@Override
+public int hashCode() {
+    return Objects.hash(amount, company, id, issueDate, kind);
+}
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+	return true;
+    if (obj == null)
+	return false;
+    if (getClass() != obj.getClass())
+	return false;
+    Receipt other = (Receipt) obj;
+    boolean ret =  Float.floatToIntBits(amount) == Float.floatToIntBits(other.amount) && Objects.equals(company, other.company)
+	    && id == other.id && Objects.equals(issueDate, other.issueDate) && Objects.equals(kind, other.kind);
+    
+    return ret;
+}
+
+@Override
+public String toString() {
+    return "Receipt [id=" + id + ", issueDate=" + issueDate + ", amount=" + amount + ", kind=" + kind + ", company="
+	    + company + "]";
+}
+
+
+  
 }

@@ -1,6 +1,8 @@
 package incometaxcalculator.data.management;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 
@@ -116,4 +118,35 @@ public abstract class Taxpayer {
     return calculateBasicTax();
   }
 
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+	return true;
+    if (obj == null)
+	return false;
+    if (getClass() != obj.getClass())
+	return false;
+    Taxpayer other = (Taxpayer) obj;
+    return Arrays.equals(amountPerReceiptsKind, other.amountPerReceiptsKind) && Objects.equals(fullname, other.fullname)
+	    && Float.floatToIntBits(income) == Float.floatToIntBits(other.income)
+	    && Objects.equals(receiptHashMap, other.receiptHashMap)
+	    && taxRegistrationNumber == other.taxRegistrationNumber
+	    && totalReceiptsGathered == other.totalReceiptsGathered;
+}
+
+@Override
+public String toString() {
+    String s = "Taxpayer [fullname=" + fullname + ", taxRegistrationNumber=" + taxRegistrationNumber + ", income=" + income
+	    + ", amountPerReceiptsKind=" + Arrays.toString(amountPerReceiptsKind) + ", totalReceiptsGathered="
+	    + totalReceiptsGathered + ", receiptHashMap=" /*+ receiptHashMap + "]"*/;
+    for (Integer id: receiptHashMap.keySet()) {
+	    String key = id.toString();
+	    String value = receiptHashMap.get(id).toString();
+	    s+="("+key + "-> " + value +")";
+	}
+   return s;
+}
+  
+  
 }

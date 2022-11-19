@@ -42,8 +42,6 @@ public class TaxpayerManager {
     } else {
       throw new WrongTaxpayerStatusException();
     }
-    System.out.println("Name = "+ fullname + "Status =" + status);
-    System.out.println(taxpayerHashMap.get(taxRegistrationNumber));
   }
 
   public void createReceipt(int receiptId, String issueDate, float amount, String kind,
