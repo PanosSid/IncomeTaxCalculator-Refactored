@@ -144,7 +144,6 @@ public String toString() {
 	    String key = id.toString();
 	    String value = receiptHashMap.get(id).toString();
 	    s+="("+key + "-> " + value +")";
-//	    System.out.println(key + " " + value);
 	}
    return s;
 }

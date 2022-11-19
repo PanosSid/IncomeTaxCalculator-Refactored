@@ -66,12 +66,18 @@ public boolean equals(Object obj) {
     if (getClass() != obj.getClass())
 	return false;
     Receipt other = (Receipt) obj;
-    System.out.println("Compare Reciept[id="+this.id+"] vs Reciept[id="+other.id+"]");
     boolean ret =  Float.floatToIntBits(amount) == Float.floatToIntBits(other.amount) && Objects.equals(company, other.company)
 	    && id == other.id && Objects.equals(issueDate, other.issueDate) && Objects.equals(kind, other.kind);
     
     return ret;
 }
-  
+
+@Override
+public String toString() {
+    return "Receipt [id=" + id + ", issueDate=" + issueDate + ", amount=" + amount + ", kind=" + kind + ", company="
+	    + company + "]";
+}
+
+
   
 }
