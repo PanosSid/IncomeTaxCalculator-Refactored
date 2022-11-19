@@ -7,7 +7,7 @@ public class Company {
     private final String name;
     private final Address address;
 
-    public Company() {
+    public Company() {	// isos auto prepei na afairethei 
 	this.name = "";
 	this.address = null;
     }
