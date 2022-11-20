@@ -4,20 +4,22 @@ public class MarriedFilingJointlyTaxpayer extends Taxpayer {
 
     public MarriedFilingJointlyTaxpayer(String fullname, int taxRegistrationNumber, float income) {
 	super(fullname, taxRegistrationNumber, income);
-    }
-
-    public double calculateBasicTax() {
-	if (income < 36080) {
-	    return 0.0535 * income;
-	} else if (income < 90000) {
-	    return 1930.28 + 0.0705 * (income - 36080);
-	} else if (income < 143350) {
-	    return 5731.64 + 0.0705 * (income - 90000);
-	} else if (income < 254240) {
-	    return 9492.82 + 0.0785 * (income - 143350);
-	} else {
-	    return 18197.69 + 0.0985 * (income - 254240);
-	}
+	incomeUpperLimit[0] = 36080;
+	incomeUpperLimit[1] = 90000;
+	incomeUpperLimit[2] = 143350;
+	incomeUpperLimit[3] = 254240;
+	
+	correspondingTax[0] = 0;
+	correspondingTax[1] = 1930.28;
+	correspondingTax[2] = 5731.64;
+	correspondingTax[3] = 9492.82;
+	correspondingTax[4] = 18197.69;
+	
+	taxPercentage[0] = 0.0535;
+	taxPercentage[1] = 0.0705;
+	taxPercentage[2] = 0.0705;
+	taxPercentage[3] = 0.0785;
+	taxPercentage[4] = 0.0985;	
     }
 
 }
