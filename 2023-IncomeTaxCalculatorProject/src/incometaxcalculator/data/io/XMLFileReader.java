@@ -3,21 +3,44 @@ package incometaxcalculator.data.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 
 public class XMLFileReader extends FileReader {
+    
+    public XMLFileReader(TaxpayerManager taxpayerManager) {
+	super(taxpayerManager);
+    }
 
-    protected int checkForReceipt(BufferedReader inputStream) throws NumberFormatException, IOException {
-	String line;
-	while (!isEmpty(line = inputStream.readLine())) {
-	    String values[] = line.split(" ", 3);
-	    if (values[0].equals("<ReceiptID>")) {
-		int receiptId = Integer.parseInt(values[1].trim());
-		return receiptId;
-	    }
+    @Override
+    public boolean checkReceiptSeperator(String receiptSeperator) {
+	if (receiptSeperator.equals("<Receipts>")) {
+	    return true;
+	}
+	return false;
+    }
+
+    @Override
+    public int getReceiptIdFromLine(String line) {
+	String lineFields[] = line.split("\\s+");
+	if (lineFields[0].equals("<ReceiptID>") &&
+			lineFields[2].equals("</ReceiptID>")) {
+	    int receiptId = Integer.parseInt(lineFields[1].trim());
+	    return receiptId;
 	}
 	return -1;
     }
+//    protected int checkForReceipt(BufferedReader inputStream) throws NumberFormatException, IOException {
+//	String line;
+//	while (!isEmpty(line = inputStream.readLine())) {
+//	    String values[] = line.split(" ", 3);
+//	    if (values[0].equals("<ReceiptID>")) {
+//		int receiptId = Integer.parseInt(values[1].trim());
+//		return receiptId;
+//	    }
+//	}
+//	return -1;
+//    }
 
     protected String getValueOfField(String fieldsLine) throws WrongFileFormatException {
 	if (isEmpty(fieldsLine)) {
@@ -31,5 +54,7 @@ public class XMLFileReader extends FileReader {
 	    throw new WrongFileFormatException();
 	}
     }
+
+   
 
 }

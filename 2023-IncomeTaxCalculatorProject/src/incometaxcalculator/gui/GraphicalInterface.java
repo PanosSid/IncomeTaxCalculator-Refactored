@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileEndingException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
+import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
@@ -161,6 +162,9 @@ public class GraphicalInterface extends JFrame {
 			} catch (WrongReceiptDateException e1) {
 			    JOptionPane.showMessageDialog(null,
 				    "Please make sure your date is " + "DD/MM/YYYY and try again.");
+			} catch (WrongFileReceiptSeperatorException e1) {
+			    JOptionPane.showMessageDialog(null,
+				    "Please chechk Receipt Seperator !!.");
 			}
 		    }
 

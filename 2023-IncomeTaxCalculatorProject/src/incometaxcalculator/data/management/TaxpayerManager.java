@@ -6,50 +6,38 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import incometaxcalculator.data.io.FileReader;
-import incometaxcalculator.data.io.TXTFileReader;
-import incometaxcalculator.data.io.TXTInfoWriter;
-import incometaxcalculator.data.io.TXTLogWriter;
-import incometaxcalculator.data.io.XMLFileReader;
-import incometaxcalculator.data.io.XMLInfoWriter;
-import incometaxcalculator.data.io.XMLLogWriter;
+import incometaxcalculator.data.io.FileReaderFactory;
+import incometaxcalculator.data.io.FileWriter;
+import incometaxcalculator.data.io.FileWriterFactory;
+
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
 import incometaxcalculator.exceptions.WrongFileEndingException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
+import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 
 public class TaxpayerManager {
-
-    private static HashMap<Integer, Taxpayer> taxpayerHashMap = new HashMap<Integer, Taxpayer>(0);
-    private static HashMap<Integer, Integer> receiptOwnerTRN = new HashMap<Integer, Integer>(0);
+    private HashMap<Integer, Taxpayer> taxpayerHashMap = new HashMap<Integer, Taxpayer>(0);
+    private HashMap<Integer, Integer> receiptOwnerTRN = new HashMap<Integer, Integer>(0);
+    private TaxpayerFactory taxpayerFactory = new TaxpayerFactory();
+    private FileWriterFactory fileWriterFactory = new FileWriterFactory(); 
+    private FileReaderFactory fileReaderFactory = new FileReaderFactory();
 
     public void createTaxpayer(String fullname, int taxRegistrationNumber, String status, float income)
 	    throws WrongTaxpayerStatusException {
-
-	if (status.equals("Married Filing Jointly")) {
-	    taxpayerHashMap.put(taxRegistrationNumber,
-		    new MarriedFilingJointlyTaxpayer(fullname, taxRegistrationNumber, income));
-	} else if (status.equals("Married Filing Separately")) {
-	    taxpayerHashMap.put(taxRegistrationNumber,
-		    new MarriedFilingSeparatelyTaxpayer(fullname, taxRegistrationNumber, income));
-	} else if (status.equals("Single")) {
-	    taxpayerHashMap.put(taxRegistrationNumber, new SingleTaxpayer(fullname, taxRegistrationNumber, income));
-	} else if (status.equals("Head of Household")) {
-	    taxpayerHashMap.put(taxRegistrationNumber,
-		    new HeadOfHouseholdTaxpayer(fullname, taxRegistrationNumber, income));
-	} else {
-	    throw new WrongTaxpayerStatusException();
-	}
+	Taxpayer taxpayer = taxpayerFactory.createTaxpayer(fullname, taxRegistrationNumber, status, income);
+	taxpayerHashMap.put(taxRegistrationNumber, taxpayer);
     }
 
     public void createReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
 	    String country, String city, String street, int number, int taxRegistrationNumber)
 	    throws WrongReceiptKindException, WrongReceiptDateException {
-
-	Receipt receipt = new Receipt(receiptId, issueDate, amount, kind,
-		new Company(companyName, country, city, street, number));
-	taxpayerHashMap.get(taxRegistrationNumber).addReceipt(receipt);
+	Company company = new Company(companyName, country, city, street, number);
+	Receipt receipt = new Receipt(receiptId, issueDate, amount, kind, company);
+	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
+	taxpayer.addReceipt(receipt);
 	receiptOwnerTRN.put(receiptId, taxRegistrationNumber);
     }
 
@@ -84,27 +72,20 @@ public class TaxpayerManager {
     }
 
     private void updateFiles(int taxRegistrationNumber) throws IOException {
-	if (new File(taxRegistrationNumber + "_INFO.xml").exists()) {
-	    new XMLInfoWriter().generateFile(taxRegistrationNumber);
-	} else {
-	    new TXTInfoWriter().generateFile(taxRegistrationNumber);
-	    return;
-	}
-	if (new File(taxRegistrationNumber + "_INFO.txt").exists()) {
-	    new TXTInfoWriter().generateFile(taxRegistrationNumber);
+	String fileFormats[] = {"txt", "xml"};
+	for (int i = 0; i < fileFormats.length; i++) {
+	    String filename = taxRegistrationNumber + "_INFO." + fileFormats[i];
+	    File infoFile = new File(filename);
+	    if (infoFile.exists()) {
+		FileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i], this);
+		infoWriter.generateFile(taxRegistrationNumber);
+	    }
 	}
     }
 
     public void saveLogFile(int taxRegistrationNumber, String fileFormat) throws IOException, WrongFileFormatException {
-	if (fileFormat.equals("txt")) {
-	    TXTLogWriter writer = new TXTLogWriter();
-	    writer.generateFile(taxRegistrationNumber);
-	} else if (fileFormat.equals("xml")) {
-	    XMLLogWriter writer = new XMLLogWriter();
-	    writer.generateFile(taxRegistrationNumber);
-	} else {
-	    throw new WrongFileFormatException();
-	}
+	FileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat, this);
+	fileWriter.generateFile(taxRegistrationNumber);
     }
 
     public boolean containsTaxpayer(int taxRegistrationNumber) {
@@ -114,6 +95,7 @@ public class TaxpayerManager {
 	return false;
     }
 
+    // kaleitai mono sto gui opote logia tha diagrafei
     public boolean containsTaxpayer() {
 	if (taxpayerHashMap.isEmpty()) {
 	    return false;
@@ -135,18 +117,11 @@ public class TaxpayerManager {
 
     public void loadTaxpayer(String fileName)
 	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
-	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException {
-
+	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException {
 	String ending[] = fileName.split("\\.");
-	if (ending[1].equals("txt")) {
-	    FileReader reader = new TXTFileReader();
-	    reader.readFile(fileName);
-	} else if (ending[1].equals("xml")) {
-	    FileReader reader = new XMLFileReader();
-	    reader.readFile(fileName);
-	} else {
-	    throw new WrongFileEndingException();
-	}
+	String fileType = ending[1];
+	FileReader fileReader = fileReaderFactory.createFileReader(fileType, this);
+	fileReader.readFile(fileName);
     }
 
     public String getTaxpayerName(int taxRegistrationNumber) {

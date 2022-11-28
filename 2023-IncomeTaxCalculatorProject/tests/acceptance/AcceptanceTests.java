@@ -26,6 +26,7 @@ import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
 import incometaxcalculator.exceptions.WrongFileEndingException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
+import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
@@ -35,7 +36,7 @@ public class AcceptanceTests {
     private Taxpayer aTaxpayer;
     private Company company1;
     private int taxRegistrationNumber = 111111111;
-    private String[] fileTypes = TestFileContents.fileTypes;
+    private String[] fileFormats = TestFileContents.fileFormats;
     private Map<String, File> testInfoFilesMap = new HashMap<String, File>();
 
     public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException, WrongTaxpayerStatusException {
@@ -96,9 +97,9 @@ public class AcceptanceTests {
     @Test
     public void testUC1LoadTaxpayer()
 	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
-	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException {
+	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException {
 
-	for (String fType : fileTypes) {
+	for (String fType : fileFormats) {
 	    String filename = taxRegistrationNumber + "_INFO." + fType;
 	    taxpayerManager.loadTaxpayer(filename);
 	    Taxpayer actualTaxpayer = taxpayerManager.getTaxpayer(taxRegistrationNumber);
@@ -136,8 +137,8 @@ public class AcceptanceTests {
 
 	Assert.assertEquals(receipt3, addedReceipt);
 
-	for (int i = 0; i < fileTypes.length; i++) {
-	    String currentFType = fileTypes[i];
+	for (int i = 0; i < fileFormats.length; i++) {
+	    String currentFType = fileFormats[i];
 	    File testedFile = testInfoFilesMap.get(currentFType);
 	    String actualInfoContents = FileUtils.readFileToString(testedFile, StandardCharsets.UTF_8);
 	    String expectedInfoContents = TestFileContents.getTestFileContents(currentFType, "add");
@@ -148,8 +149,8 @@ public class AcceptanceTests {
     @Test
     public void testUC4DeleteReceiptOfTaxpayer() throws IOException, WrongReceiptKindException {
 	taxpayerManager.removeReceipt(2);
-	for (int i = 0; i < fileTypes.length; i++) {
-	    String currentFType = fileTypes[i];
+	for (int i = 0; i < fileFormats.length; i++) {
+	    String currentFType = fileFormats[i];
 	    File testedFile = testInfoFilesMap.get(currentFType);
 	    String actualInfoContents = FileUtils.readFileToString(testedFile, StandardCharsets.UTF_8);
 	    String expectedInfoContents = TestFileContents.getTestFileContents(currentFType, "delete");
@@ -159,8 +160,8 @@ public class AcceptanceTests {
 
     @Test
     public void testUC6StoreTaxpayerLog() throws IOException, WrongFileFormatException {
-	for (int i = 0; i < fileTypes.length; i++) {
-	    String currentFtype = fileTypes[i];
+	for (int i = 0; i < fileFormats.length; i++) {
+	    String currentFtype = fileFormats[i];
 	    taxpayerManager.saveLogFile(taxRegistrationNumber, currentFtype);
 	    String logFilename = taxRegistrationNumber + "_LOG." + currentFtype;
 	    File logFile = new File(logFilename);

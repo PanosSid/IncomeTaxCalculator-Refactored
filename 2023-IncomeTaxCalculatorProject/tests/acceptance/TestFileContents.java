@@ -1,7 +1,7 @@
 package acceptance;
 
 public class TestFileContents {
-    public static String[] fileTypes = { "txt", "xml" };
+    public static String[] fileFormats = { "txt", "xml" };
 
     public static final String TXT_INITIAL_INFO = "Name: Robert Martin\r\n" + "AFM: 111111111\r\n"
 	    + "Status: Married Filing Jointly\r\n" + "Income: 100000.0\r\n" + "\r\n" + "Receipts:\r\n" + "\r\n"

@@ -52,6 +52,27 @@ public class Receipt {
 	return company;
     }
 
+    public String getCompanyName() {
+	return company.getName();
+    }
+
+    public String getCompanyCountry() {
+	return company.getCountry();
+    }
+
+    public String getCompanyCity() {
+	return company.getCity();
+    }
+
+    public String getCompanyStreet() {
+	return company.getStreet();
+    }
+
+    public int getCompanyNumber() {
+	return company.getNumber();
+    }  
+
+
     @Override
     public int hashCode() {
 	return Objects.hash(amount, company, id, issueDate, kind);

@@ -3,24 +3,34 @@ package incometaxcalculator.data.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 
 public class TXTFileReader extends FileReader {
+    
+    public TXTFileReader(TaxpayerManager taxpayerManager) {
+	super(taxpayerManager);
+	
+    }
+    
+    @Override
+    public boolean checkReceiptSeperator(String receiptSeperator) {
+	if (receiptSeperator.equals("Receipts:")) {
+	    return true;
+	}
+	return false;
+    }
 
-    protected int checkForReceipt(BufferedReader inputStream) throws NumberFormatException, IOException {
-	String line;
-	while (!isEmpty(line = inputStream.readLine())) {
-	    String values[] = line.split(" ", 3);
-	    if (values[0].equals("Receipt")) {
-		if (values[1].equals("ID:")) {
-		    int receiptId = Integer.parseInt(values[2].trim());
-		    return receiptId;
-		}
-	    }
+    @Override
+    public int getReceiptIdFromLine(String line) {
+	String lineFields[] = line.split(":");
+	if (lineFields[0].equals("Receipt ID")) {
+	    int receiptId = Integer.parseInt(lineFields[1].trim());
+	    return receiptId;
 	}
 	return -1;
     }
-
+    
     protected String getValueOfField(String fieldsLine) throws WrongFileFormatException {
 	if (isEmpty(fieldsLine)) {
 	    throw new WrongFileFormatException();
@@ -33,5 +43,6 @@ public class TXTFileReader extends FileReader {
 	    throw new WrongFileFormatException();
 	}
     }
+
 
 }
