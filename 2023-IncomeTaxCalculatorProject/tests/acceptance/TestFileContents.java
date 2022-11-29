@@ -58,14 +58,14 @@ public class TestFileContents {
 	    + "<Number> 20 </Number>\r\n" + "\r\n" + "<ReceiptID> 3 </ReceiptID>\r\n" + "<Date> 30/3/2003 </Date>\r\n"
 	    + "<Kind> Basic </Kind>\r\n" + "<Amount> 300.0 </Amount>\r\n" + "<Company> aCompany1 </Company>\r\n"
 	    + "<Country> aCountry1 </Country>\r\n" + "<City> aCity1 </City>\r\n" + "<Street> aStreet1 </Street>\r\n"
-	    + "<Number> 10 </Number>\r\n" + "\r\n";
+	    + "<Number> 10 </Number>\r\n" + "\r\n" + "</Receipts>" + "\r\n";
 
     public static final String XML_AFTER_DEL_INFO = "<Name> Robert Martin </Name>\r\n" + "<AFM> 111111111 </AFM>\r\n"
 	    + "<Status> Married Filing Jointly </Status>\r\n" + "<Income> 100000.0 </Income>\r\n" + "\r\n"
 	    + "<Receipts>\r\n" + "\r\n" + "<ReceiptID> 1 </ReceiptID>\r\n" + "<Date> 10/10/2010 </Date>\r\n"
 	    + "<Kind> Basic </Kind>\r\n" + "<Amount> 100.0 </Amount>\r\n" + "<Company> aCompany1 </Company>\r\n"
 	    + "<Country> aCountry1 </Country>\r\n" + "<City> aCity1 </City>\r\n" + "<Street> aStreet1 </Street>\r\n"
-	    + "<Number> 10 </Number>\r\n" + "\r\n";
+	    + "<Number> 10 </Number>\r\n" + "\r\n" + "</Receipts>" + "\r\n";
 
     public static final String XML_LOG = "<Name> Robert Martin </Name>\r\n" + "<AFM> 111111111 </AFM>\r\n"
 	    + "<Income> 100000.0 </Income>\r\n" + "<BasicTax> 6436.64 </BasicTax>\r\n"

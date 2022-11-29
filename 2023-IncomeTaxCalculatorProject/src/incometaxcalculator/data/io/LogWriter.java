@@ -8,8 +8,6 @@ import java.util.List;
 import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class LogWriter extends FileWriter {
-    
-//    protected TaxpayerManager taxpayerManager;
    protected final int TAX_INCREASE_INDEX = 4;
    protected boolean taxIncrease; 
    protected static final short ENTERTAINMENT = 0;
@@ -19,9 +17,7 @@ public abstract class LogWriter extends FileWriter {
    protected static final short OTHER = 4;
 
     public LogWriter(TaxpayerManager taxpayerManager) {
-	super(taxpayerManager);
-//	this.taxpayerManager = taxpayerManager;
-	
+	super(taxpayerManager);	
     }
     
     protected abstract String getFileName(int taxRegistrationNumber);

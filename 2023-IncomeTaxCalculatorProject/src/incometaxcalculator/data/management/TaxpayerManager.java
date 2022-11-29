@@ -2,8 +2,11 @@ package incometaxcalculator.data.management;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import incometaxcalculator.data.io.FileReader;
 import incometaxcalculator.data.io.FileReaderFactory;
@@ -166,6 +169,12 @@ public class TaxpayerManager {
 
     public HashMap<Integer, Receipt> getReceiptHashMap(int taxRegistrationNumber) {
 	return taxpayerHashMap.get(taxRegistrationNumber).getReceiptHashMap();
+    }
+    
+    public List<Receipt> getReceiptListOfTaxpayer(int taxRegistrationNumber) {
+	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
+	Map<Integer, Receipt> receiptMap = taxpayer.getReceiptHashMap();
+	return new ArrayList<Receipt>(receiptMap.values());
     }
 
 }
