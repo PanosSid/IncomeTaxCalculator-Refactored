@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
+import incometaxcalculator.exceptions.TaxpayerAlreadyLoadedException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
@@ -18,17 +19,18 @@ public abstract class FileReader {
     public FileReader(TaxpayerManager taxpayerManager) {
 	this.taxpayerManager = taxpayerManager;
     }
-//    protected abstract int checkForReceipt(BufferedReader inputStream) throws NumberFormatException, IOException;
-    
 
     protected abstract String getValueOfField(String fieldsLine) throws WrongFileFormatException;
     
-    public abstract boolean checkReceiptSeperator(String receiptSeperator);
+   // protected abstract boolean checkReceiptIdTag(String receiptSeperator);
     
-    public abstract int getReceiptIdFromLine(String line);
+    protected abstract boolean checkReceiptSeperatorTag(String receiptSeperator);
+    
+    protected abstract int getReceiptIdFromLine(String line);
 
     public void readFile(String fileName) throws NumberFormatException, IOException, WrongTaxpayerStatusException,
-	    WrongFileFormatException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException {
+	    WrongFileFormatException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException,
+	    TaxpayerAlreadyLoadedException {
 
 	BufferedReader inputStream = new BufferedReader(new java.io.FileReader(fileName));
 	String fullname = getValueOfField(inputStream.readLine());
@@ -37,13 +39,13 @@ public abstract class FileReader {
 	float income = Float.parseFloat(getValueOfField(inputStream.readLine()));
 	taxpayerManager.createTaxpayer(fullname, taxRegistrationNumber, status, income);
 	
-	String receiptsSeperator= getNextNotBlankLine(inputStream);
-	if (isEmpty(receiptsSeperator) || !checkReceiptSeperator(receiptsSeperator)) {
+	String receiptsSeperator = getNextNotBlankLine(inputStream);
+	if (checkReceiptSeperatorTag(receiptsSeperator)) {
+	    while (readReceipt(inputStream, taxRegistrationNumber))
+		    ;
+	} else if (receiptsSeperator != null && !checkReceiptSeperatorTag(receiptsSeperator)) {
 	    throw new WrongFileReceiptSeperatorException();
-	}
-	
-	while (readReceipt(inputStream, taxRegistrationNumber))
-	    ;
+	}	
     }
 
     protected boolean readReceipt(BufferedReader inputStream, int taxRegistrationNumber)
@@ -72,6 +74,7 @@ public abstract class FileReader {
     }
     
     
+    
     protected String getNextNotBlankLine(BufferedReader inputStream) throws IOException {
 	String line;
 	while ((line = inputStream.readLine()) != null) {
@@ -81,6 +84,7 @@ public abstract class FileReader {
 	}
 	return line;
     }
+    
     	
     protected boolean isEmpty(String line) {
 	if (line == null) {

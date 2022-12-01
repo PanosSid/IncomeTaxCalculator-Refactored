@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import incometaxcalculator.data.io.FileReader;
 import incometaxcalculator.data.io.FileReaderFactory;
@@ -14,6 +16,7 @@ import incometaxcalculator.data.io.FileWriter;
 import incometaxcalculator.data.io.FileWriterFactory;
 
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
+import incometaxcalculator.exceptions.TaxpayerAlreadyLoadedException;
 import incometaxcalculator.exceptions.WrongFileEndingException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
@@ -22,16 +25,21 @@ import incometaxcalculator.exceptions.WrongReceiptKindException;
 import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 
 public class TaxpayerManager {
-    private HashMap<Integer, Taxpayer> taxpayerHashMap = new HashMap<Integer, Taxpayer>(0);
+    private HashMap<Integer, Taxpayer> taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
     private HashMap<Integer, Integer> receiptOwnerTRN = new HashMap<Integer, Integer>(0);
     private TaxpayerFactory taxpayerFactory = new TaxpayerFactory();
     private FileWriterFactory fileWriterFactory = new FileWriterFactory(); 
     private FileReaderFactory fileReaderFactory = new FileReaderFactory();
 
     public void createTaxpayer(String fullname, int taxRegistrationNumber, String status, float income)
-	    throws WrongTaxpayerStatusException {
-	Taxpayer taxpayer = taxpayerFactory.createTaxpayer(fullname, taxRegistrationNumber, status, income);
-	taxpayerHashMap.put(taxRegistrationNumber, taxpayer);
+	    throws WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
+	
+	if (taxpayerHashMap.containsKey(taxRegistrationNumber)) {
+	    throw new TaxpayerAlreadyLoadedException();
+	} else {
+	    Taxpayer taxpayer = taxpayerFactory.createTaxpayer(fullname, taxRegistrationNumber, status, income);
+	    taxpayerHashMap.put(taxRegistrationNumber, taxpayer);  
+	}
     }
 
     public void createReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
@@ -120,7 +128,8 @@ public class TaxpayerManager {
 
     public void loadTaxpayer(String fileName)
 	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
-	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException {
+	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException,
+	    TaxpayerAlreadyLoadedException {
 	String ending[] = fileName.split("\\.");
 	String fileType = ending[1];
 	FileReader fileReader = fileReaderFactory.createFileReader(fileType, this);
@@ -175,6 +184,28 @@ public class TaxpayerManager {
 	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
 	Map<Integer, Receipt> receiptMap = taxpayer.getReceiptHashMap();
 	return new ArrayList<Receipt>(receiptMap.values());
+    }
+
+    public String[][] getNameAndTrnOfLoadedTaxpayers() {
+	int numberOfloadedTaxpayers = taxpayerHashMap.size();
+	String namesAndTrn[][] = new String[numberOfloadedTaxpayers][2];
+	int i = 0;
+	for (Integer trn : taxpayerHashMap.keySet()) {
+	    String name = taxpayerHashMap.get(trn).getFullname();
+	    namesAndTrn[i][0] = name;
+	    namesAndTrn[i][1] = ""+trn;
+	    i++;
+	}
+	return namesAndTrn;
+    }
+    
+    public String[] getLastLoadedTaxpayerNameAndTrn() {
+	int numberOfloadedTaxpayers = taxpayerHashMap.size();
+	List<Integer> lKeys = new ArrayList<Integer>(taxpayerHashMap.keySet());
+	Integer lastTrn = lKeys.get(numberOfloadedTaxpayers -1);
+	String lastName = taxpayerHashMap.get(lastTrn).getFullname();
+	String[] nameAndTrn = {lastName, ""+lastTrn};
+	return nameAndTrn;
     }
 
 }

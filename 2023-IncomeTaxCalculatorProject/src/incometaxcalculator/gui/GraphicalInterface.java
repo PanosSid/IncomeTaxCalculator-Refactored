@@ -27,6 +27,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 import incometaxcalculator.data.management.TaxpayerManager;
+import incometaxcalculator.exceptions.TaxpayerAlreadyLoadedException;
 import incometaxcalculator.exceptions.WrongFileEndingException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
@@ -165,6 +166,9 @@ public class GraphicalInterface extends JFrame {
 			} catch (WrongFileReceiptSeperatorException e1) {
 			    JOptionPane.showMessageDialog(null,
 				    "Please chechk Receipt Seperator !!.");
+			} catch (TaxpayerAlreadyLoadedException e1) {
+			    // TODO Auto-generated catch block
+			    e1.printStackTrace();
 			}
 		    }
 

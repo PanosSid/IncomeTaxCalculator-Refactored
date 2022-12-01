@@ -13,7 +13,7 @@ public class XMLFileReader extends FileReader {
     }
 
     @Override
-    public boolean checkReceiptSeperator(String receiptSeperator) {
+    public boolean checkReceiptSeperatorTag(String receiptSeperator) {
 	if (receiptSeperator.equals("<Receipts>")) {
 	    return true;
 	}
