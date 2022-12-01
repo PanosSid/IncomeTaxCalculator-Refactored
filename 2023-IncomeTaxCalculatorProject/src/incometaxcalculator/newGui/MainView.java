@@ -76,7 +76,7 @@ public class MainView {
     }
     
     private void addLogoAndLabel() {
-	welcomeLabel = new JLabel("Welcome to Income Tax Calculator");
+	welcomeLabel = new JLabel("Income Tax Calculator");
 	welcomeLabel.setForeground(Color.WHITE);
 	welcomeLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
 	ImageIcon labelIcon = new ImageIcon("resources/logo.png");
@@ -116,33 +116,52 @@ public class MainView {
 
     
     private void addButtonsToFrame() {
-	addLoadTaxpayerButton();
-	JButton display = new JButton("Display Taxpayer");
-	
+	addLoadTaxpayerButton();	
+	addViewTaxpayer();
+	addRemoveTaxpayerButton();
 	JButton settings = new JButton("Settings");
-
-	mainPanel.add(display,"grow" );
-	addDeleteTaxpayerButton();
 	mainPanel.add(settings, "grow");
     }
     
-    private void addDeleteTaxpayerButton() {
-	JButton delete = new JButton("Delete Taxpayer");
-	delete.addActionListener(new ActionListener() {
+    
+    private void addViewTaxpayer() {
+	JButton display = new JButton("View Taxpayer");
+	display.addActionListener(new ActionListener() {
  	    @Override
  	    public void actionPerformed(ActionEvent e) {
  		int selectedRow = loadedTaxpayersTable.getSelectedRow();
  		if (selectedRow >= 0) {
- 		    int trn = Integer.parseInt((String) tableModel.getValueAt(selectedRow, 1));	// prosoxi allazoun thesei oi stiles ???
- 		    taxpayerManager.removeTaxpayer(trn);
- 		    tableModel.removeRow(selectedRow); 		    
+ 		    int trn = getSelectedTrnFromTable(); 
+ 		    String nameAndTRN = taxpayerManager.getTaxpayerName(trn)+" "+trn;
+ 		    new TaxpayerView(trn, taxpayerManager);
+ 		} else {
+ 		   JOptionPane.showMessageDialog(null, "To view a taxpayer info please select one from table", "No taxpayer selected", JOptionPane.INFORMATION_MESSAGE);
  		}
  	    }
  	});
-	
-	
-	
-	mainPanel.add(delete, "grow");
+	mainPanel.add(display,"grow" );
+    }
+    
+    private void addRemoveTaxpayerButton() {
+	JButton Remove = new JButton("Remove Taxpayer");
+	Remove.addActionListener(new ActionListener() {
+ 	    @Override
+ 	    public void actionPerformed(ActionEvent e) {
+ 		int trn = getSelectedTrnFromTable();
+ 		taxpayerManager.removeTaxpayer(trn);
+ 		tableModel.removeRow(loadedTaxpayersTable.getSelectedRow()); 		    
+ 	    }
+ 	});
+	mainPanel.add(Remove, "grow");
+    }
+    
+    private int getSelectedTrnFromTable() {
+	int row = loadedTaxpayersTable.getSelectedRow();
+	if (row >= 0) {
+	    int trn = Integer.parseInt((String) tableModel.getValueAt(row, 1));	// prosoxi allazoun thesei oi stiles ???
+	    return trn; 
+	}
+	return -1;
     }
     
     private void addLoadTaxpayerButton() {

@@ -12,9 +12,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.RefineryUtilities;
 
-class ChartDisplay {
+public class ChartDisplay {
 
-    static JFrame createPieChart(double entertainment, double basic, double travel, double health, double other) {
+    public static JFrame createPieChart(double entertainment, double basic, double travel, double health, double other) {
 
 	JFrame pieChartFrame = new JFrame("Analysis of receipts");
 	pieChartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,7 +47,7 @@ class ChartDisplay {
 	return pieChartDataset;
     }
 
-    static JFrame createBarChart(double basicTax, double taxVariation, double totalTax) {
+    public static JFrame createBarChart(double basicTax, double taxVariation, double totalTax) {
 	JFrame barChartFrame = new JFrame("Bar Chart");
 	barChartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	barChartFrame.setLayout(new BorderLayout(0, 5));
