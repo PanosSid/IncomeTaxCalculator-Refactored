@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -48,9 +49,7 @@ public class MainView {
     
     public MainView(String text) {
 	taxpayerManager = TaxpayerManager.getInstance();
-        initialize();
-        
-        
+        initialize();    
     }
 
     private void initialize() {
@@ -97,7 +96,7 @@ public class MainView {
  	};
  	tableModel = new DefaultTableModel(new Object[]{"Taxpayer Name", "Tax Registration Number"},0);
  	loadedTaxpayersTable.setModel(tableModel);
- 	
+ 	loadedTaxpayersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
  	
  	scrollPane = new JScrollPane(loadedTaxpayersTable);
  	JButton help = new JButton("Help");
@@ -133,7 +132,7 @@ public class MainView {
  		if (selectedRow >= 0) {
  		    int trn = getSelectedTrnFromTable(); 
  		    String nameAndTRN = taxpayerManager.getTaxpayerName(trn)+" "+trn;
- 		    new TaxpayerView(trn, taxpayerManager);
+ 		    new TaxpayerView(trn);
  		} else {
  		   JOptionPane.showMessageDialog(null, "To view a taxpayer info please select one from table", "No taxpayer selected", JOptionPane.INFORMATION_MESSAGE);
  		}
@@ -148,8 +147,15 @@ public class MainView {
  	    @Override
  	    public void actionPerformed(ActionEvent e) {
  		int trn = getSelectedTrnFromTable();
- 		taxpayerManager.removeTaxpayer(trn);
- 		tableModel.removeRow(loadedTaxpayersTable.getSelectedRow()); 		    
+ 		if (trn > 0) {
+ 		    int result = JOptionPane.showConfirmDialog(null,
+ 			    "Are you sure you want to remove selected Taxpayer from the List?", "Remove Taxpayer?",
+ 			    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+ 		    if (result == JOptionPane.YES_OPTION) {
+ 			taxpayerManager.removeTaxpayer(trn);
+ 			tableModel.removeRow(loadedTaxpayersTable.getSelectedRow());
+ 		    } 		    
+ 		}
  	    }
  	});
 	mainPanel.add(Remove, "grow");

@@ -32,9 +32,9 @@ public class TaxpayerView {
     private JTable receiptsTable;
     private DefaultTableModel receiptTableModel;
 
-    public TaxpayerView(int trn, TaxpayerManager taxpayerManager) {
+    public TaxpayerView(int trn) {
 	this.trn = trn;
-	this.taxpayerManager = taxpayerManager;
+	this.taxpayerManager = TaxpayerManager.getInstance();
 	taxpayerManager = TaxpayerManager.getInstance();
 	initialize();
     }
@@ -112,14 +112,19 @@ public class TaxpayerView {
     }
 
     private void addReceiptButton() {
+	TaxpayerView tpv = this;
 	JButton addReceipt = new JButton("Add Receipt");
 	addReceipt.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		new ReceiptFormView();
+		new ReceiptFormView(trn, tpv);
 	    }
 	});
 	panel.add(addReceipt, "cell 0 7, grow");
+    }
+    
+    public void addNewReceiptToTable(String receiptIdDateAmount[]) {
+	receiptTableModel.addRow(receiptIdDateAmount);
     }
 
     private void addDeleteReceiptButton() {
@@ -186,15 +191,19 @@ public class TaxpayerView {
 		if ((s != null) && (s.equals("txt"))) {
 		    try {
 			taxpayerManager.saveLogFile(trn, "txt");
+			JOptionPane.showMessageDialog(null,
+				"LOG file is saved succesfully.",
+				"Succesful LOG save", JOptionPane.INFORMATION_MESSAGE);
 		    } catch (IOException | WrongFileFormatException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		    }
-		    return;
 		} else if ((s != null) && s.equals("xml")) {
 		    try {
 			
 			taxpayerManager.saveLogFile(trn, "xml");
+			JOptionPane.showMessageDialog(null,
+				    "LOG file is saved succesfully.",
+				    "Succesful LOG save", JOptionPane.INFORMATION_MESSAGE);
 		    } catch (IOException | WrongFileFormatException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
