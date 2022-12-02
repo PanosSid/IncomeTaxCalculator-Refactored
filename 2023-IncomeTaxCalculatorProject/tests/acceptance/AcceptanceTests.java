@@ -12,6 +12,7 @@ import java.util.Map;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class AcceptanceTests {
 
     public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException, WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	super();
-	this.taxpayerManager = new TaxpayerManager();
+	this.taxpayerManager = TaxpayerManager.getInstance();
 	taxpayerManager.createTaxpayer("Robert Martin", 111111111, "Married Filing Jointly", (float) 100000.0);
 	taxpayerManager.createReceipt(1, "10/10/2010", (float) 100.0, "Basic", "aCompany1", "aCountry1", "aCity1",
 		"aStreet1", 10, 111111111);
@@ -93,6 +94,11 @@ public class AcceptanceTests {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+    }
+    
+    @After
+    public void destroyTaxpayerManager() {
+	TaxpayerManager.tearDownTaxpayerManager();
     }
 
     @Test

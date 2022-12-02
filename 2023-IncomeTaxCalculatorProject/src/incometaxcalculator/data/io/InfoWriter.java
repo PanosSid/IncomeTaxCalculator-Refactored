@@ -10,8 +10,8 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class InfoWriter extends FileWriter {
 
-    public InfoWriter(TaxpayerManager taxpayerManager) {
-	super(taxpayerManager);
+    public InfoWriter() {
+	super();
     }
 
     protected abstract String getFileName(int taxRegistrationNumber);

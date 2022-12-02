@@ -16,8 +16,8 @@ public abstract class LogWriter extends FileWriter {
    protected static final short HEALTH = 3;
    protected static final short OTHER = 4;
 
-    public LogWriter(TaxpayerManager taxpayerManager) {
-	super(taxpayerManager);	
+    public LogWriter() {
+	super();	
     }
     
     protected abstract String getFileName(int taxRegistrationNumber);

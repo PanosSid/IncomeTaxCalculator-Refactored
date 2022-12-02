@@ -9,11 +9,16 @@ import java.util.List;
 
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
+import incometaxcalculator.tags.InfoTags;
+import incometaxcalculator.tags.TXTInfoTags;
 
 public class TXTInfoWriter extends InfoWriter {
+    private List<String> txtInfoTags;
 
-    public TXTInfoWriter(TaxpayerManager taxpayerManager) {
-	super(taxpayerManager);
+    public TXTInfoWriter() {
+	super();
+	txtInfoTags = new TXTInfoTags().getInfoTags();
+	
     }
 
     @Override
@@ -23,14 +28,15 @@ public class TXTInfoWriter extends InfoWriter {
 
     @Override
     protected List<String> getInfoTags() {
-	List<String> txtInfoTags = new ArrayList<String>();
-	txtInfoTags.add("Name: ");
-	txtInfoTags.add("AFM: ");
-	txtInfoTags.add("Status: ");
-	txtInfoTags.add("Income: ");
-	txtInfoTags.add("");
-	txtInfoTags.add("Receipts:");
-	txtInfoTags.add("");
+//	List<String> txtInfoTags = new ArrayList<String>();
+//	txtInfoTags.add("Name: ");
+//	txtInfoTags.add("AFM: ");
+//	txtInfoTags.add("Status: ");
+//	txtInfoTags.add("Income: ");
+//	txtInfoTags.add("");
+//	txtInfoTags.add("Receipts:");
+//	txtInfoTags.add("");
+//	return txtInfoTags;
 	return txtInfoTags;
     }
     

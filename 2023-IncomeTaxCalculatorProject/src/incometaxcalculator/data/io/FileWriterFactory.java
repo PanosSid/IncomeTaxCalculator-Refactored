@@ -17,22 +17,22 @@ public class FileWriterFactory {
 //	}   
 //    }
     
-    public FileWriter createInfoFileWriter(String fileFormat, TaxpayerManager taxpayerManager) {
+    public FileWriter createInfoFileWriter(String fileFormat) {
 	if (fileFormat.equals("txt")) {
-	    return new TXTInfoWriter(taxpayerManager);
+	    return new TXTInfoWriter();
 	} else if (fileFormat.equals("xml")) {
-	    return new XMLInfoWriter(taxpayerManager);
+	    return new XMLInfoWriter();
 	} else {
 	    return null ;
 //	    throw new Exception("Wrong file format given to FileWriterFactory");
 	}
     }
     
-    public FileWriter createLogFileWriter(String fileFormat, TaxpayerManager taxpayerManager) {
+    public FileWriter createLogFileWriter(String fileFormat) {
 	if (fileFormat.equals("txt")) {
-	    return new TXTLogWriter(taxpayerManager);
+	    return new TXTLogWriter();
 	} else if (fileFormat.equals("xml")) {
-	    return new XMLLogWriter(taxpayerManager);
+	    return new XMLLogWriter();
 	} else {
 	    return null ;
 //	    throw new Exception("Wrong file format given to FileWriterFactory");

@@ -9,8 +9,8 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public class TXTLogWriter extends LogWriter {
 
-    public TXTLogWriter(TaxpayerManager taxpayerManager) {
-	super(taxpayerManager);
+    public TXTLogWriter() {
+	super();
     }
 
     @Override

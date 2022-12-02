@@ -39,7 +39,7 @@ import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 public class GraphicalInterface extends JFrame {
 
     private JPanel contentPane;
-    private TaxpayerManager taxpayerManager = new TaxpayerManager();
+    private TaxpayerManager taxpayerManager = TaxpayerManager.getInstance();
     private String taxpayersTRN = new String();
     private JTextField txtTaxRegistrationNumber;
 

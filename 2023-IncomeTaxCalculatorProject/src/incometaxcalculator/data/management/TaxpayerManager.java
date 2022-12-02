@@ -25,12 +25,33 @@ import incometaxcalculator.exceptions.WrongReceiptKindException;
 import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 
 public class TaxpayerManager {
-    private HashMap<Integer, Taxpayer> taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
-    private HashMap<Integer, Integer> receiptOwnerTRN = new HashMap<Integer, Integer>(0);
-    private TaxpayerFactory taxpayerFactory = new TaxpayerFactory();
-    private FileWriterFactory fileWriterFactory = new FileWriterFactory(); 
-    private FileReaderFactory fileReaderFactory = new FileReaderFactory();
-
+    private static TaxpayerManager instance ;
+    private HashMap<Integer, Taxpayer> taxpayerHashMap;
+    private HashMap<Integer, Integer> receiptOwnerTRN;
+    private TaxpayerFactory taxpayerFactory ;
+    private FileWriterFactory fileWriterFactory; 
+    private FileReaderFactory fileReaderFactory;
+    
+    
+    private TaxpayerManager() {
+	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
+	receiptOwnerTRN = new HashMap<Integer, Integer>(0);
+	taxpayerFactory = new TaxpayerFactory();
+	fileWriterFactory = new FileWriterFactory();
+	fileReaderFactory = new FileReaderFactory();
+    }
+    
+    public static synchronized TaxpayerManager getInstance() {
+	 if (instance == null) {
+	     instance = new TaxpayerManager();
+	 }
+	 return instance;
+    }
+        
+    public static void tearDownTaxpayerManager() {
+	instance = null;
+    }
+    
     public void createTaxpayer(String fullname, int taxRegistrationNumber, String status, float income)
 	    throws WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	
@@ -88,14 +109,14 @@ public class TaxpayerManager {
 	    String filename = taxRegistrationNumber + "_INFO." + fileFormats[i];
 	    File infoFile = new File(filename);
 	    if (infoFile.exists()) {
-		FileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i], this);
+		FileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i]);
 		infoWriter.generateFile(taxRegistrationNumber);
 	    }
 	}
     }
 
     public void saveLogFile(int taxRegistrationNumber, String fileFormat) throws IOException, WrongFileFormatException {
-	FileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat, this);
+	FileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat);
 	fileWriter.generateFile(taxRegistrationNumber);
     }
 
@@ -132,7 +153,7 @@ public class TaxpayerManager {
 	    TaxpayerAlreadyLoadedException {
 	String ending[] = fileName.split("\\.");
 	String fileType = ending[1];
-	FileReader fileReader = fileReaderFactory.createFileReader(fileType, this);
+	FileReader fileReader = fileReaderFactory.createFileReader(fileType);
 	fileReader.readFile(fileName);
     }
 

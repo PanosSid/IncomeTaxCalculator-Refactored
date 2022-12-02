@@ -47,7 +47,7 @@ public class MainView {
     private DefaultTableModel tableModel;
     
     public MainView(String text) {
-	taxpayerManager = new TaxpayerManager();
+	taxpayerManager = TaxpayerManager.getInstance();
         initialize();
         
         

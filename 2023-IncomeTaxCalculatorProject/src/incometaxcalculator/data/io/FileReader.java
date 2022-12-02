@@ -16,8 +16,8 @@ public abstract class FileReader {
     
     private TaxpayerManager taxpayerManager;
     
-    public FileReader(TaxpayerManager taxpayerManager) {
-	this.taxpayerManager = taxpayerManager;
+    public FileReader() {
+	this.taxpayerManager = TaxpayerManager.getInstance();
     }
 
     protected abstract String getValueOfField(String fieldsLine) throws WrongFileFormatException;

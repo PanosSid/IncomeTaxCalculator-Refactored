@@ -10,8 +10,8 @@ import incometaxcalculator.data.management.TaxpayerManager;
 public abstract class FileWriter {
     protected TaxpayerManager taxpayerManager;
     
-    public FileWriter(TaxpayerManager taxpayerManager) {
-	this.taxpayerManager = taxpayerManager;
+    public FileWriter() {
+	this.taxpayerManager = TaxpayerManager.getInstance();
     }
 
     public abstract void generateFile(int taxRegistrationNumber) throws IOException;

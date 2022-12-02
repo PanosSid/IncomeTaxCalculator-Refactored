@@ -35,7 +35,7 @@ public class TaxpayerView {
     public TaxpayerView(int trn, TaxpayerManager taxpayerManager) {
 	this.trn = trn;
 	this.taxpayerManager = taxpayerManager;
-	taxpayerManager = new TaxpayerManager();
+	taxpayerManager = TaxpayerManager.getInstance();
 	initialize();
     }
 

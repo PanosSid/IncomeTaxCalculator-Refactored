@@ -8,8 +8,8 @@ import incometaxcalculator.exceptions.WrongFileFormatException;
 
 public class TXTFileReader extends FileReader {
     
-    public TXTFileReader(TaxpayerManager taxpayerManager) {
-	super(taxpayerManager);
+    public TXTFileReader() {
+	super();
 	
     }
     
