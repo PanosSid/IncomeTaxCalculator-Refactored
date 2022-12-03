@@ -1,0 +1,35 @@
+#Taxpayer Types:
+@ MarriedFillingJointly
+	income limits = 36080; 90000; 143350; 254240;
+	base tax	  = 0; 1930.28; 5731.64; 9492.82; 18197.69;
+	percentage 	  = 0.0535; 0.0705; 0.0705; 0.0785; 0.0985;	
+	
+@ MarriedFillingSeperatly
+	income limits = 18040; 71680; 90000; 127120;
+	base tax	  = 0; 965.14; 4746.76; 6184.88; 9098.80;
+	percentage 	  = 0.0535; 0.0705; 0.0785; 0.0785; 0.0985;
+
+@ Head Of Household
+	income limits = 30390; 90000; 122440; 203390;
+	base tax	  = 0; 1625.87; 5828.38; 8092.13; 14472.61;
+	percentage 	  = 0.0535; 0.0705; 0.0705; 0.0785; 0.0985;
+
+@ Single
+	income limits = 24680; 81080; 90000; 152540;
+	base tax	  = 0; 1320.38; 5296.58; 5996.80; 10906.19;
+	percentage 	  = 0.0535; 0.0705; 0.0785; 0.0785; 0.0985;
+
+
+#Receipt categories:
+* Entertainment
+* Basic
+* Travel
+* Health
+* Other
+* Computers
+* Football
+
+
+	 
+	  
+
