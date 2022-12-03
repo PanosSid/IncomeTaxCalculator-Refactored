@@ -128,7 +128,6 @@ public class TaxpayerManager {
 	return taxpayerHashMap.get(taxRegistrationNumber);
     }
 
-
     public String getTaxpayerName(int taxRegistrationNumber) {
 	return taxpayerHashMap.get(taxRegistrationNumber).getFullname();
     }
@@ -141,23 +140,23 @@ public class TaxpayerManager {
 	return "" + taxpayerHashMap.get(taxRegistrationNumber).getIncome();
     }
 
-    public double getTaxpayerVariationTaxOnReceipts(int taxRegistrationNumber) {
+    public double getTaxpayerVariationTaxOnReceipts(int taxRegistrationNumber) {	// LOG + REPORTS
 	return taxpayerHashMap.get(taxRegistrationNumber).getVariationTaxOnReceipts();
     }
 
-    public int getTaxpayerTotalReceiptsGathered(int taxRegistrationNumber) {
+    public int getTaxpayerTotalReceiptsGathered(int taxRegistrationNumber) {	//LOG
 	return taxpayerHashMap.get(taxRegistrationNumber).getTotalReceiptsGathered();
     }
 
-    public float getTaxpayerAmountOfReceiptKind(int taxRegistrationNumber, short kind) {
+    public float getTaxpayerAmountOfReceiptKind(int taxRegistrationNumber, String kind) { // LOG + REPORTS
 	return taxpayerHashMap.get(taxRegistrationNumber).getAmountOfReceiptKind(kind);
     }
 
-    public double getTaxpayerTotalTax(int taxRegistrationNumber) {
+    public double getTaxpayerTotalTax(int taxRegistrationNumber) {	// LOG + REPORTS
 	return taxpayerHashMap.get(taxRegistrationNumber).getTotalTax();
     }
 
-    public double getTaxpayerBasicTax(int taxRegistrationNumber) {
+    public double getTaxpayerBasicTax(int taxRegistrationNumber) {	// LOG + REPORTS
 	return taxpayerHashMap.get(taxRegistrationNumber).getBasicTax();
     }
 

@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import incometaxcalculator.data.config.AppConfig;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
@@ -61,7 +62,7 @@ public class ReceiptFormView {
 	
 	lbl.setFont(new Font(null, Font.BOLD, 14));
 	panel.add(lbl);
-	String choices[] = { "Entertaintment", "Basic", "Travel", "Health", "Other" };
+	String choices[] = AppConfig.getReceiptKinds().toArray(new String[0]);
 	JComboBox<String> kindComboBox = new JComboBox<String>(choices);
 	panel.add(kindComboBox, "wrap, span");
 	componentMap.put("Kind", kindComboBox);
@@ -75,10 +76,6 @@ public class ReceiptFormView {
 	addSaveReceiptButton();
 	panel.add(new JButton("Cancel"));
 
-	int receiptIDValue, numberValue;
-	float amountValue;
-	String dateValue, kindValue, companyValue, countryValue;
-	String cityValue, streetValue;
     }
     
     

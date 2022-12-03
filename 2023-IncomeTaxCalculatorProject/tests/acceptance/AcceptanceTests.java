@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.nio.charset.StandardCharsets;
 
@@ -50,7 +51,7 @@ public class AcceptanceTests {
 	taxpayerManager.createReceipt(2, "20/2/2020", (float) 200.0, "Travel", "aCompany2", "aCountry2", "aCity2",
 		"aStreet2", 20, 111111111);
 
-	aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0, taxpayerManager.appConfig.getTaxpayerCategoryByName("MarriedFillingJointly"));
+	aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0, taxpayerManager.appConfig.getTaxpayerCategoryByName("Married Filing Jointly"));
 	company1 = new Company("aCompany1", "aCountry1", "aCity1", "aStreet1", 10);
 	Company company2 = new Company("aCompany2", "aCountry2", "aCity2", "aStreet2", 20);
 	Receipt receipt1 = new Receipt(1, "10/10/2010", (float) 100.0, "Basic", company1);
@@ -210,12 +211,38 @@ public class AcceptanceTests {
 	Assert.assertEquals(expectedTaxIncrease, actualTaxIncrease, 0.0);
 	Assert.assertEquals(expectedTotalTax, actualTotalTax, 0.0);
 
-	double expectedReceiptAmount[] = { 0.0, 100.0, 200.0, 0.0, 0.0 };
-	for (int receiptKind = 0; receiptKind < 5; receiptKind++) {
-	    double actualReceiptAmount = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber,
-		    (short) receiptKind);
-	    Assert.assertEquals(expectedReceiptAmount[receiptKind], actualReceiptAmount, 0.0);
-	}
+
+	
+	List<String> receiptKinds = AppConfig.getReceiptKinds();
+//	for (String kind : receiptKinds) {
+//	    double actualReceiptAmount = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber,
+//		    kind);
+//	    Assert.assertEquals(expectedReceiptAmount, actualReceiptAmount, 0.0);
+//	}
+	double actualReceiptAmount = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Entertainment");
+	Assert.assertEquals(0.0, actualReceiptAmount, 0.0);
+	
+	double actualReceiptAmount1 = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Basic");
+	Assert.assertEquals(100.0, actualReceiptAmount1, 0.0);
+	
+	double actualReceiptAmount2 = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Travel");
+	Assert.assertEquals(200.0, actualReceiptAmount2, 0.0);
+	
+	double actualReceiptAmount3 = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Health");
+	Assert.assertEquals(0.0, actualReceiptAmount3, 0.0);
+
+	double actualReceiptAmount4 = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Other");
+	Assert.assertEquals(0.0, actualReceiptAmount4, 0.0);
+
+	    
+	
+	
+//	double expectedReceiptAmount[] = { 0.0, 100.0, 200.0, 0.0, 0.0 };
+//	for (int receiptKind = 0; receiptKind < 5; receiptKind++) {
+//	    double actualReceiptAmount = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber,
+//		    (short) receiptKind);
+//	    Assert.assertEquals(expectedReceiptAmount[receiptKind], actualReceiptAmount, 0.0);
+//	}
 
     }
 }

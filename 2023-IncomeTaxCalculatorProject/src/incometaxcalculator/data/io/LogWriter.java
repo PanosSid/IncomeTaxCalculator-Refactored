@@ -68,11 +68,17 @@ public abstract class LogWriter extends FileWriter {
 	
 	logData.add("" + taxpayerManager.getTaxpayerTotalTax(taxRegistrationNumber));
 	logData.add("" + taxpayerManager.getTaxpayerTotalReceiptsGathered(taxRegistrationNumber));
-	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, ENTERTAINMENT));
-	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, BASIC));
-	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, TRAVEL));
-	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, HEALTH));
-	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, OTHER));
+	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Entertainment"));
+	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Basic"));
+	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Travel"));
+	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Health"));
+	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Other"));
+	
+//	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, ENTERTAINMENT));
+//	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, BASIC));
+//	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, TRAVEL));
+//	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, HEALTH));
+//	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, OTHER));
 	return logData;
 	
     }

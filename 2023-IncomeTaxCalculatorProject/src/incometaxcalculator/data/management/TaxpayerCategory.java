@@ -1,6 +1,7 @@
 package incometaxcalculator.data.management;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class TaxpayerCategory {
     private String categoryName;
@@ -43,6 +44,21 @@ public class TaxpayerCategory {
 
     public void setTaxPercentage(double[] taxPercentage) {
         this.taxPercentage = taxPercentage;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	TaxpayerCategory other = (TaxpayerCategory) obj;
+	return Objects.equals(categoryName, other.categoryName)
+		&& Arrays.equals(correspondingTax, other.correspondingTax)
+		&& Arrays.equals(incomeUpperLimit, other.incomeUpperLimit)
+		&& Arrays.equals(taxPercentage, other.taxPercentage);
     }
 
     @Override

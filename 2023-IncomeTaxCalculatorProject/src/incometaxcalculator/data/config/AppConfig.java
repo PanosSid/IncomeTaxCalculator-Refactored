@@ -17,17 +17,17 @@ import incometaxcalculator.data.management.TaxpayerCategory;
 public class AppConfig {
 //    private static AppConfig instance;
     private String paramFileNamePath;
-    private String tagFileNamePath;
-    private List<String> receiptKinds;
-//    private List<TaxpayerCategory> taxpayerCategories;
+    private static List<String> receiptKinds;
     public Map<String ,TaxpayerCategory> taxpayerCategoriesMap;
+//    private String tagFileNamePath;
+//    private List<TaxpayerCategory> taxpayerCategories;
 
     public AppConfig() {
 	receiptKinds = new ArrayList<String>();
 //	taxpayerCategories = new ArrayList<TaxpayerCategory>();
 	taxpayerCategoriesMap = new HashMap<String ,TaxpayerCategory>();
 	String projectDir = System.getProperty("user.dir");
-	tagFileNamePath = projectDir + "\\resources\\tagsProperties.txt";
+//	tagFileNamePath = projectDir + "\\resources\\tagsProperties.txt";
 	paramFileNamePath = projectDir+"\\resources\\appSettings.txt";
 	loadSettingsFile(new File(paramFileNamePath));
     }
@@ -39,8 +39,11 @@ public class AppConfig {
 //	return instance;
 //    }
 
-    public List<String> getReceiptKinds() {
-        return receiptKinds;
+    public static List<String> getReceiptKinds() {
+//	if(receiptKinds == null || receiptKinds.isEmpty()){
+//	    loadSettingsFile(new File(paramFileNamePath));
+//	}
+	return receiptKinds;
     }
 
 //    public List<TaxpayerCategory> getTaxpayerCategories() {

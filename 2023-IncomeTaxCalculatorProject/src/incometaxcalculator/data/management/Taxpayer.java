@@ -1,9 +1,13 @@
 package incometaxcalculator.data.management;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import incometaxcalculator.data.config.AppConfig;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 
 public class Taxpayer {
@@ -13,7 +17,8 @@ public class Taxpayer {
     protected final float income;
     private TaxpayerCategory taxpayerCategory;
     
-    private float amountPerReceiptsKind[] = new float[5];
+    private Map<String, Float> amountPerReceiptsKind;
+    
     private HashMap<Integer, Receipt> receiptHashMap = new HashMap<Integer, Receipt>(0);
 
     public Taxpayer(String fullname, int taxRegistrationNumber, float income, TaxpayerCategory taxpayerCategory) {
@@ -21,8 +26,23 @@ public class Taxpayer {
 	this.taxRegistrationNumber = taxRegistrationNumber;
 	this.income = income;
 	this.taxpayerCategory = taxpayerCategory;
+	initAmountPerReceiptKindMap();
     }
     
+    private void initAmountPerReceiptKindMap() {
+	List<String> receiptKinds = AppConfig.getReceiptKinds();
+	amountPerReceiptsKind = new HashMap<String, Float>(receiptKinds.size());
+	for (String kind : receiptKinds) {
+	    amountPerReceiptsKind.put(kind, (float) 0.0);
+	}
+    }
+    
+    public List<String> getReceiptKinds(){
+	List<String> receiptKinds = new ArrayList<String>();
+	receiptKinds.addAll(amountPerReceiptsKind.keySet());
+	return receiptKinds;	
+    }
+     
     public String getFullname() {
 	return fullname;
     }
@@ -47,8 +67,8 @@ public class Taxpayer {
 	return receiptHashMap.size();
     }
     
-    public float getAmountOfReceiptKind(short kind) {
-	return amountPerReceiptsKind[kind];
+    public float getAmountOfReceiptKind(String kind) {
+	return amountPerReceiptsKind.get(kind);
     }
 
     public double calculateBasicTax() {
@@ -71,23 +91,15 @@ public class Taxpayer {
     
     
     public void addReceipt(Receipt receipt) throws WrongReceiptKindException {
-	String receiptKinds[] = {"Entertainment", "Basic", "Travel", "Health", "Other"};
-	for (int i = 0; i < receiptKinds.length; i++) {
-	    String kindOfReceipt = receipt.getKind();
-	    if (kindOfReceipt.equals(receiptKinds[i]))
-		    amountPerReceiptsKind[i] += receipt.getAmount();
-	}
 	receiptHashMap.put(receipt.getId(), receipt);
+	String kind = receipt.getKind();	
+	amountPerReceiptsKind.put(kind, amountPerReceiptsKind.get(kind)+ receipt.getAmount());
     }
-
+    
     public void removeReceipt(int receiptId) {
 	Receipt receipt = receiptHashMap.get(receiptId);
-	String receiptKinds[] = {"Entertainment", "Basic", "Travel", "Health", "Other"};	
-	for (int i = 0; i < receiptKinds.length; i++) {
-	    String kindOfReceipt = receipt.getKind();
-	    if (kindOfReceipt.equals(receiptKinds[i]))
-		amountPerReceiptsKind[i] -= receipt.getAmount();    
-	}
+	String kind = receipt.getKind();
+	amountPerReceiptsKind.put(kind, amountPerReceiptsKind.get(kind) - receipt.getAmount());
 	receiptHashMap.remove(receiptId);
     }
 
@@ -107,10 +119,10 @@ public class Taxpayer {
 	return calculateBasicTax()*taxFactorAboveSixtyPercent;
     }
 
-    private float getTotalAmountOfReceipts() {	 
+    private float getTotalAmountOfReceipts() {
 	int sum = 0;
-	for (int i = 0; i < 5; i++) {	// MAGIC NUMBER !!!!
-	    sum += amountPerReceiptsKind[i];
+	for (String kind : amountPerReceiptsKind.keySet()) {
+	    sum += amountPerReceiptsKind.get(kind);
 	}
 	return sum;
     }
@@ -136,18 +148,18 @@ public class Taxpayer {
 	if (getClass() != obj.getClass())
 	    return false;
 	Taxpayer other = (Taxpayer) obj;
-	return Arrays.equals(amountPerReceiptsKind, other.amountPerReceiptsKind)
+	return Objects.equals(amountPerReceiptsKind, other.amountPerReceiptsKind)
 		&& Objects.equals(fullname, other.fullname)
 		&& Float.floatToIntBits(income) == Float.floatToIntBits(other.income)
 		&& Objects.equals(receiptHashMap, other.receiptHashMap)
-		&& taxRegistrationNumber == other.taxRegistrationNumber;
-//		&& totalReceiptsGathered == other.totalReceiptsGathered;
+		&& taxRegistrationNumber == other.taxRegistrationNumber
+		&& Objects.equals(taxpayerCategory, other.taxpayerCategory);
     }
 
     @Override
     public String toString() {
 	String s = "Taxpayer [fullname=" + fullname + ", taxRegistrationNumber=" + taxRegistrationNumber + ", income="
-		+ income + ", amountPerReceiptsKind=" + Arrays.toString(amountPerReceiptsKind)
+		+ income + ", amountPerReceiptsKind=" + amountPerReceiptsKind.toString()
 		+ ", receiptHashMap=" /* + receiptHashMap + "]" */;
 	for (Integer id : receiptHashMap.keySet()) {
 	    String key = id.toString();

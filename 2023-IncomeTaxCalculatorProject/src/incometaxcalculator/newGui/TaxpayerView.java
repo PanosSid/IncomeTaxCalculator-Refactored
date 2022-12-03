@@ -170,11 +170,12 @@ public class TaxpayerView {
 			taxpayerManager.getTaxpayerVariationTaxOnReceipts(trn),
 			taxpayerManager.getTaxpayerTotalTax(trn));
 		ChartDisplay.createPieChart(
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, (short) 0),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, (short) 1),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, (short) 2),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, (short) 3),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, (short) 4));
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Entertainment"),
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Basic"),        
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Travel"),       
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Health"),       
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Other")
+			);       
 	    }
 	});
 	panel.add(viewReceipt, "cell 2 7, grow");
