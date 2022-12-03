@@ -40,6 +40,7 @@ public class AcceptanceTests {
     private Company company1;
     private int taxRegistrationNumber = 111111111;
     private String[] fileFormats = TestFileContents.fileFormats;
+    private String projectPath = System.getProperty("user.dir"); 
     private Map<String, File> testInfoFilesMap = new HashMap<String, File>();
 
     public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException, WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
@@ -59,8 +60,8 @@ public class AcceptanceTests {
 	aTaxpayer.addReceipt(receipt1);
 	aTaxpayer.addReceipt(receipt2);
 
-	File testedInfoTxt = new File("111111111_INFO.txt");
-	File testedInfoXml = new File("111111111_INFO.xml");
+	File testedInfoTxt = new File(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.txt");
+	File testedInfoXml = new File(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.xml");
 	testInfoFilesMap.put("txt", testedInfoTxt);
 	testInfoFilesMap.put("xml", testedInfoXml);
     }
@@ -69,8 +70,10 @@ public class AcceptanceTests {
     public void setUpInfoFileInResources() {
 	String initialTxt = TestFileContents.getTestFileContents("txt", "initial");
 	String initialXml = TestFileContents.getTestFileContents("xml", "initial");
-	File testInfoTxt = new File("111111111_INFO.txt");
-	File testInfoXml = new File("111111111_INFO.xml");
+//	File testInfoTxt = new File("111111111_INFO.txt");
+//	File testInfoXml = new File("111111111_INFO.xml");
+	File testInfoTxt = new File(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.txt");
+	File testInfoXml = new File(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.xml");
 	overwriteFileContents(testInfoTxt, initialTxt);
 	overwriteFileContents(testInfoXml, initialXml);
     }
@@ -89,8 +92,8 @@ public class AcceptanceTests {
     @AfterClass
     public static void tearDown() {
 	try {
-	    Files.deleteIfExists(Paths.get("111111111_LOG.txt"));
-	    Files.deleteIfExists(Paths.get("111111111_LOG.xml"));
+	    Files.deleteIfExists(Paths.get("\\resources\\LOG files\\"+"111111111_LOG.txt"));
+	    Files.deleteIfExists(Paths.get("\\resources\\LOG files\\"+"111111111_LOG.xml"));
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -179,7 +182,7 @@ public class AcceptanceTests {
 	    String currentFtype = fileFormats[i];
 	    taxpayerManager.saveLogFile(taxRegistrationNumber, currentFtype);
 	    String logFilename = taxRegistrationNumber + "_LOG." + currentFtype;
-	    File logFile = new File(logFilename);
+	    File logFile = new File(projectPath+"\\resources\\LOG files\\"+ logFilename);
 	    boolean logFileExists = logFile.exists();
 	    Assert.assertEquals(true, logFileExists);
 	    String actualFileContents = FileUtils.readFileToString(logFile, StandardCharsets.UTF_8);

@@ -9,9 +9,10 @@ import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class InfoWriter extends FileWriter {
-
+    
     public InfoWriter() {
 	super();
+	super.pathToWriteInfo += "\\resources\\INFO files\\";
     }
 
     protected abstract String getFileName(int taxRegistrationNumber);
@@ -25,8 +26,8 @@ public abstract class InfoWriter extends FileWriter {
     protected abstract void writeReciptFooter(PrintWriter outputStream);
 
     public void generateFile(int taxRegistrationNumber) throws IOException {
-	String fileName = getFileName(taxRegistrationNumber);
-	java.io.FileWriter infoFile = new java.io.FileWriter(fileName);
+	String namePath = pathToWriteInfo+ getFileName(taxRegistrationNumber);
+	java.io.FileWriter infoFile = new java.io.FileWriter(namePath);
 	PrintWriter outputStream = new PrintWriter(infoFile);
 
 	List<String> infoData = getTaxpayerInfoData(taxRegistrationNumber); // common

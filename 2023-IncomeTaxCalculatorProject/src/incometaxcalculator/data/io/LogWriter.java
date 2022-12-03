@@ -8,16 +8,11 @@ import java.util.List;
 import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class LogWriter extends FileWriter {
-   protected final int TAX_INCREASE_INDEX = 4;
    protected boolean taxIncrease; 
-   protected static final short ENTERTAINMENT = 0;
-   protected static final short BASIC = 1;
-   protected static final short TRAVEL = 2;
-   protected static final short HEALTH = 3;
-   protected static final short OTHER = 4;
 
     public LogWriter() {
-	super();	
+	super();
+	super.pathToWriteInfo += "\\resources\\LOG files\\";
     }
     
     protected abstract String getFileName(int taxRegistrationNumber);
@@ -27,8 +22,9 @@ public abstract class LogWriter extends FileWriter {
     protected abstract String mergeTagWithData(String tag, String data);
     
     public void generateFile(int taxRegistrationNumber) throws IOException {
-	String fileName = getFileName(taxRegistrationNumber);
-	java.io.FileWriter logFile = new java.io.FileWriter(fileName);
+//	String fileName = getFileName(taxRegistrationNumber);
+	String namePath = pathToWriteInfo+ getFileName(taxRegistrationNumber);
+	java.io.FileWriter logFile = new java.io.FileWriter(namePath);
 	PrintWriter outputStream = new PrintWriter(logFile);
 	List<String> logData = getLogData(taxRegistrationNumber);
 	List<String> logTags = getLogTags();

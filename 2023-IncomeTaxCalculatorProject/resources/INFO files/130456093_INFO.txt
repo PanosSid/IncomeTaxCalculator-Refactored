@@ -1,0 +1,37 @@
+Name: Apostolos Zarras
+AFM: 130456093
+Status: Married Filing Jointly
+Income: 22570.0
+
+Receipts:
+
+Receipt ID: 4
+Date: 3/5/2014
+Kind: Other
+Amount: 900.0
+Company: Public
+Country: Greece
+City: Ioannina
+Street: Vlahlidou
+Number: 20
+
+Receipt ID: 2
+Date: 28/2/2014
+Kind: Entertainment
+Amount: 500.0
+Company: Floca Cafe
+Country: Greece
+City: Ioannina
+Street: Kavafi
+Number: 4
+
+Receipt ID: 543
+Date: 12/2/2011
+Kind: Football
+Amount: 1234.0
+Company: gdas
+Country: dasf
+City: fads
+Street: fad
+Number: 3
+

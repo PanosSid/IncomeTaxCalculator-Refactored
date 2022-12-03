@@ -1,7 +1,7 @@
-Name: Apostolos Zarras
-AFM: 123456789
+Name: Panos Sidiropoulos
+AFM: 222222222
 Status: Married Filing Jointly
-Income: 22570.0
+Income: 75000.0
 
 Receipts:
 
@@ -25,15 +25,15 @@ City: Ioannina
 Street: Napolewn Zerva
 Number: 12
 
-Receipt ID: 4
-Date: 11/11/2111
-Kind: Other
-Amount: 1000.0
-Company: ewre
-Country: werw
-City: ewr
-Street: were
-Number: 4
+Receipt ID: 3
+Date: 30/2/1998
+Kind: Basic
+Amount: 12.0
+Company: BMW
+Country: Germany
+City: munich
+Street: afklj
+Number: 3
 
 Receipt ID: 5
 Date: 2/2/2019

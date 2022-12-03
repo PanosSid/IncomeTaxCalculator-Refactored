@@ -1,0 +1,12 @@
+Name: Panos Sidiropoulos
+AFM: 222222222
+Income: 75000.0
+Basic Tax: 4674.139999999999
+Tax Increase: 373.93119999999993
+Total Tax: 5048.071199999999
+TotalReceiptsGathered: 5
+Entertainment: 0.0
+Basic: 278.0
+Travel: 600.0
+Health: 0.0
+Other: 0.0

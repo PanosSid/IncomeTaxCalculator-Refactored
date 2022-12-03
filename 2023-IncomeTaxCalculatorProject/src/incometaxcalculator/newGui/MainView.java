@@ -175,7 +175,7 @@ public class MainView {
 	load.addActionListener(new ActionListener() {
 		@Override
                 public void actionPerformed(ActionEvent e) {
-		    JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+		    JFileChooser chooser = new JFileChooser(System.getProperty("user.dir")+"\\resources\\INFO files\\");
 		    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 //		    chooser.addChoosableFileFilter(new FileNameExtensionFilter("INFO", "txt"));
 //		    chooser.addChoosableFileFilter(new FileNameExtensionFilter("INFO", "xml"));

@@ -27,8 +27,8 @@ public class AppConfig {
 //	taxpayerCategories = new ArrayList<TaxpayerCategory>();
 	taxpayerCategoriesMap = new HashMap<String ,TaxpayerCategory>();
 	String projectDir = System.getProperty("user.dir");
-//	tagFileNamePath = projectDir + "\\resources\\tagsProperties.txt";
 	paramFileNamePath = projectDir+"\\resources\\appSettings.txt";
+//	tagFileNamePath = projectDir + "\\resources\\tagsProperties.txt";
 	loadSettingsFile(new File(paramFileNamePath));
     }
     

@@ -1,4 +1,4 @@
-package incometaxcalculator.data.management;
+package unit;
 
 public enum TaxpayerType {
 	MARREID_FILLING_JOINTLY,
