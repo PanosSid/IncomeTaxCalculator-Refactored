@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import incometaxcalculator.data.config.AppConfig;
 import incometaxcalculator.data.io.FileReader;
 import incometaxcalculator.data.io.FileReaderFactory;
 import incometaxcalculator.data.io.FileWriter;
@@ -27,20 +28,18 @@ import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 public class TaxpayerManager {
     private static TaxpayerManager instance ;
     private HashMap<Integer, Taxpayer> taxpayerHashMap;
-    private HashMap<Integer, Integer> receiptOwnerTRN;
-    private TaxpayerFactory taxpayerFactory ;
     private FileWriterFactory fileWriterFactory; 
     private FileReaderFactory fileReaderFactory;
+    public AppConfig appConfig ;
     
     
     private TaxpayerManager() {
 	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
-	receiptOwnerTRN = new HashMap<Integer, Integer>(0);
-	taxpayerFactory = new TaxpayerFactory();
 	fileWriterFactory = new FileWriterFactory();
 	fileReaderFactory = new FileReaderFactory();
+	appConfig = new AppConfig();
     }
-    
+   
     public static synchronized TaxpayerManager getInstance() {
 	 if (instance == null) {
 	     instance = new TaxpayerManager();
@@ -58,9 +57,36 @@ public class TaxpayerManager {
 	if (taxpayerHashMap.containsKey(taxRegistrationNumber)) {
 	    throw new TaxpayerAlreadyLoadedException();
 	} else {
-	    Taxpayer taxpayer = taxpayerFactory.createTaxpayer(fullname, taxRegistrationNumber, status, income);
+	    TaxpayerCategory taxpayerCategory = appConfig.getTaxpayerCategoryByName(status);
+	    Taxpayer taxpayer = new Taxpayer(fullname, taxRegistrationNumber, income, taxpayerCategory);
 	    taxpayerHashMap.put(taxRegistrationNumber, taxpayer);  
 	}
+    }
+    
+    public void loadTaxpayer(String fileName)
+	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
+	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException,
+	    TaxpayerAlreadyLoadedException {
+	String ending[] = fileName.split("\\.");
+	String fileType = ending[1];
+	FileReader fileReader = fileReaderFactory.createFileReader(fileType);
+	fileReader.readFile(fileName);
+    }
+    
+    public void removeTaxpayer(int taxRegistrationNumber){
+	taxpayerHashMap.remove(taxRegistrationNumber);
+    }
+    
+    public void addReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
+	    String country, String city, String street, int number, int taxRegistrationNumber)
+		    throws IOException, WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException {
+	
+	if (containsReceipt(taxRegistrationNumber, receiptId)) {
+	    throw new ReceiptAlreadyExistsException();
+	}
+	createReceipt(receiptId, issueDate, amount, kind, companyName, country, city, street, number,
+		taxRegistrationNumber);
+	updateFiles(taxRegistrationNumber);
     }
 
     public void createReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
@@ -70,37 +96,15 @@ public class TaxpayerManager {
 	Receipt receipt = new Receipt(receiptId, issueDate, amount, kind, company);
 	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
 	taxpayer.addReceipt(receipt);
-	receiptOwnerTRN.put(receiptId, taxRegistrationNumber);
     }
 
-    public void removeTaxpayer(int taxRegistrationNumber) {
-	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
-	taxpayerHashMap.remove(taxRegistrationNumber);
-	HashMap<Integer, Receipt> receiptsHashMap = taxpayer.getReceiptHashMap();
-	Iterator<HashMap.Entry<Integer, Receipt>> iterator = receiptsHashMap.entrySet().iterator();
-	while (iterator.hasNext()) {
-	    HashMap.Entry<Integer, Receipt> entry = iterator.next();
-	    Receipt receipt = entry.getValue();
-	    receiptOwnerTRN.remove(receipt.getId());
-	}
+    public void deleteReceiptFromTaxpayer(int receiptId, int trn) throws IOException {
+	taxpayerHashMap.get(trn).removeReceipt(receiptId);
+	updateFiles(trn);
     }
-
-    public void addReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
-	    String country, String city, String street, int number, int taxRegistrationNumber)
-	    throws IOException, WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException {
-
-	if (containsReceipt(receiptId)) {
-	    throw new ReceiptAlreadyExistsException();
-	}
-	createReceipt(receiptId, issueDate, amount, kind, companyName, country, city, street, number,
-		taxRegistrationNumber);
-	updateFiles(taxRegistrationNumber);
-    }
-
-    public void removeReceipt(int receiptId) throws IOException, WrongReceiptKindException {
-	taxpayerHashMap.get(receiptOwnerTRN.get(receiptId)).removeReceipt(receiptId);
-	updateFiles(receiptOwnerTRN.get(receiptId));
-	receiptOwnerTRN.remove(receiptId);
+    
+    public boolean containsReceipt(int taxRegistrationNumber, int receiptid) {
+	return taxpayerHashMap.get(taxRegistrationNumber).hasReceiptId(receiptid);
     }
 
     private void updateFiles(int taxRegistrationNumber) throws IOException {
@@ -120,57 +124,17 @@ public class TaxpayerManager {
 	fileWriter.generateFile(taxRegistrationNumber);
     }
 
-    public boolean containsTaxpayer(int taxRegistrationNumber) {
-	if (taxpayerHashMap.containsKey(taxRegistrationNumber)) {
-	    return true;
-	}
-	return false;
-    }
-
-    // kaleitai mono sto gui opote logia tha diagrafei
-    public boolean containsTaxpayer() {
-	if (taxpayerHashMap.isEmpty()) {
-	    return false;
-	}
-	return true;
-    }
-
-    public boolean containsReceipt(int id) {
-	if (receiptOwnerTRN.containsKey(id)) {
-	    return true;
-	}
-	return false;
-
-    }
-
     public Taxpayer getTaxpayer(int taxRegistrationNumber) {
 	return taxpayerHashMap.get(taxRegistrationNumber);
     }
 
-    public void loadTaxpayer(String fileName)
-	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
-	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException,
-	    TaxpayerAlreadyLoadedException {
-	String ending[] = fileName.split("\\.");
-	String fileType = ending[1];
-	FileReader fileReader = fileReaderFactory.createFileReader(fileType);
-	fileReader.readFile(fileName);
-    }
 
     public String getTaxpayerName(int taxRegistrationNumber) {
 	return taxpayerHashMap.get(taxRegistrationNumber).getFullname();
     }
-
-    public String getTaxpayerStatus(int taxRegistrationNumber) {
-	if (taxpayerHashMap.get(taxRegistrationNumber) instanceof MarriedFilingJointlyTaxpayer) {
-	    return "Married Filing Jointly";
-	} else if (taxpayerHashMap.get(taxRegistrationNumber) instanceof MarriedFilingSeparatelyTaxpayer) {
-	    return "Married Filing Separately";
-	} else if (taxpayerHashMap.get(taxRegistrationNumber) instanceof SingleTaxpayer) {
-	    return "Single";
-	} else {
-	    return "Head of Household";
-	}
+    
+    public String getTaxpayerCategoryName(int taxRegistrationNumber) {
+	return  taxpayerHashMap.get(taxRegistrationNumber).getTaxpayerCategoryName();
     }
 
     public String getTaxpayerIncome(int taxRegistrationNumber) {

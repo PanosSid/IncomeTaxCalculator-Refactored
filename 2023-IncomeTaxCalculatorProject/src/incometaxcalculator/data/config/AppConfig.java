@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
@@ -17,23 +19,36 @@ public class AppConfig {
     private String paramFileNamePath;
     private String tagFileNamePath;
     private List<String> receiptKinds;
-    private List<TaxpayerCategory> taxpayerCategories;
+//    private List<TaxpayerCategory> taxpayerCategories;
+    public Map<String ,TaxpayerCategory> taxpayerCategoriesMap;
 
     public AppConfig() {
 	receiptKinds = new ArrayList<String>();
-	taxpayerCategories = new ArrayList<TaxpayerCategory>();
+//	taxpayerCategories = new ArrayList<TaxpayerCategory>();
+	taxpayerCategoriesMap = new HashMap<String ,TaxpayerCategory>();
 	String projectDir = System.getProperty("user.dir");
 	tagFileNamePath = projectDir + "\\resources\\tagsProperties.txt";
 	paramFileNamePath = projectDir+"\\resources\\appSettings.txt";
 	loadSettingsFile(new File(paramFileNamePath));
     }
+    
+//    public static AppConfig getInstance() {
+//	if (instance == null) {
+//	    instance = new AppConfig();
+//	}
+//	return instance;
+//    }
 
     public List<String> getReceiptKinds() {
         return receiptKinds;
     }
 
-    public List<TaxpayerCategory> getTaxpayerCategories() {
-        return taxpayerCategories;
+//    public List<TaxpayerCategory> getTaxpayerCategories() {
+//        return taxpayerCategories;
+//    }
+    
+    public TaxpayerCategory getTaxpayerCategoryByName(String name) {
+	return taxpayerCategoriesMap.get(name);
     }
 
     private void loadSettingsFile(File file){
@@ -43,7 +58,9 @@ public class AppConfig {
 		while (scanner.hasNextLine()) {
 		    String line = scanner.nextLine();
 		    if (line.startsWith("@")) {
-			taxpayerCategories.add(getTaxpayerCategory(line, scanner));
+			TaxpayerCategory tc = getTaxpayerCategory(line, scanner);
+//			taxpayerCategories.add(getTaxpayerCategory(line, scanner));
+			taxpayerCategoriesMap.put(tc.getCategoryName(), tc);
 		    } else if (line.startsWith("*")) {
 			receiptKinds.add(getReceiptKindFromLine(line));
 		    }
@@ -96,10 +113,13 @@ public class AppConfig {
 	}
 	return retValues;
     }
+    
+    
 
     public static void main(String args[]) {
 	AppConfig app = new AppConfig();
-	System.out.println(app.getTaxpayerCategories());
+//	System.out.println(app.getTaxpayerCategories());
+	System.out.println(app.taxpayerCategoriesMap);
 	System.out.println(app.getReceiptKinds());
 	
     }

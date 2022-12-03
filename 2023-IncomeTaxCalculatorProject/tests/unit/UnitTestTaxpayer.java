@@ -17,6 +17,7 @@ public class UnitTestTaxpayer {
 	    	TaxpayerType.HEAD_OF_HOUSEHOLD
 	    	};
         
+    
     @Test
     public void testCalculateBasicTaxMarriedFilingJointly() {
 	double income[] = {10000, 50000, 100000, 150000, 300000};
@@ -58,19 +59,20 @@ public class UnitTestTaxpayer {
     }
 
     private double getBasicTax(TaxpayerType taxpayerType, float income) {
-	Taxpayer taxpayer = null;
-	if (taxpayerType == TaxpayerType.MARREID_FILLING_JOINTLY) {
-	    taxpayer = new MarriedFilingJointlyTaxpayer("Test Name", 987654321, income);
-	} else if (taxpayerType == TaxpayerType.MARREID_FILLING_SEPERATLY) {
-	    taxpayer = new MarriedFilingSeparatelyTaxpayer("Test Name", 987654321, income);
-	} else if (taxpayerType == TaxpayerType.SINGLE) {
-	    taxpayer = new SingleTaxpayer("Test Name", 987654321, income);
-	} else if (taxpayerType == TaxpayerType.HEAD_OF_HOUSEHOLD) {
-	    taxpayer = new HeadOfHouseholdTaxpayer("Test Name", 987654321, income);
-	} else {
-	    // exception ?
-	}
-	return taxpayer.calculateBasicTax();
+//	Taxpayer taxpayer = null;
+//	if (taxpayerType == TaxpayerType.MARREID_FILLING_JOINTLY) {
+//	    taxpayer = new MarriedFilingJointlyTaxpayer("Test Name", 987654321, income);
+//	} else if (taxpayerType == TaxpayerType.MARREID_FILLING_SEPERATLY) {
+//	    taxpayer = new MarriedFilingSeparatelyTaxpayer("Test Name", 987654321, income);
+//	} else if (taxpayerType == TaxpayerType.SINGLE) {
+//	    taxpayer = new SingleTaxpayer("Test Name", 987654321, income);
+//	} else if (taxpayerType == TaxpayerType.HEAD_OF_HOUSEHOLD) {
+//	    taxpayer = new HeadOfHouseholdTaxpayer("Test Name", 987654321, income);
+//	} else {
+//	    // exception ?
+//	}
+//	return taxpayer.calculateBasicTax();
+	return 0;
     }
     
 }

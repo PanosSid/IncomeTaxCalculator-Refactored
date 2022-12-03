@@ -44,7 +44,8 @@ public abstract class InfoWriter extends FileWriter {
 	List<String> infoData = new ArrayList<String>();
 	infoData.add("" + taxpayerManager.getTaxpayerName(taxRegistrationNumber));
 	infoData.add("" + taxRegistrationNumber);
-	infoData.add("" + taxpayerManager.getTaxpayerStatus(taxRegistrationNumber));
+//	infoData.add("" + taxpayerManager.getTaxpayerStatus(taxRegistrationNumber));
+	infoData.add("" + taxpayerManager.getTaxpayerCategoryName(taxRegistrationNumber));
 	infoData.add("" + taxpayerManager.getTaxpayerIncome(taxRegistrationNumber));
 	infoData.add("");
 	infoData.add("");

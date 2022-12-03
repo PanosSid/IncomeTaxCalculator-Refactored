@@ -19,8 +19,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import incometaxcalculator.data.config.AppConfig;
 import incometaxcalculator.data.management.Company;
-import incometaxcalculator.data.management.MarriedFilingJointlyTaxpayer;
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.Taxpayer;
 import incometaxcalculator.data.management.TaxpayerManager;
@@ -50,7 +50,7 @@ public class AcceptanceTests {
 	taxpayerManager.createReceipt(2, "20/2/2020", (float) 200.0, "Travel", "aCompany2", "aCountry2", "aCity2",
 		"aStreet2", 20, 111111111);
 
-	aTaxpayer = new MarriedFilingJointlyTaxpayer("Robert Martin", 111111111, (float) 100000.0);
+	aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0, taxpayerManager.appConfig.getTaxpayerCategoryByName("MarriedFillingJointly"));
 	company1 = new Company("aCompany1", "aCountry1", "aCity1", "aStreet1", 10);
 	Company company2 = new Company("aCompany2", "aCountry2", "aCity2", "aStreet2", 20);
 	Receipt receipt1 = new Receipt(1, "10/10/2010", (float) 100.0, "Basic", company1);
@@ -161,7 +161,8 @@ public class AcceptanceTests {
 
     @Test
     public void testUC4DeleteReceiptOfTaxpayer() throws IOException, WrongReceiptKindException {
-	taxpayerManager.removeReceipt(2);
+//	taxpayerManager.removeReceipt(2);
+	taxpayerManager.deleteReceiptFromTaxpayer(2, taxRegistrationNumber);
 	for (int i = 0; i < fileFormats.length; i++) {
 	    String currentFType = fileFormats[i];
 	    File testedFile = testInfoFilesMap.get(currentFType);
@@ -183,6 +184,7 @@ public class AcceptanceTests {
 	    String actualFileContents = FileUtils.readFileToString(logFile, StandardCharsets.UTF_8);
 	    String expectedFileContents = TestFileContents.getTestFileContents(currentFtype, "log");
 	    Assert.assertEquals(expectedFileContents, actualFileContents);
+	    
 	}
     }
 

@@ -6,22 +6,21 @@ import java.util.Objects;
 
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 
-public abstract class Taxpayer {
+public class Taxpayer {
 
     protected final String fullname;
     protected final int taxRegistrationNumber;
     protected final float income;
+    private TaxpayerCategory taxpayerCategory;
+    
     private float amountPerReceiptsKind[] = new float[5];
     private HashMap<Integer, Receipt> receiptHashMap = new HashMap<Integer, Receipt>(0);
-    double incomeUpperLimit[] = new double[4];	// MAGIC NUMBER ???
-    double correspondingTax[] = new double[5];
-    double taxPercentage[] = new double[5];
 
-
-    protected Taxpayer(String fullname, int taxRegistrationNumber, float income) {
+    public Taxpayer(String fullname, int taxRegistrationNumber, float income, TaxpayerCategory taxpayerCategory) {
 	this.fullname = fullname;
 	this.taxRegistrationNumber = taxRegistrationNumber;
 	this.income = income;
+	this.taxpayerCategory = taxpayerCategory;
     }
     
     public String getFullname() {
@@ -39,7 +38,11 @@ public abstract class Taxpayer {
     public HashMap<Integer, Receipt> getReceiptHashMap() {
 	return receiptHashMap;
     }
-
+    
+    public TaxpayerCategory getTaxpayerCategory() {
+	return taxpayerCategory;
+    }
+    
     public int getTotalReceiptsGathered() {
 	return receiptHashMap.size();
     }
@@ -49,6 +52,10 @@ public abstract class Taxpayer {
     }
 
     public double calculateBasicTax() {
+	double incomeUpperLimit[] = taxpayerCategory.getIncomeUpperLimit();
+	double taxPercentage[] = taxpayerCategory.getTaxPercentage();
+	double correspondingTax[] =taxpayerCategory.getCorrespondingTax();
+	
 	if (income < incomeUpperLimit[0]) {
 	    return correspondingTax[0] + taxPercentage[0] * income;
 	} else if (income < incomeUpperLimit[1]) {
@@ -73,7 +80,7 @@ public abstract class Taxpayer {
 	receiptHashMap.put(receipt.getId(), receipt);
     }
 
-    public void removeReceipt(int receiptId) throws WrongReceiptKindException {
+    public void removeReceipt(int receiptId) {
 	Receipt receipt = receiptHashMap.get(receiptId);
 	String receiptKinds[] = {"Entertainment", "Basic", "Travel", "Health", "Other"};	
 	for (int i = 0; i < receiptKinds.length; i++) {
@@ -110,6 +117,14 @@ public abstract class Taxpayer {
 
     public double getBasicTax() {
 	return calculateBasicTax();
+    }
+    
+    public String getTaxpayerCategoryName() {
+	return taxpayerCategory.getCategoryName();
+    }
+    
+    public boolean hasReceiptId(int receiptId) {
+	return receiptHashMap.containsKey(receiptId);
     }
 
     @Override

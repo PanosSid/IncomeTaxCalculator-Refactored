@@ -290,7 +290,7 @@ public class TaxpayerData extends JFrame {
 	taxpayerStatus.setFont(new Font("Tahoma", Font.PLAIN, 11));
 	taxpayerStatus.setEditable(false);
 	taxpayerStatus.setBounds(110, 96, 213, 20);
-	taxpayerStatus.setText(taxpayerManager.getTaxpayerStatus(taxRegistrationNumber));
+	taxpayerStatus.setText(taxpayerManager.getTaxpayerCategoryName(taxRegistrationNumber));
 	contentPane.add(taxpayerStatus);
 
 	JTextArea taxpayerIncome = new JTextArea();

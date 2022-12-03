@@ -62,7 +62,7 @@ public class TaxpayerView {
 	JLabel name = new JLabel("Name:    " + taxpayerName);
 //	name.setForeground(Color.WHITE);
 	JLabel lblTrn = new JLabel("TRN:    " + trn);
-	JLabel lblStatus = new JLabel("Status:    " + taxpayerManager.getTaxpayerStatus(trn));
+	JLabel lblStatus = new JLabel("Status:    " + taxpayerManager.getTaxpayerCategoryName(trn));
 	JLabel lblIncome = new JLabel("Income:    " + taxpayerManager.getTaxpayerIncome(trn));
 	name.setFont(new Font("Sans-serif", Font.BOLD, 14));
 	lblTrn.setFont(new Font("Sans-serif", Font.BOLD, 14));
@@ -141,12 +141,17 @@ public class TaxpayerView {
 			    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		    if (result == JOptionPane.YES_OPTION) {
 			try {
-			    taxpayerManager.removeReceipt(id);
+			    taxpayerManager.deleteReceiptFromTaxpayer(id, trn);
+//			    taxpayerManager.removeReceipt(id);
 			    receiptTableModel.removeRow(receiptsTable.getSelectedRow());
 			    JOptionPane.showMessageDialog(null,
 				    "Receipt with id:[" + id + "] was deleted sucessfully from taxpayer",
 				    "Succesful Receipt Deletion", JOptionPane.INFORMATION_MESSAGE);
-			} catch (IOException | WrongReceiptKindException e1) {
+//			} catch (IOException | WrongReceiptKindException e1) {
+//			    // TODO Auto-generated catch block
+//			    e1.printStackTrace();
+//			}
+			} catch (IOException e1) {
 			    // TODO Auto-generated catch block
 			    e1.printStackTrace();
 			}
