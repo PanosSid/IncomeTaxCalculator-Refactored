@@ -183,7 +183,8 @@ public class AcceptanceTests {
     public void testUC6StoreTaxpayerLog() throws IOException, WrongFileFormatException {
 	for (int i = 0; i < fileFormats.length; i++) {
 	    String currentFtype = fileFormats[i];
-	    taxpayerManager.saveLogFile(taxRegistrationNumber, currentFtype);
+	    String logPath = "D:\\Panos\\CSE UOI\\9o εξάμηνο\\Ανάπτυξη Λογισμικού ΙΙ\\SoftDevII-ProjectMaterial-2023\\SoftDev2-Project\\2023-IncomeTaxCalculatorProject\\resources\\LOG files";
+	    taxpayerManager.saveLogFile(taxRegistrationNumber,logPath, currentFtype);
 	    String logFilename = taxRegistrationNumber + "_LOG." + currentFtype;
 	    File logFile = new File(projectPath+"\\resources\\LOG files\\"+ logFilename);
 	    boolean logFileExists = logFile.exists();

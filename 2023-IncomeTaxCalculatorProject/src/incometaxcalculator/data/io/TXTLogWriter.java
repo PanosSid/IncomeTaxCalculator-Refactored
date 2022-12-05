@@ -10,8 +10,8 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public class TXTLogWriter extends LogWriter {
 
-    public TXTLogWriter(String fileNamePath) {
-	super(fileNamePath);
+    public TXTLogWriter(String fileNamePath, boolean taxIncrease, List<String> logData) {
+	super(fileNamePath, taxIncrease, logData);
 	
     }
 

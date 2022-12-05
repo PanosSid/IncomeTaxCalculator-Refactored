@@ -52,15 +52,15 @@ public class TaxpayerManager {
 	instance = null;
     }
     
-    public void createTaxpayer(String fullname, int taxRegistrationNumber, String status, float income)
+    public void createTaxpayer(String fullname, int taxRegNum, String status, float income)
 	    throws WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	
-	if (taxpayerHashMap.containsKey(taxRegistrationNumber)) {
+	if (taxpayerHashMap.containsKey(taxRegNum)) {
 	    throw new TaxpayerAlreadyLoadedException();
 	} else {
 	    TaxpayerCategory taxpayerCategory = appConfig.getTaxpayerCategoryByName(status);
-	    Taxpayer taxpayer = new Taxpayer(fullname, taxRegistrationNumber, income, taxpayerCategory);
-	    taxpayerHashMap.put(taxRegistrationNumber, taxpayer);  
+	    Taxpayer taxpayer = new Taxpayer(fullname, taxRegNum, income, taxpayerCategory);
+	    taxpayerHashMap.put(taxRegNum, taxpayer);  
 	}
     }
     
@@ -74,6 +74,13 @@ public class TaxpayerManager {
 	filePathsOfTaxpayer.put(trn, filePathWithoutFileFormat);
 	Map<String, List<String>> infoFileContents = fileReader.readTaxpayerAndReceipts(fileName, trn);
 	laodReadTaxpayer(trn, infoFileContents);
+    }
+    
+    private int getTaxRegNumFromFileNamePath(String fileName) {
+	String bySlash[] = fileName.split("\\\\");
+	String ending = bySlash[bySlash.length-1];
+	ending.substring(0, 9);	
+	return Integer.parseInt(ending.substring(0, 9));
     }
     
     private void laodReadTaxpayer(int trn, Map<String, List<String>> infoFileContents) 
@@ -125,41 +132,30 @@ public class TaxpayerManager {
     public void changeInfoFilePathOfTaxpayer(int trn, String newFilePath) {
 	filePathsOfTaxpayer.put(trn, newFilePath);
     }
-    
-    private int getTaxRegNumFromFileNamePath(String fileName) {
-	String bySlash[] = fileName.split("\\\\");
-	String ending = bySlash[bySlash.length-1];
-	ending.substring(0, 9);	
-	return Integer.parseInt(ending.substring(0, 9));
-    }
-    
-//    private String getPathWithoutFileFormat(String filePath) {
-//	
-//	return 
-//    }
-    
-    public void removeTaxpayer(int taxRegistrationNumber){
-	taxpayerHashMap.remove(taxRegistrationNumber);
+
+    public void removeTaxpayer(int taxRegNum){
+	taxpayerHashMap.remove(taxRegNum);
+	filePathsOfTaxpayer.remove(taxRegNum);
     }
     
     public void addReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
-	    String country, String city, String street, int number, int taxRegistrationNumber)
+	    String country, String city, String street, int number, int taxRegNum)
 		    throws IOException, WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException {
 	
-	if (containsReceipt(taxRegistrationNumber, receiptId)) {
+	if (containsReceipt(taxRegNum, receiptId)) {
 	    throw new ReceiptAlreadyExistsException();
 	}
 	createReceipt(receiptId, issueDate, amount, kind, companyName, country, city, street, number,
-		taxRegistrationNumber);
-	updateFiles(taxRegistrationNumber);
+		taxRegNum);
+	updateFiles(taxRegNum);
     }
 
     public void createReceipt(int receiptId, String issueDate, float amount, String kind, String companyName,
-	    String country, String city, String street, int number, int taxRegistrationNumber)
+	    String country, String city, String street, int number, int taxRegNum)
 	    throws WrongReceiptKindException, WrongReceiptDateException {
 	Company company = new Company(companyName, country, city, street, number);
 	Receipt receipt = new Receipt(receiptId, issueDate, amount, kind, company);
-	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
+	Taxpayer taxpayer = taxpayerHashMap.get(taxRegNum);
 	taxpayer.addReceipt(receipt);
     }
 
@@ -168,79 +164,98 @@ public class TaxpayerManager {
 	updateFiles(trn);
     }
     
-    public boolean containsReceipt(int taxRegistrationNumber, int receiptid) {
-	return taxpayerHashMap.get(taxRegistrationNumber).hasReceiptId(receiptid);
+    public boolean containsReceipt(int taxRegNum, int receiptid) {
+	return taxpayerHashMap.get(taxRegNum).hasReceiptId(receiptid);
     }
 
-    private void updateFiles(int taxRegistrationNumber) throws IOException {
+    private void updateFiles(int taxRegNum) throws IOException {
 	String fileFormats[] = {"txt", "xml"};
 	for (int i = 0; i < fileFormats.length; i++) {
-	    String filename = filePathsOfTaxpayer.get(taxRegistrationNumber) + "." + fileFormats[i];
-//	    String filename = "\\resources\\INFO files\\"+taxRegistrationNumber + "_INFO." + fileFormats[i];
+	    String filename = filePathsOfTaxpayer.get(taxRegNum) + "." + fileFormats[i];
 	    File infoFile = new File(filename);
 	    if (infoFile.exists()) {
-//		infoWriter.generateFile(taxRegistrationNumber);
-//		TaxFileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i]);
-		String fileNamePath = filePathsOfTaxpayer.get(taxRegistrationNumber);
+		String fileNamePath = filePathsOfTaxpayer.get(taxRegNum);
 		TaxFileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileNamePath, fileFormats[i]);
-		Map<Integer, List<String>> receiptsDataOfTaxpayer = taxpayerHashMap.get(taxRegistrationNumber).getReceiptsDataOfTaxpayer();
-		List<String> taxpayerInfoData  = taxpayerHashMap.get(taxRegistrationNumber).getTaxpayerInfoData();
+		Map<Integer, List<String>> receiptsDataOfTaxpayer = taxpayerHashMap.get(taxRegNum).getReceiptsDataOfTaxpayer();
+		List<String> taxpayerInfoData  = taxpayerHashMap.get(taxRegNum).getTaxpayerInfoData();
 		infoWriter.updateInfoFile(taxpayerInfoData, receiptsDataOfTaxpayer);
 	    }
 	}
     }
 
     public void saveLogFile(int taxRegNum, String filePath, String fileFormat) throws IOException, WrongFileFormatException {
-//	String fileNamePath = filePathsOfTaxpayer.get(taxRegNum).replaceFirst("_INFO", "_LOG");
 	filePath = filePath + "\\"+taxRegNum+"_LOG";
 	System.out.println(filePath);
-	TaxFileWriter logWriter = fileWriterFactory.createLogFileWriter(filePath, fileFormat);
-//	TaxFileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat);
+	boolean taxIncrease;
+	if (getTaxpayerVariationTaxOnReceipts(taxRegNum) > 0) {
+	    taxIncrease = true;
+	} else {
+	    taxIncrease = false;
+	}
+	TaxFileWriter logWriter = fileWriterFactory.createLogFileWriter(filePath, fileFormat, taxIncrease, getLogData(taxRegNum));
 	logWriter.generateFile(taxRegNum);
     }
-
-    public Taxpayer getTaxpayer(int taxRegistrationNumber) {
-	return taxpayerHashMap.get(taxRegistrationNumber);
+    
+    private List<String> getLogData(int taxRegistrationNumber) {
+	List<String> logData = new ArrayList<String>();
+	logData.add("" + getTaxpayerName(taxRegistrationNumber));
+	logData.add("" + taxRegistrationNumber);
+	logData.add("" + getTaxpayerIncome(taxRegistrationNumber));
+	logData.add("" + getTaxpayerBasicTax(taxRegistrationNumber));	
+	logData.add("" + getTaxpayerVariationTaxOnReceipts(taxRegistrationNumber));
+	logData.add("" + getTaxpayerTotalTax(taxRegistrationNumber));
+	logData.add("" + getTaxpayerTotalReceiptsGathered(taxRegistrationNumber));
+	logData.add("" + getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Entertainment"));
+	logData.add("" + getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Basic"));
+	logData.add("" + getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Travel"));
+	logData.add("" + getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Health"));
+	logData.add("" + getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, "Other"));
+	return logData;
+	
     }
 
-    public String getTaxpayerName(int taxRegistrationNumber) {
-	return taxpayerHashMap.get(taxRegistrationNumber).getFullname();
+    public Taxpayer getTaxpayer(int taxRegNum) {
+	return taxpayerHashMap.get(taxRegNum);
+    }
+
+    public String getTaxpayerName(int taxRegNum) {
+	return taxpayerHashMap.get(taxRegNum).getFullname();
     }
     
-    public String getTaxpayerCategoryName(int taxRegistrationNumber) {
-	return  taxpayerHashMap.get(taxRegistrationNumber).getTaxpayerCategoryName();
+    public String getTaxpayerCategoryName(int taxRegNum) {
+	return  taxpayerHashMap.get(taxRegNum).getTaxpayerCategoryName();
     }
 
-    public String getTaxpayerIncome(int taxRegistrationNumber) {
-	return "" + taxpayerHashMap.get(taxRegistrationNumber).getIncome();
+    public String getTaxpayerIncome(int taxRegNum) {
+	return "" + taxpayerHashMap.get(taxRegNum).getIncome();
     }
 
-    public double getTaxpayerVariationTaxOnReceipts(int taxRegistrationNumber) {	// LOG + REPORTS
-	return taxpayerHashMap.get(taxRegistrationNumber).getVariationTaxOnReceipts();
+    public double getTaxpayerVariationTaxOnReceipts(int taxRegNum) {	// LOG + REPORTS
+	return taxpayerHashMap.get(taxRegNum).getVariationTaxOnReceipts();
     }
 
-    public int getTaxpayerTotalReceiptsGathered(int taxRegistrationNumber) {	//LOG
-	return taxpayerHashMap.get(taxRegistrationNumber).getTotalReceiptsGathered();
+    public int getTaxpayerTotalReceiptsGathered(int taxRegNum) {	//LOG
+	return taxpayerHashMap.get(taxRegNum).getTotalReceiptsGathered();
     }
 
-    public float getTaxpayerAmountOfReceiptKind(int taxRegistrationNumber, String kind) { // LOG + REPORTS
-	return taxpayerHashMap.get(taxRegistrationNumber).getAmountOfReceiptKind(kind);
+    public float getTaxpayerAmountOfReceiptKind(int taxRegNum, String kind) { // LOG + REPORTS
+	return taxpayerHashMap.get(taxRegNum).getAmountOfReceiptKind(kind);
     }
 
-    public double getTaxpayerTotalTax(int taxRegistrationNumber) {	// LOG + REPORTS
-	return taxpayerHashMap.get(taxRegistrationNumber).getTotalTax();
+    public double getTaxpayerTotalTax(int taxRegNum) {	// LOG + REPORTS
+	return taxpayerHashMap.get(taxRegNum).getTotalTax();
     }
 
-    public double getTaxpayerBasicTax(int taxRegistrationNumber) {	// LOG + REPORTS
-	return taxpayerHashMap.get(taxRegistrationNumber).getBasicTax();
+    public double getTaxpayerBasicTax(int taxRegNum) {	// LOG + REPORTS
+	return taxpayerHashMap.get(taxRegNum).getBasicTax();
     }
 
-    public HashMap<Integer, Receipt> getReceiptHashMap(int taxRegistrationNumber) {
-	return taxpayerHashMap.get(taxRegistrationNumber).getReceiptHashMap();
+    public HashMap<Integer, Receipt> getReceiptHashMap(int taxRegNum) {
+	return taxpayerHashMap.get(taxRegNum).getReceiptHashMap();
     }
     
-    public List<Receipt> getReceiptListOfTaxpayer(int taxRegistrationNumber) {
-	Taxpayer taxpayer = taxpayerHashMap.get(taxRegistrationNumber);
+    public List<Receipt> getReceiptListOfTaxpayer(int taxRegNum) {
+	Taxpayer taxpayer = taxpayerHashMap.get(taxRegNum);
 	Map<Integer, Receipt> receiptMap = taxpayer.getReceiptHashMap();
 	return new ArrayList<Receipt>(receiptMap.values());
     }

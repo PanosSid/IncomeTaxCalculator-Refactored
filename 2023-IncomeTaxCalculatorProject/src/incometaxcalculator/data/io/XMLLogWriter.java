@@ -8,8 +8,8 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public class XMLLogWriter extends LogWriter {
 
-    public XMLLogWriter(String fileNamePath) {
-	super(fileNamePath);
+    public XMLLogWriter(String fileNamePath, boolean taxIncrease, List<String> logData) {
+	super(fileNamePath, taxIncrease, logData);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package incometaxcalculator.data.io;
 
+import java.util.List;
+
 import incometaxcalculator.data.management.TaxpayerManager;
 
 public class FileWriterFactory {
@@ -28,11 +30,11 @@ public class FileWriterFactory {
 	}
     }
     
-    public TaxFileWriter createLogFileWriter(String fileNamePath, String fileFormat) {
+    public TaxFileWriter createLogFileWriter(String fileNamePath, String fileFormat, boolean taxIncrease, List<String> logData) {
 	if (fileFormat.equals("txt")) {
-	    return new TXTLogWriter(fileNamePath+"."+fileFormat);
+	    return new TXTLogWriter(fileNamePath+"."+fileFormat, taxIncrease, logData);
 	} else if (fileFormat.equals("xml")) {
-	    return new XMLLogWriter(fileNamePath+"."+fileFormat);
+	    return new XMLLogWriter(fileNamePath+"."+fileFormat, taxIncrease, logData);
 	} else {
 	    return null ;
 //	    throw new Exception("Wrong file format given to FileWriterFactory");

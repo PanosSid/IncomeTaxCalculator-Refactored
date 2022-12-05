@@ -10,11 +10,10 @@ import java.util.Map;
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 
-public abstract class InfoWriter extends TaxFileWriter {
+public abstract class InfoWriter implements TaxFileWriter {
     protected String fileNamePath;
     
     public InfoWriter(String fileNamePath) {
-//	super();
 	this.fileNamePath = fileNamePath;
     }
 
