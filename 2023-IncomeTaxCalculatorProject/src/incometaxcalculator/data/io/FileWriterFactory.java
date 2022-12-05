@@ -17,7 +17,7 @@ public class FileWriterFactory {
 //	}   
 //    }
     
-    public FileWriter createInfoFileWriter(String fileFormat) {
+    public TaxFileWriter createInfoFileWriter(String fileFormat) {
 	if (fileFormat.equals("txt")) {
 	    return new TXTInfoWriter();
 	} else if (fileFormat.equals("xml")) {
@@ -28,7 +28,7 @@ public class FileWriterFactory {
 	}
     }
     
-    public FileWriter createLogFileWriter(String fileFormat) {
+    public TaxFileWriter createLogFileWriter(String fileFormat) {
 	if (fileFormat.equals("txt")) {
 	    return new TXTLogWriter();
 	} else if (fileFormat.equals("xml")) {

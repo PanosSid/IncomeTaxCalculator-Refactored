@@ -47,6 +47,8 @@ public class AcceptanceTests {
 	super();
 	this.taxpayerManager = TaxpayerManager.getInstance();
 	taxpayerManager.createTaxpayer("Robert Martin", 111111111, "Married Filing Jointly", (float) 100000.0);
+	taxpayerManager.changeInfoFilePathOfTaxpayer(111111111, projectPath+"\\resources\\INFO files\\"+"111111111_INFO");
+	
 	taxpayerManager.createReceipt(1, "10/10/2010", (float) 100.0, "Basic", "aCompany1", "aCountry1", "aCity1",
 		"aStreet1", 10, 111111111);
 	taxpayerManager.createReceipt(2, "20/2/2020", (float) 200.0, "Travel", "aCompany2", "aCountry2", "aCity2",
@@ -64,6 +66,7 @@ public class AcceptanceTests {
 	File testedInfoXml = new File(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.xml");
 	testInfoFilesMap.put("txt", testedInfoTxt);
 	testInfoFilesMap.put("xml", testedInfoXml);
+	
     }
 
     @Before
@@ -76,6 +79,8 @@ public class AcceptanceTests {
 	File testInfoXml = new File(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.xml");
 	overwriteFileContents(testInfoTxt, initialTxt);
 	overwriteFileContents(testInfoXml, initialXml);
+//	
+	
     }
 
     private void overwriteFileContents(File file, String newContent) {
@@ -95,7 +100,6 @@ public class AcceptanceTests {
 	    Files.deleteIfExists(Paths.get("\\resources\\LOG files\\"+"111111111_LOG.txt"));
 	    Files.deleteIfExists(Paths.get("\\resources\\LOG files\\"+"111111111_LOG.xml"));
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
@@ -107,12 +111,10 @@ public class AcceptanceTests {
 
     @Test
     public void testUC1LoadTaxpayer()
-	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
-	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException,
-	    WrongFileReceiptSeperatorException {
+	    throws Exception {
 
 	for (String fType : fileFormats) {
-	    String filename = taxRegistrationNumber + "_INFO." + fType;
+	    String filename = projectPath+"\\resources\\INFO files\\"+taxRegistrationNumber + "_INFO." + fType;
 	    try {
 		taxpayerManager.loadTaxpayer(filename);
 	    } catch (TaxpayerAlreadyLoadedException e) {
@@ -164,8 +166,9 @@ public class AcceptanceTests {
     }
 
     @Test
-    public void testUC4DeleteReceiptOfTaxpayer() throws IOException, WrongReceiptKindException {
+    public void testUC4DeleteReceiptOfTaxpayer() throws Exception {
 //	taxpayerManager.removeReceipt(2);
+//	taxpayerManager.loadTaxpayer(projectPath+"\\resources\\INFO files\\"+"111111111_INFO.txt");
 	taxpayerManager.deleteReceiptFromTaxpayer(2, taxRegistrationNumber);
 	for (int i = 0; i < fileFormats.length; i++) {
 	    String currentFType = fileFormats[i];

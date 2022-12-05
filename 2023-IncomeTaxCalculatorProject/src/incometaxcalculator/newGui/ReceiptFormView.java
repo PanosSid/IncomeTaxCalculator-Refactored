@@ -48,7 +48,7 @@ public class ReceiptFormView {
 	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 //	panel = new JPanel(new MigLayout("wrap, insets 5 , fill, debug", "[]5[]", "[]5[]5[]5[]5[]5[]5[]5[]5[]5[]"));
-	panel = new JPanel(new MigLayout("wrap, insets 10 , debug", "[]5[]5[]5[]"));
+	panel = new JPanel(new MigLayout("wrap, insets 10", "[]5[]5[]5[]"));
 //	panel = new JPanel(new GridLayout(0,2, 0,5));
 	initialize();
 	frame.add(panel, BorderLayout.CENTER);

@@ -20,24 +20,24 @@ public class TXTInfoWriter extends InfoWriter {
 	txtInfoTags = new TXTInfoTags().getInfoTags();
 	
     }
-
+    
     @Override
-    protected String getFileName(int taxRegistrationNumber) {
-	return taxRegistrationNumber+"_INFO.txt";
+    protected String getFileFormat() {
+	return "txt";
     }
 
     @Override
     protected List<String> getInfoTags() {
-//	List<String> txtInfoTags = new ArrayList<String>();
-//	txtInfoTags.add("Name: ");
-//	txtInfoTags.add("AFM: ");
-//	txtInfoTags.add("Status: ");
-//	txtInfoTags.add("Income: ");
+	List<String> txtInfoTags = new ArrayList<String>();
+	txtInfoTags.add("Name: ");
+	txtInfoTags.add("AFM: ");
+	txtInfoTags.add("Status: ");
+	txtInfoTags.add("Income: ");
 //	txtInfoTags.add("");
 //	txtInfoTags.add("Receipts:");
 //	txtInfoTags.add("");
-//	return txtInfoTags;
 	return txtInfoTags;
+//	return txtInfoTags;
     }
     
     @Override
@@ -52,7 +52,7 @@ public class TXTInfoWriter extends InfoWriter {
 	receiptTags.add("City: ");
 	receiptTags.add("Street: ");
 	receiptTags.add("Number: ");
-	receiptTags.add("");
+//	receiptTags.add("");
 	return receiptTags;
     }
 
@@ -61,11 +61,18 @@ public class TXTInfoWriter extends InfoWriter {
 	return tag + data;
     }
 
+
     @Override
-    protected void writeReciptFooter(PrintWriter outputStream) {
-	// dummy implementation do nothing
-	
+    protected String getReceiptSeperatorHeader() {
+	return "Receipts:";
     }
+
+    @Override
+    protected String getReceiptSeperatorFooter() {
+	return "";
+    }
+
+  
     
     
 

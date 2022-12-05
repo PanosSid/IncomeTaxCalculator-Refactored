@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 import incometaxcalculator.data.config.AppConfig;
-import incometaxcalculator.data.io.FileReader;
+import incometaxcalculator.data.io.TaxFileReader;
 import incometaxcalculator.data.io.FileReaderFactory;
-import incometaxcalculator.data.io.FileWriter;
+import incometaxcalculator.data.io.TaxFileWriter;
 import incometaxcalculator.data.io.FileWriterFactory;
 
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
@@ -31,12 +31,13 @@ public class TaxpayerManager {
     private FileWriterFactory fileWriterFactory; 
     private FileReaderFactory fileReaderFactory;
     public AppConfig appConfig ;
-    
+    private Map<Integer, String> filePathsOfTaxpayer; 
     
     private TaxpayerManager() {
 	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
 	fileWriterFactory = new FileWriterFactory();
 	fileReaderFactory = new FileReaderFactory();
+	filePathsOfTaxpayer = new HashMap<Integer, String>();
 	appConfig = new AppConfig();
     }
    
@@ -64,14 +65,37 @@ public class TaxpayerManager {
     }
     
     public void loadTaxpayer(String fileName)
-	    throws NumberFormatException, IOException, WrongFileFormatException, WrongFileEndingException,
-	    WrongTaxpayerStatusException, WrongReceiptKindException, WrongReceiptDateException, WrongFileReceiptSeperatorException,
-	    TaxpayerAlreadyLoadedException {
+	    throws Exception {
 	String ending[] = fileName.split("\\.");
 	String fileType = ending[1];
-	FileReader fileReader = fileReaderFactory.createFileReader(fileType);
-	fileReader.readFile(fileName);
+	String filePathWithoutFileFormat = ending[0];
+	TaxFileReader fileReader = fileReaderFactory.createFileReader(fileType);
+//	filePathsOfTaxpayer.put(, fileName);
+	int trn = getTaxRegNumFromFileNamePath(fileName);
+	filePathsOfTaxpayer.put(trn, filePathWithoutFileFormat);
+	fileReader.readTaxpayerAndReceipts(fileName, trn);
+//	fileReader.readFile(fileName);
     }
+    
+    public void getInfoFilePathOfTaxpayer(int trn, String newFilePath) {
+	filePathsOfTaxpayer.put(trn, newFilePath);
+    }
+    
+    public void changeInfoFilePathOfTaxpayer(int trn, String newFilePath) {
+	filePathsOfTaxpayer.put(trn, newFilePath);
+    }
+    
+    private int getTaxRegNumFromFileNamePath(String fileName) {
+	String bySlash[] = fileName.split("\\\\");
+	String ending = bySlash[bySlash.length-1];
+	ending.substring(0, 9);	
+	return Integer.parseInt(ending.substring(0, 9));
+    }
+    
+//    private String getPathWithoutFileFormat(String filePath) {
+//	
+//	return 
+//    }
     
     public void removeTaxpayer(int taxRegistrationNumber){
 	taxpayerHashMap.remove(taxRegistrationNumber);
@@ -110,17 +134,21 @@ public class TaxpayerManager {
     private void updateFiles(int taxRegistrationNumber) throws IOException {
 	String fileFormats[] = {"txt", "xml"};
 	for (int i = 0; i < fileFormats.length; i++) {
-	    String filename = taxRegistrationNumber + "_INFO." + fileFormats[i];
+	    String filename = filePathsOfTaxpayer.get(taxRegistrationNumber) + "." + fileFormats[i];
+//	    String filename = "\\resources\\INFO files\\"+taxRegistrationNumber + "_INFO." + fileFormats[i];
 	    File infoFile = new File(filename);
 	    if (infoFile.exists()) {
-		FileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i]);
-		infoWriter.generateFile(taxRegistrationNumber);
+		TaxFileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i]);
+//		infoWriter.generateFile(taxRegistrationNumber);
+		Map<Integer, List<String>> receiptsDataOfTaxpayer = taxpayerHashMap.get(taxRegistrationNumber).getReceiptsDataOfTaxpayer();
+		List<String> taxpayerInfoData  = taxpayerHashMap.get(taxRegistrationNumber).getTaxpayerInfoData();
+		infoWriter.updateInfoFile(taxpayerInfoData, receiptsDataOfTaxpayer);
 	    }
 	}
     }
 
     public void saveLogFile(int taxRegistrationNumber, String fileFormat) throws IOException, WrongFileFormatException {
-	FileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat);
+	TaxFileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat);
 	fileWriter.generateFile(taxRegistrationNumber);
     }
 

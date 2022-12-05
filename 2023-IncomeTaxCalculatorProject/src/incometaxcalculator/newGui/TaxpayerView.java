@@ -47,7 +47,7 @@ public class TaxpayerView {
 	frame.setLocationRelativeTo(null); // center window
 	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-	panel = new JPanel(new MigLayout("wrap, insets 5 , fill, debug", "[]5[]5[]5[]", "[]5[]5[]5[]5[]5[]5[]5[]"));
+	panel = new JPanel(new MigLayout("wrap, insets 5 , fill", "[]5[]5[]5[]", "[]5[]5[]5[]5[]5[]5[]5[]"));
 
 	addTaxpayersInfo();
 	addTaxpayersReceipts();

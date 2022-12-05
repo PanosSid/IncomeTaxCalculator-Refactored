@@ -2,17 +2,31 @@ package incometaxcalculator.data.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 
-public class TXTFileReader extends FileReader {
-    
+public class TXTFileReader extends TaxFileReader {
+
     public TXTFileReader() {
 	super();
-	
     }
-    
+
+    @Override
+    protected String getFieldFromLine(String fieldsLine) throws WrongFileFormatException {
+	if (fieldsLine.isEmpty()) {
+	    throw new WrongFileFormatException();
+	}
+	try {
+	    String values[] = fieldsLine.split(":", 2);
+	    values[1] = values[1].trim();
+	    return values[1];
+	} catch (NullPointerException e) {
+	    throw new WrongFileFormatException();
+	}
+    }
+
     @Override
     public boolean checkReceiptSeperatorTag(String receiptSeperator) {
 	if (receiptSeperator.equals("Receipts:")) {
@@ -22,27 +36,10 @@ public class TXTFileReader extends FileReader {
     }
 
     @Override
-    public int getReceiptIdFromLine(String line) {
-	String lineFields[] = line.split(":");
-	if (lineFields[0].equals("Receipt ID")) {
-	    int receiptId = Integer.parseInt(lineFields[1].trim());
-	    return receiptId;
+    protected boolean hasAnotherReceipt(String line) {
+	if (line == null || line.isEmpty()) {
+	    return false;
 	}
-	return -1;
+	return true;
     }
-    
-    protected String getValueOfField(String fieldsLine) throws WrongFileFormatException {
-	if (isEmpty(fieldsLine)) {
-	    throw new WrongFileFormatException();
-	}
-	try {
-	    String values[] = fieldsLine.split(" ", 2);
-	    values[1] = values[1].trim();
-	    return values[1];
-	} catch (NullPointerException e) {
-	    throw new WrongFileFormatException();
-	}
-    }
-
-
 }

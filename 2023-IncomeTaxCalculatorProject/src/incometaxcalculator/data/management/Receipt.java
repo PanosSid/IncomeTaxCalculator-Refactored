@@ -1,5 +1,7 @@
 package incometaxcalculator.data.management;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import incometaxcalculator.exceptions.WrongReceiptDateException;
@@ -31,7 +33,21 @@ public class Receipt {
 	int year = Integer.parseInt(token[2]);
 	return new Date(day, month, year);
     }
-
+    
+    public List<String> getDataOfReceipt(){
+	List<String> data = new ArrayList<String>();
+	data.add(""+id);
+	data.add(issueDate.toString());
+	data.add(kind);
+	data.add(""+amount);
+	data.add(company.getName());
+	data.add(company.getCountry());
+	data.add(company.getCity());
+	data.add(company.getStreet());
+	data.add(""+company.getNumber());
+	return data;
+    }
+    
     public int getId() {
 	return id;
     }

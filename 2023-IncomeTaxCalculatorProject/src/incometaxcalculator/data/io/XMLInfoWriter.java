@@ -15,12 +15,12 @@ public class XMLInfoWriter extends InfoWriter {
     public XMLInfoWriter() {
 	super();
     }
-    
+
     @Override
-    protected String getFileName(int taxRegistrationNumber) {
-	return taxRegistrationNumber+"_INFO.xml";
+    protected String getFileFormat() {
+	return "xml";
     }
-    
+
     @Override
     protected List<String> getInfoTags() {
 	List<String> xmlInfoTags = new ArrayList<String>();
@@ -28,9 +28,9 @@ public class XMLInfoWriter extends InfoWriter {
 	xmlInfoTags.add("<AFM> " );
 	xmlInfoTags.add("<Status> ");
 	xmlInfoTags.add("<Income> ");
-	xmlInfoTags.add("");
-	xmlInfoTags.add("<Receipts>");
-	xmlInfoTags.add("");
+//	xmlInfoTags.add("");
+//	xmlInfoTags.add("<Receipts>");
+//	xmlInfoTags.add("");
 	return xmlInfoTags;
     }
     
@@ -46,7 +46,7 @@ public class XMLInfoWriter extends InfoWriter {
 	xmlReceiptTags.add("<City> ");
 	xmlReceiptTags.add("<Street> "); 
 	xmlReceiptTags.add("<Number> "); 
-	xmlReceiptTags.add("");	
+//	xmlReceiptTags.add("");
 	return xmlReceiptTags;
     }
 
@@ -65,7 +65,13 @@ public class XMLInfoWriter extends InfoWriter {
     }
 
     @Override
-    protected void writeReciptFooter(PrintWriter outputStream) {
-	outputStream.println("</Receipts>");
+    protected String getReceiptSeperatorHeader() {
+	return "<Receipts>";
     }
+
+    @Override
+    protected String getReceiptSeperatorFooter() {
+	return "</Receipts>";
+    }
+
 }

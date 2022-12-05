@@ -60,7 +60,7 @@ public class MainView {
 	mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //	mainFrame.setLayout();
 	
-	mainPanel = new JPanel(new MigLayout("wrap, insets 5 , fill, debug", "[]5[]5[]5[]", "[]5[]5[]5[]5[]5[]"));
+	mainPanel = new JPanel(new MigLayout("wrap, insets 5 , fill", "[]5[]5[]5[]", "[]5[]5[]5[]5[]5[]"));
 	addLogoAndLabel();
 	
 	mainFrame.add(mainPanel, BorderLayout.CENTER);	
@@ -197,6 +197,9 @@ public class MainView {
 			    e1.printStackTrace();
 			} catch (TaxpayerAlreadyLoadedException e1) {
 			    JOptionPane.showMessageDialog(null, "Taxpayer in file: "+file.getName()+" is already loaded", "Taxpayer Already Loaded", JOptionPane.ERROR_MESSAGE);
+			    e1.printStackTrace();
+			} catch (Exception e1) {
+			    // TODO Auto-generated catch block
 			    e1.printStackTrace();
 			}
 		    }

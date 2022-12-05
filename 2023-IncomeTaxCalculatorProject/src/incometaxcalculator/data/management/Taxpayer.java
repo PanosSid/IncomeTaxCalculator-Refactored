@@ -43,6 +43,24 @@ public class Taxpayer {
 	return receiptKinds;	
     }
      
+    public List<String> getTaxpayerInfoData(){
+	List<String> taxpayerInfoData = new ArrayList<String>();
+	taxpayerInfoData.add(fullname);
+	taxpayerInfoData.add(""+taxRegistrationNumber);
+	taxpayerInfoData.add(taxpayerCategory.getCategoryName());
+	taxpayerInfoData.add(""+income);
+	return taxpayerInfoData;
+    }
+    
+    public Map<Integer, List<String>> getReceiptsDataOfTaxpayer(){
+	 Map<Integer, List<String>> receiptsDataMap = new HashMap<Integer, List<String>>();
+	 for (Integer id : receiptHashMap.keySet()) {
+	     Receipt r = receiptHashMap.get(id);
+	     receiptsDataMap.put(id, r.getDataOfReceipt());
+	 }
+	 return receiptsDataMap;
+    }
+    
     public String getFullname() {
 	return fullname;
     }

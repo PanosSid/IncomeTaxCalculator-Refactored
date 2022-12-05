@@ -1,21 +1,24 @@
 package incometaxcalculator.data.io;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 
-public abstract class InfoWriter extends FileWriter {
+public abstract class InfoWriter extends TaxFileWriter {
     
     public InfoWriter() {
-	super();
-	super.pathToWriteInfo += "\\resources\\INFO files\\";
+//	super();
+	super.pathToWriteInfo += "\\resources\\INFO files\\"; // dynamic apo to gui !!!!!!
     }
 
-    protected abstract String getFileName(int taxRegistrationNumber);
+//    protected abstract String getFileName(int taxRegistrationNumber);
+    protected abstract String getFileFormat();
 
     protected abstract List<String> getInfoTags();
 
@@ -23,37 +26,50 @@ public abstract class InfoWriter extends FileWriter {
 
     protected abstract String mergeTagWithData(String tag, String data);
 
-    protected abstract void writeReciptFooter(PrintWriter outputStream);
-
-    public void generateFile(int taxRegistrationNumber) throws IOException {
-	String namePath = pathToWriteInfo+ getFileName(taxRegistrationNumber);
-	java.io.FileWriter infoFile = new java.io.FileWriter(namePath);
+    protected abstract String getReceiptSeperatorHeader();
+    
+    protected abstract String getReceiptSeperatorFooter();
+    
+    public void updateInfoFile(List<String> taxpayerInfoData,
+	    Map<Integer, List<String>> receiptsDataOfTaxpayer ) throws IOException {
+	String namePath = pathToWriteInfo + taxpayerInfoData.get(1) + "_INFO."+ getFileFormat();
+	FileWriter infoFile = new FileWriter(namePath);
 	PrintWriter outputStream = new PrintWriter(infoFile);
-
-	List<String> infoData = getTaxpayerInfoData(taxRegistrationNumber); // common
+	writeTaxpayerInfoData(taxpayerInfoData, outputStream);
+	writeReceiptsData(receiptsDataOfTaxpayer, outputStream);	
+	outputStream.close();
+    }
+    
+    private void writeTaxpayerInfoData(List<String> infoData, PrintWriter outputStream) {
 	List<String> infoTags = getInfoTags();
 	List<String> taggedTaxpayerInfo = addTagsToData(infoTags, infoData);
 	writeTaggedDataToInfoFile(taggedTaxpayerInfo, outputStream);
-
+    }
+    
+    private void writeReceiptsData(Map<Integer, List<String>> receiptsDataOfTaxpayer,
+	    	PrintWriter outputStream) {
 	List<String> receiptTags = getReceiptTags();
-	List<Receipt> receiptsList = taxpayerManager.getReceiptListOfTaxpayer(taxRegistrationNumber); 
-	writeReceiptsToInfoFile(receiptTags, receiptsList, outputStream);
-	outputStream.close();
+	List<String> taggedReceipts = getTaggedReceiptsData(receiptTags, receiptsDataOfTaxpayer);
+	
+	outputStream.println();
+	outputStream.println(getReceiptSeperatorHeader());
+	outputStream.println();
+	writeTaggedDataToInfoFile(taggedReceipts, outputStream);
+	outputStream.print(getReceiptSeperatorFooter());
     }
-
-    private List<String> getTaxpayerInfoData(int taxRegistrationNumber) {
-	List<String> infoData = new ArrayList<String>();
-	infoData.add("" + taxpayerManager.getTaxpayerName(taxRegistrationNumber));
-	infoData.add("" + taxRegistrationNumber);
-//	infoData.add("" + taxpayerManager.getTaxpayerStatus(taxRegistrationNumber));
-	infoData.add("" + taxpayerManager.getTaxpayerCategoryName(taxRegistrationNumber));
-	infoData.add("" + taxpayerManager.getTaxpayerIncome(taxRegistrationNumber));
-	infoData.add("");
-	infoData.add("");
-	infoData.add("");
-	return infoData;
+    
+    private List<String> getTaggedReceiptsData(List<String> receiptTags,
+	    			Map<Integer, List<String>> receiptsDataMap) {
+	List<String> taggedReceipts = new ArrayList<String>();
+	for (Integer id : receiptsDataMap.keySet()) {
+	    List<String> receiptData = receiptsDataMap.get(id); // common
+	    List<String> taggedReceiptData = addTagsToData(receiptTags, receiptData);
+	    taggedReceipts.addAll(taggedReceiptData);
+	    taggedReceipts.add("");
+	}
+	return taggedReceipts;
     }
-
+  
     private List<String> addTagsToData(List<String> tags, List<String> data) {
 	List<String> mergedDataWithTags = new ArrayList<String>();
 	for (int i = 0; i < tags.size(); i++) {
@@ -63,35 +79,17 @@ public abstract class InfoWriter extends FileWriter {
 	return mergedDataWithTags;
     }
 
-    private void writeReceiptsToInfoFile(List<String> receiptTags, List<Receipt> receiptsList,
-	    PrintWriter outputStream) {
-	for (int i = 0; i < receiptsList.size(); i++) {
-	    List<String> receiptData = getReceiptData(receiptsList.get(i)); // common
-	    List<String> taggedReceipt = addTagsToData(receiptTags, receiptData);
-	    writeTaggedDataToInfoFile(taggedReceipt, outputStream);
-	}
-	writeReciptFooter(outputStream);
-    }
-
-    private List<String> getReceiptData(Receipt receipt) {
-	List<String> receiptData = new ArrayList<String>();
-	receiptData.add("" + receipt.getId());
-	receiptData.add("" + receipt.getIssueDate());
-	receiptData.add("" + receipt.getKind());
-	receiptData.add("" + receipt.getAmount());
-	receiptData.add("" + receipt.getCompanyName());
-	receiptData.add("" + receipt.getCompanyCountry());
-	receiptData.add("" + receipt.getCompanyCity());
-	receiptData.add("" + receipt.getCompanyStreet());
-	receiptData.add("" + receipt.getCompanyNumber());
-	receiptData.add("");
-	return receiptData;
-    }
-
     private void writeTaggedDataToInfoFile(List<String> infoLines, PrintWriter outputStream) {
 	for (String line : infoLines) {
 	    outputStream.println(line);
 	}
     }
+    
+    @Override
+    public void generateFile(int taxRegistrationNumber) throws IOException {
+	// TODO Auto-generated method stub
+	
+    }
+
 
 }

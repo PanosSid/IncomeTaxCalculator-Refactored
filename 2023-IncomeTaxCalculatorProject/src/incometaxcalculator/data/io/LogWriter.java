@@ -1,13 +1,15 @@
 package incometaxcalculator.data.io;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import incometaxcalculator.data.management.TaxpayerManager;
 
-public abstract class LogWriter extends FileWriter {
+public abstract class LogWriter extends TaxFileWriter {
    protected boolean taxIncrease; 
 
     public LogWriter() {
@@ -24,7 +26,7 @@ public abstract class LogWriter extends FileWriter {
     public void generateFile(int taxRegistrationNumber) throws IOException {
 //	String fileName = getFileName(taxRegistrationNumber);
 	String namePath = pathToWriteInfo+ getFileName(taxRegistrationNumber);
-	java.io.FileWriter logFile = new java.io.FileWriter(namePath);
+	FileWriter logFile = new FileWriter(namePath);
 	PrintWriter outputStream = new PrintWriter(logFile);
 	List<String> logData = getLogData(taxRegistrationNumber);
 	List<String> logTags = getLogTags();
@@ -76,6 +78,13 @@ public abstract class LogWriter extends FileWriter {
 //	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, HEALTH));
 //	logData.add("" + taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegistrationNumber, OTHER));
 	return logData;
+	
+    }
+    
+    @Override
+    public void updateInfoFile(List<String> taxpayerInfoData, Map<Integer, List<String>> receiptsDataOfTaxpayer)
+	    throws IOException {
+	// TODO Auto-generated method stub
 	
     }
     

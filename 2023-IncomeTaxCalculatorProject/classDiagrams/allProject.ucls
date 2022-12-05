@@ -4,7 +4,7 @@
   <class id="1" language="java" name="incometaxcalculator.data.management.Taxpayer" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/management/Taxpayer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="968" y="1100"/>    
+    <position height="-1" width="-1" x="2172" y="1340"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -14,7 +14,7 @@
   <class id="2" language="java" name="incometaxcalculator.data.management.TaxpayerManager" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/management/TaxpayerManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1030" y="278"/>    
+    <position height="-1" width="-1" x="2172" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -23,17 +23,17 @@
   </class>  
   <class id="3" language="java" name="incometaxcalculator.data.io.TXTLogWriter" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/TXTLogWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2745" y="851"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="89" width="160" x="3678" y="966"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="incometaxcalculator.data.io.FileReader" project="IncomeTaxCalculator" 
-    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/FileReader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="226" y="217"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+  <class id="4" language="java" name="incometaxcalculator.data.io.TaxFileReader" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/TaxFileReader.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="203" width="202" x="2998" y="-64"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -42,7 +42,7 @@
   <class id="5" language="java" name="incometaxcalculator.data.management.Receipt" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/management/Receipt.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1383" y="1108"/>    
+    <position height="-1" width="-1" x="1765" y="1328"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -51,8 +51,8 @@
   </class>  
   <class id="6" language="java" name="incometaxcalculator.data.io.XMLLogWriter" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/XMLLogWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2529" y="843"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="107" width="167" x="3453" y="961"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -60,8 +60,8 @@
   </class>  
   <class id="7" language="java" name="incometaxcalculator.data.io.XMLInfoWriter" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/XMLInfoWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1899" y="803"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="143" width="167" x="3007" y="973"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -69,8 +69,8 @@
   </class>  
   <class id="8" language="java" name="incometaxcalculator.data.io.InfoWriter" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/InfoWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2032" y="382"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="233" width="293" x="3105" y="633"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -78,8 +78,8 @@
   </class>  
   <class id="9" language="java" name="incometaxcalculator.data.io.LogWriter" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/LogWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2596" y="378"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="179" width="231" x="3484" y="668"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -87,158 +87,343 @@
   </class>  
   <class id="10" language="java" name="incometaxcalculator.data.io.TXTInfoWriter" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/TXTInfoWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2212" y="796"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="incometaxcalculator.data.io.FileWriter" project="IncomeTaxCalculator" 
-    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/FileWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2327" y="127"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="12" language="java" name="incometaxcalculator.data.io.FileReaderFactory" project="IncomeTaxCalculator" 
-    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/FileReaderFactory.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="99" width="201" x="489" y="421"/>    
+    <position height="143" width="160" x="3223" y="968"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="incometaxcalculator.data.io.TXTFileReader" project="IncomeTaxCalculator" 
+  <class id="11" language="java" name="incometaxcalculator.data.io.FileReaderFactory" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/FileReaderFactory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="95" width="161" x="2712" y="320"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="incometaxcalculator.data.io.TXTFileReader" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/TXTFileReader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="135" width="216" x="-89" y="532"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="131" width="193" x="3143" y="212"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="incometaxcalculator.data.io.XMLFileReader" project="IncomeTaxCalculator" 
+  <class id="13" language="java" name="incometaxcalculator.data.io.XMLFileReader" project="IncomeTaxCalculator" 
     file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/XMLFileReader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="341" y="593"/>    
+    <position height="112" width="198" x="2906" y="201"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="incometaxcalculator.data.config.AppConfig" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/data/config/AppConfig.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="131" width="284" x="2389" y="781"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="incometaxcalculator.data.management.TaxpayerCategory" 
+    project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/data/management/TaxpayerCategory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2542" y="1264"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="15">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <dependency id="16">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <generalization id="17">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="9"/>  
-  </generalization>  
-  <generalization id="18">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <dependency id="19">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <generalization id="20">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="21">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="9"/>  
-  </generalization>  
-  <generalization id="22">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="11"/>  
-  </generalization>  
-  <association id="23">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="24" name="taxpayerManager">        
+  <class id="16" language="java" name="incometaxcalculator.data.io.FileWriterFactory" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/FileWriterFactory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2995" y="519"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="incometaxcalculator.newGui.MainView" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/newGui/MainView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="247" x="909" y="150"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="incometaxcalculator.newGui.ReceiptFormView" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/newGui/ReceiptFormView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="976" y="608"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="incometaxcalculator.newGui.TaxpayerView" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/newGui/TaxpayerView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1286" y="800"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="incometaxcalculator.gui.ChartDisplay" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/gui/ChartDisplay.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1238" y="1142"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="incometaxcalculator.data.io.TaxFileWriter" project="IncomeTaxCalculator" 
+    file="/IncomeTaxCalculator/src/incometaxcalculator/data/io/TaxFileWriter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="3525" y="402"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="22">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="23" name="taxpayerManager">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="25" minimum="0" maximum="1">        
+      <multiplicity id="24" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="26">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <association id="27">    
+  <association id="25">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="28" name="taxpayerManager">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="26" name="taxpayerManager">        
+        <position height="0" width="0" x="1142" y="224"/>      
       </attribute>      
-      <multiplicity id="29" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="0" width="0" x="1142" y="224"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="30">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="11"/>  
-  </generalization>  
-  <association id="31">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="32" name="fileReaderFactory"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="34">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <association id="35">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="36" name="taxpayerHashMap">        
+  <association id="28">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="29" name="taxpayerView">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="37" minimum="0" maximum="2147483647">        
+      <multiplicity id="30" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="19" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="38">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="4"/>  
-  </dependency>  
-  <association id="39">    
+  <association id="31">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="40" name="receiptHashMap">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="32" name="receiptHashMap">        
+        <position height="0" width="0" x="382" y="220"/>      
       </attribute>      
-      <multiplicity id="41" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="33" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="382" y="220"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <dependency id="34">    
+    <bendpoint x="3076" y="705"/>    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <dependency id="36">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <association id="38">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="39" name="taxpayerManager">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="41">    
+    <bendpoint x="3058" y="380"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
   <dependency id="42">    
-    <end type="SOURCE" refId="8"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <generalization id="43">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <dependency id="44">    
+    <bendpoint x="3072" y="765"/>    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="45">    
+    <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
+  <association id="46">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="47" name="taxpayerCategoriesMap">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="48" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="49">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="50">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="51" name="fileReaderFactory">        
+        <position height="0" width="0" x="2275" y="17"/>      
+      </attribute>      
+      <multiplicity id="52" minimum="0" maximum="1">        
+        <position height="0" width="0" x="2275" y="17"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="53">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="54" name="taxpayerCategory">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="55" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="56">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="14"/>  
+  </dependency>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="21"/>  
+  </generalization>  
+  <dependency id="58">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="59">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="60" name="taxpayerHashMap">        
+        <position height="0" width="0" x="1204" y="240"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="1204" y="240"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="63" name="fileWriterFactory">        
+        <position height="0" width="0" x="5" y="-79"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="1">        
+        <position height="0" width="0" x="5" y="-79"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="66" name="appConfig">        
+        <position height="0" width="0" x="988" y="790"/>      
+      </attribute>      
+      <multiplicity id="67" minimum="0" maximum="1">        
+        <position height="0" width="0" x="988" y="790"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="69" name="taxpayerManager">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="70" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="71">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="72">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="73" name="taxpayerManager"/>      
+      <multiplicity id="74" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="75">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="20"/>  
+  </dependency>  
+  <generalization id="76">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="21"/>  
+  </generalization>  
+  <generalization id="77">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="78">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

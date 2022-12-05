@@ -5,7 +5,7 @@ import incometaxcalculator.exceptions.WrongFileEndingException;
 
 public class FileReaderFactory {
     
-    public FileReader createFileReader(String fileFormat) throws WrongFileEndingException {
+    public TaxFileReader createFileReader(String fileFormat) throws WrongFileEndingException {
 	if (fileFormat.equals("txt")) {
 	    return new TXTFileReader();
 	} else if (fileFormat.equals("xml")) {
