@@ -10,8 +10,9 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public class TXTLogWriter extends LogWriter {
 
-    public TXTLogWriter() {
-	super();
+    public TXTLogWriter(String fileNamePath) {
+	super(fileNamePath);
+	
     }
 
     @Override

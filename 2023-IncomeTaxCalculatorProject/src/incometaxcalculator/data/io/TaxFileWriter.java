@@ -11,11 +11,9 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class TaxFileWriter {
     protected TaxpayerManager taxpayerManager;
-    protected String pathToWriteInfo;   
     
     public TaxFileWriter() {
 	this.taxpayerManager = TaxpayerManager.getInstance();
-	pathToWriteInfo = System.getProperty("user.dir"); /// auto prepi na einai to location apo ekei pou to fortono
     }
 
     public abstract void generateFile(int taxRegistrationNumber) throws IOException;

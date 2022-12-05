@@ -11,10 +11,12 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class LogWriter extends TaxFileWriter {
    protected boolean taxIncrease; 
-
-    public LogWriter() {
+   protected String fileNamePath; 
+   
+    public LogWriter(String fileNamePath) {
 	super();
-	super.pathToWriteInfo += "\\resources\\LOG files\\";
+//	super.pathToWriteInfo += "\\resources\\LOG files\\";
+	this.fileNamePath = fileNamePath;
     }
     
     protected abstract String getFileName(int taxRegistrationNumber);
@@ -25,8 +27,10 @@ public abstract class LogWriter extends TaxFileWriter {
     
     public void generateFile(int taxRegistrationNumber) throws IOException {
 //	String fileName = getFileName(taxRegistrationNumber);
-	String namePath = pathToWriteInfo+ getFileName(taxRegistrationNumber);
-	FileWriter logFile = new FileWriter(namePath);
+//	String namePath = pathToWriteInfo+ getFileName(taxRegistrationNumber);
+//	FileWriter logFile = new FileWriter(namePath);
+	FileWriter logFile = new FileWriter(fileNamePath);
+	System.out.println(fileNamePath);
 	PrintWriter outputStream = new PrintWriter(logFile);
 	List<String> logData = getLogData(taxRegistrationNumber);
 	List<String> logTags = getLogTags();

@@ -12,8 +12,8 @@ import incometaxcalculator.data.management.TaxpayerManager;
 
 public class XMLInfoWriter extends InfoWriter {
 
-    public XMLInfoWriter() {
-	super();
+    public XMLInfoWriter(String fileNamePath) {
+	super(fileNamePath);
     }
 
     @Override

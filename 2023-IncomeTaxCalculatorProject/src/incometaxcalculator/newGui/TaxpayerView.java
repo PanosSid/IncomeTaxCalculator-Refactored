@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,10 +21,8 @@ import javax.swing.table.DefaultTableModel;
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileFormatException;
-import incometaxcalculator.exceptions.WrongReceiptKindException;
-import net.miginfocom.swing.MigLayout;
-
 import incometaxcalculator.gui.ChartDisplay;
+import net.miginfocom.swing.MigLayout;
 
 public class TaxpayerView {
     private JFrame frame;
@@ -122,7 +122,7 @@ public class TaxpayerView {
 	});
 	panel.add(addReceipt, "cell 0 7, grow");
     }
-    
+
     public void addNewReceiptToTable(String receiptIdDateAmount[]) {
 	receiptTableModel.addRow(receiptIdDateAmount);
     }
@@ -161,7 +161,7 @@ public class TaxpayerView {
 	});
 	panel.add(delReceipt, "cell 1 7, grow");
     }
-    
+
     private void addViewReportsButton() {
 	JButton viewReceipt = new JButton("View Report");
 	viewReceipt.addActionListener(new ActionListener() {
@@ -169,54 +169,62 @@ public class TaxpayerView {
 		ChartDisplay.createBarChart(taxpayerManager.getTaxpayerBasicTax(trn),
 			taxpayerManager.getTaxpayerVariationTaxOnReceipts(trn),
 			taxpayerManager.getTaxpayerTotalTax(trn));
-		ChartDisplay.createPieChart(
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Entertainment"),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Basic"),        
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Travel"),       
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Health"),       
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Other")
-			);       
+		ChartDisplay.createPieChart(taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Entertainment"),
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Basic"),
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Travel"),
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Health"),
+			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Other"));
 	    }
 	});
 	panel.add(viewReceipt, "cell 2 7, grow");
     }
-    
+
     private void addSaveLogButton() {
 	JButton saveLog = new JButton("Save Log");
 	saveLog.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		Object[] possibilities = {"txt","xml"};
-		String s = (String)JOptionPane.showInputDialog(
-		                    frame,
-		                    "Select the file format of LOG file",
-		                    "Save LOG", JOptionPane.PLAIN_MESSAGE, 
-		                    null, possibilities,
-		                    "txt");
 
-		//If a string was returned, say so.
-		if ((s != null) && (s.equals("txt"))) {
-		    try {
-			taxpayerManager.saveLogFile(trn, "txt");
-			JOptionPane.showMessageDialog(null,
-				"LOG file is saved succesfully.",
-				"Succesful LOG save", JOptionPane.INFORMATION_MESSAGE);
-		    } catch (IOException | WrongFileFormatException e1) {
-			e1.printStackTrace();
-		    }
-		} else if ((s != null) && s.equals("xml")) {
-		    try {
-			
-			taxpayerManager.saveLogFile(trn, "xml");
-			JOptionPane.showMessageDialog(null,
-				    "LOG file is saved succesfully.",
-				    "Succesful LOG save", JOptionPane.INFORMATION_MESSAGE);
-		    } catch (IOException | WrongFileFormatException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		    }
-		} 
+		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "\\resources\\LOG files\\");
+		chooser.setDialogTitle("Select Destistation Directory For LOG file");
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+		int userSelection = chooser.showOpenDialog(frame);
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+//		    chooser.setSelectedFile(null);
+		    File fileToSave = chooser.getSelectedFile();
+		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+//		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+		    openSelectFileTypeToBeSaved(fileToSave.getAbsolutePath());
+		}
 	    }
 	});
 	panel.add(saveLog, "cell 3 7, grow");
+    }
+
+    private void openSelectFileTypeToBeSaved(String filePath) {
+	
+	Object[] possibilities = { "txt", "xml" };
+	String s = (String) JOptionPane.showInputDialog(frame, "Select the file format of LOG file", "Save LOG",
+		JOptionPane.PLAIN_MESSAGE, null, possibilities, "txt");
+	if ((s != null) && (s.equals("txt"))) {
+	    try {
+		taxpayerManager.saveLogFile(trn, filePath, "txt");
+		JOptionPane.showMessageDialog(null, "LOG file "+trn+"_LOG.txt is saved succesfully to directory : "+filePath, "Succesful LOG save",
+			JOptionPane.INFORMATION_MESSAGE);
+	    } catch (IOException | WrongFileFormatException e1) {
+		e1.printStackTrace();
+	    }
+	} else if ((s != null) && s.equals("xml")) {
+	    try {
+
+		taxpayerManager.saveLogFile(trn, filePath, "xml");
+		JOptionPane.showMessageDialog(null, "LOG file is saved succesfully.", "Succesful LOG save",
+			JOptionPane.INFORMATION_MESSAGE);
+	    } catch (IOException | WrongFileFormatException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	    }
+	}
     }
 }

@@ -11,10 +11,11 @@ import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 
 public abstract class InfoWriter extends TaxFileWriter {
+    protected String fileNamePath;
     
-    public InfoWriter() {
+    public InfoWriter(String fileNamePath) {
 //	super();
-	super.pathToWriteInfo += "\\resources\\INFO files\\"; // dynamic apo to gui !!!!!!
+	this.fileNamePath = fileNamePath;
     }
 
 //    protected abstract String getFileName(int taxRegistrationNumber);
@@ -32,8 +33,7 @@ public abstract class InfoWriter extends TaxFileWriter {
     
     public void updateInfoFile(List<String> taxpayerInfoData,
 	    Map<Integer, List<String>> receiptsDataOfTaxpayer ) throws IOException {
-	String namePath = pathToWriteInfo + taxpayerInfoData.get(1) + "_INFO."+ getFileFormat();
-	FileWriter infoFile = new FileWriter(namePath);
+	FileWriter infoFile = new FileWriter(fileNamePath);
 	PrintWriter outputStream = new PrintWriter(infoFile);
 	writeTaxpayerInfoData(taxpayerInfoData, outputStream);
 	writeReceiptsData(receiptsDataOfTaxpayer, outputStream);	

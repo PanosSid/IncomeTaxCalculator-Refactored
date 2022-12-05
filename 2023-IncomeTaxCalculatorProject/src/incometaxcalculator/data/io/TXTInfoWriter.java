@@ -15,10 +15,9 @@ import incometaxcalculator.tags.TXTInfoTags;
 public class TXTInfoWriter extends InfoWriter {
     private List<String> txtInfoTags;
 
-    public TXTInfoWriter() {
-	super();
+    public TXTInfoWriter(String fileNamePath) {
+	super(fileNamePath);
 	txtInfoTags = new TXTInfoTags().getInfoTags();
-	
     }
     
     @Override
