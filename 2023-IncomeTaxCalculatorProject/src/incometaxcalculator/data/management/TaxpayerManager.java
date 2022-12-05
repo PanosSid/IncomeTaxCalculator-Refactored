@@ -31,7 +31,7 @@ public class TaxpayerManager {
     private FileWriterFactory fileWriterFactory; 
     private FileReaderFactory fileReaderFactory;
     public AppConfig appConfig ;
-    private Map<Integer, String> filePathsOfTaxpayer; 
+    private Map<Integer, String> filePathsOfTaxpayer;	// value = file path without file extention
     
     private TaxpayerManager() {
 	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
@@ -70,11 +70,52 @@ public class TaxpayerManager {
 	String fileType = ending[1];
 	String filePathWithoutFileFormat = ending[0];
 	TaxFileReader fileReader = fileReaderFactory.createFileReader(fileType);
-//	filePathsOfTaxpayer.put(, fileName);
 	int trn = getTaxRegNumFromFileNamePath(fileName);
 	filePathsOfTaxpayer.put(trn, filePathWithoutFileFormat);
-	fileReader.readTaxpayerAndReceipts(fileName, trn);
-//	fileReader.readFile(fileName);
+	Map<String, List<String>> infoFileContents = fileReader.readTaxpayerAndReceipts(fileName, trn);
+	laodReadTaxpayer(trn, infoFileContents);
+    }
+    
+    private void laodReadTaxpayer(int trn, Map<String, List<String>> infoFileContents) 
+	    	throws TaxpayerAlreadyLoadedException, WrongReceiptDateException, WrongReceiptKindException {
+	loadTaxpayerData(infoFileContents.get("taxpayerInfo"));
+	infoFileContents.remove("taxpayerInfo");
+	loadReceiptsData(trn, infoFileContents);
+    }
+    
+    private void loadTaxpayerData(List<String> taxpayerInfoData) throws TaxpayerAlreadyLoadedException {
+	String fullname = taxpayerInfoData.get(0);
+	int taxRegNum = Integer.parseInt(taxpayerInfoData.get(1));
+	String status = taxpayerInfoData.get(2);
+	float income = Float.parseFloat(taxpayerInfoData.get(3));
+	if (!taxpayerHashMap.containsKey(taxRegNum)) {
+	    TaxpayerCategory taxpayerCategory = appConfig.getTaxpayerCategoryByName(status);
+	    Taxpayer taxpayer = new Taxpayer(fullname, taxRegNum, income, taxpayerCategory);
+	    taxpayerHashMap.put(taxRegNum, taxpayer);  
+	} else {
+	    throw new TaxpayerAlreadyLoadedException();
+	}
+    }
+    
+    private void loadReceiptsData(int taxRegNum, Map<String, List<String>> receiptsMap) 
+	    throws WrongReceiptDateException, WrongReceiptKindException {
+	for (String strId : receiptsMap.keySet()) {
+	    List<String> receiptData = receiptsMap.get(strId);
+	    int receiptId = Integer.parseInt(receiptData.get(0));
+	    String issueDate = receiptData.get(1);
+	    String kind = receiptData.get(2);
+	    float amount = Float.parseFloat(receiptData.get(3));
+	    String companyName = receiptData.get(4);
+	    String country = receiptData.get(5);
+	    String city = receiptData.get(6);
+	    String street = receiptData.get(7);
+	    int number = Integer.parseInt(receiptData.get(8));
+	    Company company = new Company(companyName, country, city, street, number);
+	    Receipt receipt = new Receipt(receiptId, issueDate, amount, kind, company);
+	    Taxpayer taxpayer = taxpayerHashMap.get(taxRegNum);
+	    taxpayer.addReceipt(receipt);	    
+	}
+	
     }
     
     public void getInfoFilePathOfTaxpayer(int trn, String newFilePath) {
@@ -138,8 +179,10 @@ public class TaxpayerManager {
 //	    String filename = "\\resources\\INFO files\\"+taxRegistrationNumber + "_INFO." + fileFormats[i];
 	    File infoFile = new File(filename);
 	    if (infoFile.exists()) {
-		TaxFileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i]);
 //		infoWriter.generateFile(taxRegistrationNumber);
+//		TaxFileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileFormats[i]);
+		String fileNamePath = filePathsOfTaxpayer.get(taxRegistrationNumber);
+		TaxFileWriter infoWriter = fileWriterFactory.createInfoFileWriter(fileNamePath, fileFormats[i]);
 		Map<Integer, List<String>> receiptsDataOfTaxpayer = taxpayerHashMap.get(taxRegistrationNumber).getReceiptsDataOfTaxpayer();
 		List<String> taxpayerInfoData  = taxpayerHashMap.get(taxRegistrationNumber).getTaxpayerInfoData();
 		infoWriter.updateInfoFile(taxpayerInfoData, receiptsDataOfTaxpayer);
@@ -147,9 +190,13 @@ public class TaxpayerManager {
 	}
     }
 
-    public void saveLogFile(int taxRegistrationNumber, String fileFormat) throws IOException, WrongFileFormatException {
-	TaxFileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat);
-	fileWriter.generateFile(taxRegistrationNumber);
+    public void saveLogFile(int taxRegNum, String filePath, String fileFormat) throws IOException, WrongFileFormatException {
+//	String fileNamePath = filePathsOfTaxpayer.get(taxRegNum).replaceFirst("_INFO", "_LOG");
+	filePath = filePath + "\\"+taxRegNum+"_LOG";
+	System.out.println(filePath);
+	TaxFileWriter logWriter = fileWriterFactory.createLogFileWriter(filePath, fileFormat);
+//	TaxFileWriter fileWriter = fileWriterFactory.createLogFileWriter(fileFormat);
+	logWriter.generateFile(taxRegNum);
     }
 
     public Taxpayer getTaxpayer(int taxRegistrationNumber) {

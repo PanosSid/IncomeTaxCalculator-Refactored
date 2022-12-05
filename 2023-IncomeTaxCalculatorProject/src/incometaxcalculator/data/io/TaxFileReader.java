@@ -2,19 +2,21 @@ package incometaxcalculator.data.io;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
 import incometaxcalculator.data.management.TaxpayerManager;
-import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongFileReceiptSeperatorException;
+import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 
 public abstract class TaxFileReader {
-    private TaxpayerManager taxpayerManager;
-
-    public TaxFileReader() {
-	this.taxpayerManager = TaxpayerManager.getInstance();
-    }
+    
+    public TaxFileReader() {}
 
     protected abstract boolean checkReceiptSeperatorTag(String receiptSeperator);
 
@@ -22,7 +24,7 @@ public abstract class TaxFileReader {
 
     protected abstract String getFieldFromLine(String fieldsLine) throws WrongFileFormatException;
 
-    public void readTaxpayerAndReceipts(String fileName, int taxRegNum) throws Exception {
+    public Map<String, List<String>> readTaxpayerAndReceipts(String fileName, int taxRegNum) throws Exception {
 	Scanner inputStream = null;
 	try {
 	    inputStream = new Scanner(new FileInputStream(fileName));
@@ -31,45 +33,58 @@ public abstract class TaxFileReader {
 	    System.out.println("Problem opening file: " + fileName);
 	    System.exit(0);
 	}
-	readTaxapyerInfo(inputStream, taxRegNum);
-	readReceiptsOfTaxpayer(inputStream, taxRegNum);
+	List<String> taxpayerInfoData = readTaxapyerInfo(inputStream, taxRegNum);
+	Map<String, List<String>> taxpayerAndReceiptsData = readReceiptsOfTaxpayer(inputStream, taxRegNum);
+	taxpayerAndReceiptsData.put("taxpayerInfo", taxpayerInfoData);
+	return taxpayerAndReceiptsData;	
     }
 
-    private void readTaxapyerInfo(Scanner inputStream, int taxRegNum) throws Exception {
+    private List<String> readTaxapyerInfo(Scanner inputStream, int taxRegNum) throws Exception {
 	String fullname = getFieldFromLine(inputStream.nextLine());
-	int trn = Integer.parseInt(getFieldFromLine(inputStream.nextLine()));
-	if (trn != taxRegNum) {
+	String trn = getFieldFromLine(inputStream.nextLine());
+	if (Integer.parseInt(trn) != taxRegNum) {
 	    throw new Exception("Filename tax registration number is not equal to the one in the file");
 	}
 	String status = getFieldFromLine(inputStream.nextLine());
-	float income = Float.parseFloat(getFieldFromLine(inputStream.nextLine()));
+	String income = getFieldFromLine(inputStream.nextLine());
 	inputStream.nextLine(); // skip a line
-	taxpayerManager.createTaxpayer(fullname, taxRegNum, status, income);
+	return getDataAsAListOfStrings(fullname, trn, status, income);
     }
 
-    private void readReceiptsOfTaxpayer(Scanner inputStream, int taxRegNum) throws WrongFileReceiptSeperatorException,
-	    WrongFileFormatException, WrongReceiptKindException, WrongReceiptDateException {
+    private Map<String, List<String>> readReceiptsOfTaxpayer(Scanner inputStream, int taxRegNum)
+	    throws WrongFileReceiptSeperatorException, WrongFileFormatException, WrongReceiptKindException, WrongReceiptDateException {
 	String receiptSeperator = inputStream.nextLine();
 	if (!checkReceiptSeperatorTag(receiptSeperator))
 	    throw new WrongFileReceiptSeperatorException();
 	inputStream.nextLine(); // skip a line
+	
+	HashMap<String, List<String>> receiptMap = new HashMap<String, List<String>>();
 	while (inputStream.hasNextLine()) {
 	    String line = inputStream.nextLine();
 	    if (!hasAnotherReceipt(line))
 		break;
-	    int receiptId = Integer.parseInt(getFieldFromLine(line));
+	    String receiptId = getFieldFromLine(line);
 	    String issueDate = getFieldFromLine(inputStream.nextLine());
 	    String kind = getFieldFromLine(inputStream.nextLine());
-	    float amount = Float.parseFloat(getFieldFromLine(inputStream.nextLine()));
+	    String amount = getFieldFromLine(inputStream.nextLine());
 	    String companyName = getFieldFromLine(inputStream.nextLine());
 	    String country = getFieldFromLine(inputStream.nextLine());
 	    String city = getFieldFromLine(inputStream.nextLine());
 	    String street = getFieldFromLine(inputStream.nextLine());
-	    int number = Integer.parseInt(getFieldFromLine(inputStream.nextLine()));
-	    taxpayerManager.createReceipt(receiptId, issueDate, amount, kind, companyName, country, city, street,
-		    number, taxRegNum);
+	    String number = getFieldFromLine(inputStream.nextLine());
 	    inputStream.nextLine(); // skip a line
+	    receiptMap.put(receiptId, getDataAsAListOfStrings(receiptId, issueDate, kind, amount,
+		    companyName, country, city, street, number));
 	}
+	return receiptMap;
+    }
+    
+    private List<String> getDataAsAListOfStrings(String... data){
+	List<String> taxpayerInfoData =  new ArrayList<String>();
+	for (String d : data) {
+	    taxpayerInfoData.add(d);
+	}
+	return taxpayerInfoData;
     }
 
 }

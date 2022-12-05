@@ -1,0 +1,37 @@
+Name: Robert Martin
+AFM: 111111111
+Status: Married Filing Jointly
+Income: 100000.0
+
+Receipts:
+
+Receipt ID: 1
+Date: 10/10/2010
+Kind: Basic
+Amount: 100.0
+Company: aCompany1
+Country: aCountry1
+City: aCity1
+Street: aStreet1
+Number: 10
+
+Receipt ID: 2
+Date: 20/2/2020
+Kind: Travel
+Amount: 200.0
+Company: aCompany2
+Country: aCountry2
+City: aCity2
+Street: aStreet2
+Number: 20
+
+Receipt ID: 3
+Date: 30/3/2003
+Kind: Basic
+Amount: 300.0
+Company: aCompany1
+Country: aCountry1
+City: aCity1
+Street: aStreet1
+Number: 10
+
