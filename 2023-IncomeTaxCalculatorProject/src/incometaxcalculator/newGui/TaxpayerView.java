@@ -21,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileFormatException;
-import incometaxcalculator.gui.ChartDisplay;
 import net.miginfocom.swing.MigLayout;
 
 public class TaxpayerView {

@@ -180,7 +180,7 @@ public class MainView {
 //		    chooser.addChoosableFileFilter(new FileNameExtensionFilter("INFO", "txt"));
 //		    chooser.addChoosableFileFilter(new FileNameExtensionFilter("INFO", "xml"));
 		    chooser.setFileFilter(new InfoFileFilter());
-		    chooser.setAcceptAllFileFilterUsed(false);
+//		    chooser.setAcceptAllFileFilterUsed(false);	// TODO AYTO NA TO BALO GIA TO TELIKO
 		    if (chooser.showOpenDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
 			File file = chooser.getSelectedFile();
                          if (file == null) {

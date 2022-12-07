@@ -49,6 +49,8 @@ public class AcceptanceTests {
 	taxpayerManager.createTaxpayer("Robert Martin", 111111111, "Married Filing Jointly", (float) 100000.0);
 	taxpayerManager.changeInfoFilePathOfTaxpayer(111111111, projectPath+"\\resources\\INFO files\\"+"111111111_INFO");
 	
+	
+	
 	taxpayerManager.createReceipt(1, "10/10/2010", (float) 100.0, "Basic", "aCompany1", "aCountry1", "aCity1",
 		"aStreet1", 10, 111111111);
 	taxpayerManager.createReceipt(2, "20/2/2020", (float) 200.0, "Travel", "aCompany2", "aCountry2", "aCity2",

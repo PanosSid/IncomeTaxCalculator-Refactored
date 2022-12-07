@@ -1,4 +1,4 @@
-package incometaxcalculator.gui;
+package incometaxcalculator.newGui;
 
 import java.awt.BorderLayout;
 
