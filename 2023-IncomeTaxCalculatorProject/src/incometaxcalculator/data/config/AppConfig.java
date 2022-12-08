@@ -23,9 +23,7 @@ public class AppConfig {
     private static List<String> receiptKinds;
     public Map<String ,TaxpayerCategory> taxpayerCategoriesMap;
     public Map<String, FileTags> fileTagsMap;
-    
-//    private String tagFileNamePath;
-//    private List<TaxpayerCategory> taxpayerCategories;
+
 
     public AppConfig() {
 	receiptKinds = new ArrayList<String>();

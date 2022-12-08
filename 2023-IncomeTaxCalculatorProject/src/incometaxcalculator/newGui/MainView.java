@@ -26,6 +26,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import incometaxcalculator.data.management.MainManager;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.TaxpayerAlreadyLoadedException;
 import incometaxcalculator.exceptions.WrongFileEndingException;
@@ -39,16 +40,18 @@ import net.miginfocom.swing.MigLayout;
 
 public class MainView {
     
+    private MainManager mainManager;
+    private TaxpayerManager taxpayerManager;
     private JFrame mainFrame;
     private JPanel mainPanel;
     private JLabel welcomeLabel;
     private JTable loadedTaxpayersTable;
-    private TaxpayerManager taxpayerManager;
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
     
     public MainView(String text) {
-	taxpayerManager = TaxpayerManager.getInstance();
+	mainManager = MainManager.getInstance();
+	taxpayerManager = mainManager.getTaxpayerManger();
         initialize();    
     }
 
@@ -152,7 +155,7 @@ public class MainView {
  			    "Are you sure you want to remove selected Taxpayer from the List?", "Remove Taxpayer?",
  			    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
  		    if (result == JOptionPane.YES_OPTION) {
- 			taxpayerManager.removeTaxpayer(trn);
+ 			mainManager.removeTaxpayer(trn);
  			tableModel.removeRow(loadedTaxpayersTable.getSelectedRow());
  		    } 		    
  		}
@@ -188,7 +191,7 @@ public class MainView {
                          }
                          String fileName = chooser.getSelectedFile().getAbsolutePath();
                          try {
-			    taxpayerManager.loadTaxpayer(fileName);
+                             mainManager.loadTaxpayer(fileName);
 			    addNewTaxpayerToLoadedTable();
 			    JOptionPane.showMessageDialog(null, "File: "+file.getName()+" was loaded succesfully.", "Succesful Load", JOptionPane.INFORMATION_MESSAGE);
 			} catch (NumberFormatException | IOException | WrongFileFormatException

@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import incometaxcalculator.data.management.MainManager;
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.WrongFileFormatException;
@@ -26,6 +27,7 @@ import net.miginfocom.swing.MigLayout;
 public class TaxpayerView {
     private JFrame frame;
     private JPanel panel;
+    private MainManager mainManager;
     private TaxpayerManager taxpayerManager;
     private int trn;
     private JTable receiptsTable;
@@ -33,8 +35,8 @@ public class TaxpayerView {
 
     public TaxpayerView(int trn) {
 	this.trn = trn;
-	this.taxpayerManager = TaxpayerManager.getInstance();
-	taxpayerManager = TaxpayerManager.getInstance();
+	mainManager = MainManager.getInstance();
+	taxpayerManager = mainManager.getTaxpayerManger();
 	initialize();
     }
 
@@ -140,7 +142,7 @@ public class TaxpayerView {
 			    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		    if (result == JOptionPane.YES_OPTION) {
 			try {
-			    taxpayerManager.deleteReceiptFromTaxpayer(id, trn);
+			    mainManager.deleteReceiptFromTaxpayer(id, trn);
 //			    taxpayerManager.removeReceipt(id);
 			    receiptTableModel.removeRow(receiptsTable.getSelectedRow());
 			    JOptionPane.showMessageDialog(null,
@@ -164,7 +166,18 @@ public class TaxpayerView {
     private void addViewReportsButton() {
 	JButton viewReceipt = new JButton("View Report");
 	viewReceipt.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
+//	    public void actionPerformed(ActionEvent e) {
+//		ChartDisplay.createBarChart(taxpayerManager.getTaxpayerBasicTax(trn),
+//			taxpayerManager.getTaxpayerVariationTaxOnReceipts(trn),
+//			taxpayerManager.getTaxpayerTotalTax(trn));
+//		ChartDisplay.createPieChart(taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Entertainment"),
+//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Basic"),
+//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Travel"),
+//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Health"),
+//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Other"));
+//	    }
+//	});
+		public void actionPerformed(ActionEvent e) {
 		ChartDisplay.createBarChart(taxpayerManager.getTaxpayerBasicTax(trn),
 			taxpayerManager.getTaxpayerVariationTaxOnReceipts(trn),
 			taxpayerManager.getTaxpayerTotalTax(trn));
@@ -208,7 +221,7 @@ public class TaxpayerView {
 		JOptionPane.PLAIN_MESSAGE, null, possibilities, "txt");
 	if ((s != null) && (s.equals("txt"))) {
 	    try {
-		taxpayerManager.saveLogFile(trn, filePath, "txt");
+		mainManager.saveLogFile(trn, filePath, "txt");
 		JOptionPane.showMessageDialog(null, "LOG file "+trn+"_LOG.txt is saved succesfully to directory : "+filePath, "Succesful LOG save",
 			JOptionPane.INFORMATION_MESSAGE);
 	    } catch (IOException | WrongFileFormatException e1) {
@@ -217,7 +230,7 @@ public class TaxpayerView {
 	} else if ((s != null) && s.equals("xml")) {
 	    try {
 
-		taxpayerManager.saveLogFile(trn, filePath, "xml");
+		mainManager.saveLogFile(trn, filePath, "xml");
 		JOptionPane.showMessageDialog(null, "LOG file is saved succesfully.", "Succesful LOG save",
 			JOptionPane.INFORMATION_MESSAGE);
 	    } catch (IOException | WrongFileFormatException e1) {

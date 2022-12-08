@@ -22,6 +22,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import incometaxcalculator.data.config.AppConfig;
+import incometaxcalculator.data.management.MainManager;
 import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
@@ -29,7 +30,8 @@ import incometaxcalculator.exceptions.WrongReceiptKindException;
 import net.miginfocom.swing.MigLayout;
 
 public class ReceiptFormView {
-    private TaxpayerManager taxpayerManager;
+//    private TaxpayerManager taxpayerManager;
+    private MainManager mainManager;
     private TaxpayerView taxpayerView;
     private JFrame frame;
     private JPanel panel;
@@ -40,7 +42,8 @@ public class ReceiptFormView {
     public ReceiptFormView(int trn, TaxpayerView taxpayerView) {
 	this.trn = trn;
 	this.taxpayerView = taxpayerView;
-	taxpayerManager = TaxpayerManager.getInstance();
+	mainManager = MainManager.getInstance();
+//	taxpayerManager = TaxpayerManager.getInstance();
 	componentMap = new HashMap<String, JComponent>();
 	frame = new JFrame("Add new Receipt");
 	frame.setSize(300, 400);
@@ -106,7 +109,7 @@ public class ReceiptFormView {
 		String streetValue = ((JTextField) componentMap.get("Street")).getText();
 		String cityValue = ((JTextField) componentMap.get("City")).getText();
 		try {
-		    taxpayerManager.addReceipt(receiptIDValue, dateValue, amountValue, kindValue, companyValue,
+		    mainManager.addReceiptToTaxpayer(receiptIDValue, dateValue, amountValue, kindValue, companyValue,
 		    	countryValue, cityValue, streetValue, numberValue, trn);
 		    String[] receiptContets = {""+receiptIDValue, dateValue, ""+amountValue};
 		    taxpayerView.addNewReceiptToTable(receiptContets);

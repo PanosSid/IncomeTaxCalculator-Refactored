@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import incometaxcalculator.data.config.AppConfig;
 import incometaxcalculator.data.management.Company;
+import incometaxcalculator.data.management.MainManager;
 import incometaxcalculator.data.management.Receipt;
 import incometaxcalculator.data.management.Taxpayer;
 import incometaxcalculator.data.management.TaxpayerManager;
@@ -35,7 +36,8 @@ import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
 public class AcceptanceTests {
     
     private TaxpayerManager taxpayerManager;
-    
+    private MainManager mainManager = MainManager.getInstance();
+    private Taxpayer taxpayer;
     private int taxRegNum = 111111111;
     private String[] fileFormats = TestFileContents.fileFormats;	// TODO get from gloabl proin from app
     private Map<String, File> testInfoFilesMap = new HashMap<String, File>();
@@ -44,10 +46,11 @@ public class AcceptanceTests {
 
     public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException, WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	super();
-	this.taxpayerManager = TaxpayerManager.getInstance();
+	this.taxpayerManager = new TaxpayerManager(); /*TaxpayerManager.getInstance();*/
 	taxpayerManager.getTaxpayerHashMap().put(taxRegNum, getExpectedTaxpayerID1());
-	taxpayerManager.getFilePathsMap().put(taxRegNum, TEST_RESOURCES_PATH+"111111111_INFO");
-
+//	taxpayerManager.getFilePathsMap().put(taxRegNum, TEST_RESOURCES_PATH+"111111111_INFO");
+	mainManager.setTaxpayerManager(taxpayerManager);
+	
 	File testedInfoTxt = new File(TEST_RESOURCES_PATH+"111111111_INFO.txt");
 	File testedInfoXml = new File(TEST_RESOURCES_PATH+"111111111_INFO.xml");
 	testInfoFilesMap.put("txt", testedInfoTxt);
@@ -75,10 +78,10 @@ public class AcceptanceTests {
 	}
     }
 
-    @After
-    public void destroyTaxpayerManager() {
-	TaxpayerManager.tearDownTaxpayerManager();
-    }
+//    @After
+//    public void destroyTaxpayerManager() {
+//	TaxpayerManager.tearDownTaxpayerManager();
+//    }
     
     @AfterClass
     public static void tearDown() {
@@ -94,11 +97,13 @@ public class AcceptanceTests {
     @Test
     public void testUC1LoadTaxpayer()
 	    throws Exception {
-
+//	MainManager mainManager = new MainManager();
 	for (String fType : fileFormats) {
 	    String filename = TEST_RESOURCES_PATH + taxRegNum + "_INFO." + fType;
 	    try {
-		taxpayerManager.loadTaxpayer(filename);
+//		taxpayerManager.loadTaxpayer(filename);
+		mainManager.loadTaxpayer(filename);
+		
 	    } catch (TaxpayerAlreadyLoadedException e) {
 		// TODO fix this ugly hack
 	    }
@@ -126,8 +131,7 @@ public class AcceptanceTests {
     }
 
     @Test
-    public void testUC3AddReceiptToTaxpayer() throws WrongReceiptDateException, IOException, WrongReceiptKindException,
-	    ReceiptAlreadyExistsException, InterruptedException {
+    public void testUC3AddReceiptToTaxpayer() throws Exception {
 	int receiptId = 3;
 	String issueDate = "30/3/2003";
 	float amount = (float) 300.0;
@@ -140,10 +144,16 @@ public class AcceptanceTests {
 	String street = company1.getStreet();
 	int number = company1.getNumber();
 	
-	taxpayerManager.addReceiptToTaxpayer(receiptId, issueDate, amount, kind, companyName, country, city, street, number,
-		taxRegNum);
+	mainManager.getTaxFileManager().addFilePathToMap(taxRegNum, TEST_RESOURCES_PATH+"111111111_INFO");
+//	mainManager.loadTaxpayer(TEST_RESOURCES_PATH+"111111111_INFO"+".txt");
+	
+	mainManager.addReceiptToTaxpayer(receiptId, issueDate, amount, kind,
+		companyName, country, city, street, number,taxRegNum);
+//	taxpayerManager.addReceiptToTaxpayer(receiptId, issueDate, amount, kind, companyName, country, city, street, number,
+//		taxRegNum);
 
-	HashMap<Integer, Receipt> receiptHashMap = taxpayerManager.getReceiptHashMap(taxRegNum);
+//	HashMap<Integer, Receipt> receiptHashMap = taxpayerManager.getReceiptHashMap(taxRegNum);
+	HashMap<Integer, Receipt> receiptHashMap = mainManager.getTaxpayerManger().getReceiptHashMap(taxRegNum);
 	Receipt addedReceipt = receiptHashMap.get(receiptId);
 
 	Assert.assertEquals(receipt3, addedReceipt);
@@ -155,11 +165,14 @@ public class AcceptanceTests {
 	    String expectedInfoContents = TestFileContents.getTestFileContents(currentFType, "add");
 	    Assert.assertEquals(expectedInfoContents, actualInfoContents);
 	}
+	
+	mainManager.removeTaxpayer(taxRegNum);
     }
 
     @Test
     public void testUC4DeleteReceiptOfTaxpayer() throws Exception {
-	taxpayerManager.deleteReceiptFromTaxpayer(2, taxRegNum);
+	mainManager.getTaxFileManager().addFilePathToMap(taxRegNum, TEST_RESOURCES_PATH+"111111111_INFO");
+	mainManager.deleteReceiptFromTaxpayer(2, taxRegNum);
 	for (int i = 0; i < fileFormats.length; i++) {
 	    String currentFType = fileFormats[i];
 	    File testedFile = testInfoFilesMap.get(currentFType);
@@ -173,7 +186,8 @@ public class AcceptanceTests {
     public void testUC6StoreTaxpayerLog() throws IOException, WrongFileFormatException {
 	for (int i = 0; i < fileFormats.length; i++) {
 	    String currentFtype = fileFormats[i];
-	    taxpayerManager.saveLogFile(taxRegNum,TEST_RESOURCES_PATH, currentFtype);
+	    mainManager.saveLogFile(taxRegNum, TEST_RESOURCES_PATH,  fileFormats[i]);
+//	    taxpayerManager.saveLogFile(taxRegNum,TEST_RESOURCES_PATH, currentFtype);
 	    String logFilename = taxRegNum + "_LOG." + currentFtype;
 	    File logFile = new File(TEST_RESOURCES_PATH+ logFilename);
 	    boolean logFileExists = logFile.exists();
@@ -187,9 +201,9 @@ public class AcceptanceTests {
 
     @Test
     public void testUC7RemoveTaxpayerFromList() throws WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
-	
-	taxpayerManager.getTaxpayerHashMap().put(333333333, new Taxpayer("Will Deleted", 333333333, 300000, null));
-	taxpayerManager.getFilePathsMap().put(333333333, TEST_RESOURCES_PATH + "333333333_INFO");
+	mainManager.getTaxpayerManger().getTaxpayerHashMap().put(333333333, new Taxpayer("Will Deleted", 333333333, 300000, null));
+	mainManager.getTaxFileManager().setFileMapEntry(333333333, TEST_RESOURCES_PATH + "333333333_INFO");
+
 	taxpayerManager.removeTaxpayer(222222222);
 	Taxpayer returnedTaxpayer = taxpayerManager.getTaxpayer(222222222);
 	Assert.assertEquals(null, returnedTaxpayer);
@@ -197,6 +211,8 @@ public class AcceptanceTests {
 
     @Test
     public void testUC5CalculateTaxCharts() {
+//	fail("not implemented yet");
+	
 	double expectedBasicTax = 6436.64;
 	double expectedTaxIncrease = 514.9312;
 	double expectedTotalTax = expectedBasicTax + expectedTaxIncrease;
@@ -209,7 +225,7 @@ public class AcceptanceTests {
 	Assert.assertEquals(expectedTaxIncrease, actualTaxIncrease, 0.0);
 	Assert.assertEquals(expectedTotalTax, actualTotalTax, 0.0);
 
-
+	TaxpayerManager taxpayerManager = mainManager.getTaxpayerManger();
 	
 	List<String> receiptKinds = AppConfig.getReceiptKinds();
 //	for (String kind : receiptKinds) {
