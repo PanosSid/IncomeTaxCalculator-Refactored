@@ -6,18 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import incometaxcalculator.tags.FileTags;
+import incometaxcalculator.tags.DataTagger;
+import incometaxcalculator.tags.GenericTags;
 
 public class TaxFileManager {
     private Map<Integer, String> filePathsMap;
-    private Map<String, FileTags> fileTagsMap;
+    private Map<String, GenericTags> genTagsMap;
 
     public TaxFileManager() {
 	super();
-	filePathsMap = new HashMap<Integer, String>();
-	fileTagsMap = new HashMap<String, FileTags>();
-	fileTagsMap.put("txt", new FileTags("txt"));
-	fileTagsMap.put("xml", new FileTags("xml"));
+	filePathsMap = new HashMap<Integer, String>();	
+	genTagsMap = new HashMap<String, GenericTags>();
+	genTagsMap.put("txt", new GenericTags("txt"));
+	genTagsMap.put("xml", new GenericTags("xml"));
     }
     
     public void addFilePathToMap(int trn, String filePath) {
@@ -26,12 +27,13 @@ public class TaxFileManager {
 
     public Map<String, List<String>> readTaxpayerFromFile(String fileNamePath) throws Exception {
 	String ending[] = fileNamePath.split("\\.");
-	String fileType = ending[1];
+	String fileFormat = ending[1];
 	String filePathWithoutFileFormat = ending[0];
 	int trn = getTaxRegNumFromFileNamePath(fileNamePath);
 	filePathsMap.put(trn, filePathWithoutFileFormat);
-	TaxFileReader fileReader = new TaxFileReader(fileTagsMap.get(fileType).getInfoTags(),
-		fileTagsMap.get(fileType).getReceiptTags());
+	GenericTags genTags = genTagsMap.get(fileFormat);
+	TaxFileReader fileReader = new TaxFileReader(genTags.getInfoHeaders(), genTags.getInfoFooters(),
+		genTags.getReceiptHeaders(), genTags.getReceiptFooters());
 	return fileReader.readTaxpayerAndReceipts(fileNamePath, trn);
     }
     
@@ -51,30 +53,29 @@ public class TaxFileManager {
 	    Map<Integer, List<String>> receiptsDataOfTaxpayer) throws IOException {
 	String fileFormats[] = getFileFormats();  // TODO get from somewhere the file formats
 	for (int i = 0; i < fileFormats.length; i++) {
-	    String filename = filePathsMap.get(taxRegNum) + "." + fileFormats[i];
-	    File infoFile = new File(filename);
+	    String fileNamePath = filePathsMap.get(taxRegNum) + "." + fileFormats[i];
+	    File infoFile = new File(fileNamePath);
 	    if (infoFile.exists()) {
-		String fileNamePath = filePathsMap.get(taxRegNum);
-		TaxFileWriter infoWriter = new InfoWriter(fileNamePath + "." + fileFormats[i],
-			fileTagsMap.get(fileFormats[i]).getInfoTags(),
-			fileTagsMap.get(fileFormats[i]).getReceiptTags());
-		infoWriter.updateInfoFile(taxpayerInfoData, receiptsDataOfTaxpayer);
+		GenericTags genTags = genTagsMap.get(fileFormats[i]);
+		List<String> allInfoData = DataTagger.getTaggedTaxpayerAsList(taxpayerInfoData, receiptsDataOfTaxpayer,
+			genTags.getTaxpayerAllInfoTags());
+		TaxFileWriter.writeTaggedData(fileNamePath, allInfoData);
 	    }
 	}
-    }
+    } 
 
     public void saveLogeFile(String filePath, String fileFormat, List<String> logData, boolean taxIncrease) throws IOException {
 	String fileNamePath = filePath + fileFormat;
-	TaxFileWriter logWriter = new LogWriter(fileNamePath, taxIncrease, fileTagsMap.get(fileFormat).getLogTags());
-	logWriter.generateFile(logData);
+	GenericTags genTags = genTagsMap.get(fileFormat);
+	List<String> logTaggedData = DataTagger.tagData(logData, genTags.getLogHeaders(), genTags.getLogFooters());
+	TaxFileWriter.writeTaggedData(fileNamePath, logTaggedData);
     }
     
     private String[] getFileFormats() {
-	return String.join(",", fileTagsMap.keySet()).split(",");
+	return String.join(",", genTagsMap.keySet()).split(",");
     }
 
     public void setFileMapEntry(int i, String string) {
 	filePathsMap.put(i, string);
-	
     }
 }

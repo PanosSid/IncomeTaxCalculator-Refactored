@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import incometaxcalculator.data.management.MainManager;
 import incometaxcalculator.data.management.Receipt;
-import incometaxcalculator.data.management.TaxpayerManager;
+import incometaxcalculator.data.management.Taxpayer;
 import incometaxcalculator.exceptions.WrongFileFormatException;
 import net.miginfocom.swing.MigLayout;
 
@@ -28,7 +28,7 @@ public class TaxpayerView {
     private JFrame frame;
     private JPanel panel;
     private MainManager mainManager;
-    private TaxpayerManager taxpayerManager;
+    private Taxpayer taxpayer;
     private int trn;
     private JTable receiptsTable;
     private DefaultTableModel receiptTableModel;
@@ -36,13 +36,13 @@ public class TaxpayerView {
     public TaxpayerView(int trn) {
 	this.trn = trn;
 	mainManager = MainManager.getInstance();
-	taxpayerManager = mainManager.getTaxpayerManger();
+	taxpayer = mainManager.getTaxpayer(trn);
 	initialize();
     }
 
     private void initialize() {
 	frame = new JFrame();
-	String nameAndTRN = taxpayerManager.getTaxpayerName(trn) + " " + trn;
+	String nameAndTRN = taxpayer.getFullname() + " " + trn;
 	frame.setTitle("Taxpayer View: " + nameAndTRN);
 	frame.setSize(450, 500);
 	frame.setLocationRelativeTo(null); // center window
@@ -59,12 +59,16 @@ public class TaxpayerView {
     }
 
     private void addTaxpayersInfo() {
-	String taxpayerName = taxpayerManager.getTaxpayerName(trn);
-	JLabel name = new JLabel("Name:    " + taxpayerName);
-//	name.setForeground(Color.WHITE);
-	JLabel lblTrn = new JLabel("TRN:    " + trn);
-	JLabel lblStatus = new JLabel("Status:    " + taxpayerManager.getTaxpayerCategoryName(trn));
-	JLabel lblIncome = new JLabel("Income:    " + taxpayerManager.getTaxpayerIncome(trn));
+	JLabel name = new JLabel("Name:    " + taxpayer.getFullname());
+	JLabel lblTrn = new JLabel("TRN:    " + taxpayer.getTaxRegistrationNumber());
+	JLabel lblStatus = new JLabel("Status:    " + taxpayer.getTaxpayerCategoryName());
+	JLabel lblIncome = new JLabel("Income:    " + taxpayer.getIncome());
+	
+//	String taxpayerName = taxpayerManager.getTaxpayerName(trn);
+//	JLabel name = new JLabel("Name:    " + taxpayerName);
+//	JLabel lblTrn = new JLabel("TRN:    " + trn);
+//	JLabel lblStatus = new JLabel("Status:    " + taxpayerManager.getTaxpayerCategoryName(trn));
+//	JLabel lblIncome = new JLabel("Income:    " + taxpayerManager.getTaxpayerIncome(trn));
 	name.setFont(new Font("Sans-serif", Font.BOLD, 14));
 	lblTrn.setFont(new Font("Sans-serif", Font.BOLD, 14));
 	lblStatus.setFont(new Font("Sans-serif", Font.BOLD, 14));
@@ -94,7 +98,7 @@ public class TaxpayerView {
     }
 
     private void updateReceiptTable() {
-	List<Receipt> receiptsList = taxpayerManager.getReceiptListOfTaxpayer(trn);
+	List<Receipt> receiptsList = taxpayer.getReceiptList();
 	for (Receipt receipt : receiptsList) {
 	    String receiptFields[] = new String[3];
 	    receiptFields[0] = "" + receipt.getId();
@@ -166,26 +170,16 @@ public class TaxpayerView {
     private void addViewReportsButton() {
 	JButton viewReceipt = new JButton("View Report");
 	viewReceipt.addActionListener(new ActionListener() {
-//	    public void actionPerformed(ActionEvent e) {
-//		ChartDisplay.createBarChart(taxpayerManager.getTaxpayerBasicTax(trn),
-//			taxpayerManager.getTaxpayerVariationTaxOnReceipts(trn),
-//			taxpayerManager.getTaxpayerTotalTax(trn));
-//		ChartDisplay.createPieChart(taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Entertainment"),
-//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Basic"),
-//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Travel"),
-//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Health"),
-//			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Other"));
-//	    }
-//	});
 		public void actionPerformed(ActionEvent e) {
-		ChartDisplay.createBarChart(taxpayerManager.getTaxpayerBasicTax(trn),
-			taxpayerManager.getTaxpayerVariationTaxOnReceipts(trn),
-			taxpayerManager.getTaxpayerTotalTax(trn));
-		ChartDisplay.createPieChart(taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Entertainment"),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Basic"),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Travel"),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Health"),
-			taxpayerManager.getTaxpayerAmountOfReceiptKind(trn, "Other"));
+		    ChartDisplay.createBarChart(taxpayer.getBasicTax(),
+			    taxpayer.getVariationTaxOnReceipts(),
+			    taxpayer.getTotalTax());
+			ChartDisplay.createPieChart(
+				taxpayer.getAmountOfReceiptKind("Entertainment"),
+				taxpayer.getAmountOfReceiptKind("Basic"),
+				taxpayer.getAmountOfReceiptKind("Travel"),
+				taxpayer.getAmountOfReceiptKind("Health"),
+				taxpayer.getAmountOfReceiptKind("Other"));    
 	    }
 	});
 	panel.add(viewReceipt, "cell 2 7, grow");

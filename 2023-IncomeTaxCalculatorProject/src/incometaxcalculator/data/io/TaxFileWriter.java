@@ -1,37 +1,36 @@
 package incometaxcalculator.data.io;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
-import incometaxcalculator.tags.Tag;
-
-public abstract class TaxFileWriter {
-   
-    public abstract void generateFile(List<String> data) throws IOException;
-//    public void generateFile(int taxRegistrationNumber) throws IOException;
+/* Utility writer class*/
+public class TaxFileWriter {
+//    protected String fileNamePath;
+//    protected PrintWriter outputStream;
+//   
+//    public TaxFileWriter(String fileNamePath) {
+//	super();
+//	this.fileNamePath = fileNamePath;
+//    }
+//    
+//    public void openFileOutputStream() throws IOException {
+//	FileWriter infoFile = new FileWriter(fileNamePath);
+//	outputStream = new PrintWriter(infoFile);
+//    }
     
-    public abstract void updateInfoFile(List<String> taxpayerInfoData, Map<Integer, List<String>> receiptsDataOfTaxpayer) throws IOException;
-    
-    protected List<String> getTaggedData(List<String> data, List<Tag> tags) {
-	List<String> taggedData = new ArrayList<String>();
-	for (int i = 0; i < data.size(); i++) {
-	    taggedData.add(tags.get(i).addTagsToData(data.get(i)));
+    protected static void writeTaggedData(String fileNamePath, List<String> infoLines) throws IOException {
+	FileWriter infoFile = new FileWriter(fileNamePath);
+	PrintWriter outputStream = new PrintWriter(infoFile);
+	int size = infoLines.size();
+	for (int i = 0; i < size-1; i++) {
+	    outputStream.println(infoLines.get(i));
 	}
-	return taggedData;
-    }
-
-    protected void writeTaggedData(List<String> infoLines, PrintWriter outputStream) {
-	for (String line : infoLines) {
-	    outputStream.println(line);
-	}
+	outputStream.print(infoLines.get(size-1));
+	outputStream.close();
     }
     
-    public abstract void writeDataToFile(String fileNamePath, List<String> dataCollection);
+//    /public abstract void writeDataToFile(String fileNamePath, List<String> dataCollection);
 	
 }

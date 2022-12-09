@@ -10,6 +10,7 @@ import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
 
+
 public class MainManager {
     private static MainManager instance; 
     private TaxpayerManager taxpayerManager;
@@ -69,15 +70,32 @@ public class MainManager {
 	String fileNamePath = filePath + "\\" + taxRegNum + "_LOG.";
 	fileManager.saveLogeFile(fileNamePath, fileFormat, logData, taxIncrease);
     }
-
+    
+    public List<Double> getDataForCharts(){
+	//TODO
+	return null;
+    }
+    
+    
+    
+    
     public void setTaxpayerManager(TaxpayerManager taxpayerManager) {
 	this.taxpayerManager = taxpayerManager;
 	
     }
-    
-    public Taxpayer getTaxpayer(int taxRegNum) {
-	return taxpayerManager.getTaxpayer(taxRegNum);
+
+    public Taxpayer getTaxpayer(int trn) {
+	return taxpayerManager.getTaxpayer(trn);
 	
     }
+
+    public String[] getLastLoadedTaxpayerNameAndTrn() {
+	return taxpayerManager.getLastLoadedTaxpayerNameAndTrn();
+    }
+    
+//    public Taxpayer getTaxpayer(int taxRegNum) {
+//	return taxpayerManager.getTaxpayer(taxRegNum);
+//	
+//    }
 
 }

@@ -25,4 +25,14 @@
 <Street> aStreet2 </Street>
 <Number> 20 </Number>
 
+<ReceiptID> 3 </ReceiptID>
+<Date> 30/3/2003 </Date>
+<Kind> Basic </Kind>
+<Amount> 300.0 </Amount>
+<Company> aCompany1 </Company>
+<Country> aCountry1 </Country>
+<City> aCity1 </City>
+<Street> aStreet1 </Street>
+<Number> 10 </Number>
+
 </Receipts>

@@ -85,12 +85,14 @@ public class AcceptanceTests {
     
     @AfterClass
     public static void tearDown() {
-	try {
-	    Files.deleteIfExists(Paths.get(TEST_RESOURCES_PATH + "111111111_LOG.txt"));
-	    Files.deleteIfExists(Paths.get(TEST_RESOURCES_PATH + "111111111_LOG.xml"));
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+	
+	
+//	try {
+//	    Files.deleteIfExists(Paths.get(TEST_RESOURCES_PATH + "111111111_LOG.txt"));
+//	    Files.deleteIfExists(Paths.get(TEST_RESOURCES_PATH + "111111111_LOG.xml"));
+//	} catch (IOException e) {
+//	    e.printStackTrace();
+//	}
     }
     
 
@@ -181,7 +183,7 @@ public class AcceptanceTests {
 	    Assert.assertEquals(expectedInfoContents, actualInfoContents);
 	}
     }
-
+    
     @Test
     public void testUC6StoreTaxpayerLog() throws IOException, WrongFileFormatException {
 	for (int i = 0; i < fileFormats.length; i++) {

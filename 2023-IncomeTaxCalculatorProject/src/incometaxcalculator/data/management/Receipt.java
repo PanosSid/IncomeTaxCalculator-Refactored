@@ -12,7 +12,8 @@ public class Receipt {
     private final Date issueDate;
     private final float amount;
     private final String kind;
-    private final Company company;
+    private final Company company;   
+
 
     public Receipt(int id, String issueDate, float amount, String kind, Company company)
 	    throws WrongReceiptDateException {

@@ -1,6 +1,5 @@
 package incometaxcalculator.data.management;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,17 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import incometaxcalculator.data.config.AppConfig;
-import incometaxcalculator.data.io.InfoWriter;
-import incometaxcalculator.data.io.LogWriter;
-import incometaxcalculator.data.io.TaxFileReader;
-import incometaxcalculator.data.io.TaxFileWriter;
 import incometaxcalculator.exceptions.ReceiptAlreadyExistsException;
 import incometaxcalculator.exceptions.TaxpayerAlreadyLoadedException;
-import incometaxcalculator.exceptions.WrongFileFormatException;
 import incometaxcalculator.exceptions.WrongReceiptDateException;
 import incometaxcalculator.exceptions.WrongReceiptKindException;
-import incometaxcalculator.exceptions.WrongTaxpayerStatusException;
-import incometaxcalculator.tags.FileTags;
+
 
 public class TaxpayerManager {
     public AppConfig appConfig;
@@ -29,10 +22,6 @@ public class TaxpayerManager {
 	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
 	appConfig = new AppConfig();
     }
-
-//    public static void tearDownTaxpayerManager() {
-//	instance = null;
-//    }
 
     public Map<Integer, Taxpayer> getTaxpayerHashMap() {
 	return taxpayerHashMap;
@@ -72,7 +61,7 @@ public class TaxpayerManager {
 	    String city = receiptData.get(6);
 	    String street = receiptData.get(7);
 	    int number = Integer.parseInt(receiptData.get(8));
-	    Company company = new Company(companyName, country, city, street, number);
+	    Company company = new Company(companyName, country, city, street, number);	//TODO eliminate dependency isos me factory ???
 	    Receipt receipt = new Receipt(receiptId, issueDate, amount, kind, company);
 	    Taxpayer taxpayer = taxpayerHashMap.get(taxRegNum);
 	    taxpayer.addReceipt(receipt);
@@ -82,7 +71,6 @@ public class TaxpayerManager {
 
     public void removeTaxpayer(int taxRegNum) {
 	taxpayerHashMap.remove(taxRegNum);
-//	filePathsMap.remove(taxRegNum);
     }
 
     void createReceipt2(int receiptId, String issueDate, float amount, String kind, String companyName, String country,

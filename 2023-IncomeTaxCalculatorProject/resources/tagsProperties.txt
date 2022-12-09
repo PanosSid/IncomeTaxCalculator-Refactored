@@ -1,0 +1,70 @@
+### TAG
+*File Format = txt
+
+#TAXPAYER INFO
+*Name = Name:  
+*TRN = AFM
+*Status = Status:
+*Income = Income:
+
+#RECEIPTS
+*Receipt Decleration = Receipts:
+*Receipt ID = Receipt ID: 
+*Date: 20/2/2020
+*Kind =  Kind:
+*Amount =  Amount:
+*Company = Company:
+*Country = Country:
+*City = City:
+*Street =  Street:
+*Number = Number: 
+
+#LOG
+Name = Name:
+TRN = AFM:
+Income = Income:  
+Basic Tax = Basic Tax:  
+Tax Increase = Tax Increase: 
+Total Tax = Total Tax: 
+TotalReceiptsGathered = TotalReceiptsGathered: 
+Entertainment = Entertainment:
+Basic = Basic:
+Travel = Travel:
+Health = Health:
+Other = Other:
+
+
+### TAG
+*File Format = xml
+
+#TAXPAYER INFO
+*Name = Name:  
+*TRN = AFM
+*Status = Status:
+*Income = Income:
+
+#RECEIPTS
+*Receipt Decleration = <Receipts>
+*Receipt ID = <ReceiptID> ... </ReceiptID>
+*Date  =  <Date> ... 
+*Kind =  <Kind>
+*Amount =  <Amount>
+*Company = <Company>
+*Country = <Country>
+*City = <City>
+*Street =  <Street>
+*Number = <Number> 
+
+#LOG
+Name =
+TRN =
+Income =  
+Basic Tax =   
+Tax Increase =  
+Total Tax =  
+TotalReceiptsGathered = 
+Entertainment =
+Basic =
+Travel =
+Health =
+Other =

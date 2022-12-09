@@ -30,7 +30,7 @@ public class TestFileContents {
     public static final String TXT_LOG = "Name: Robert Martin\r\n" + "AFM: 111111111\r\n" + "Income: 100000.0\r\n"
 	    + "Basic Tax: 6436.64\r\n" + "Tax Increase: 514.9312\r\n" + "Total Tax: 6951.5712\r\n"
 	    + "TotalReceiptsGathered: 2\r\n" + "Entertainment: 0.0\r\n" + "Basic: 100.0\r\n" + "Travel: 200.0\r\n"
-	    + "Health: 0.0\r\n" + "Other: 0.0\r\n" + "";
+	    + "Health: 0.0\r\n" + "Other: 0.0";
 
     public static final String TXT_LOG_AFTER_ADD = "Name: Robert Martin\r\n" + "AFM: 111111111\r\n"
 	    + "Income: 100000.0\r\n" + "Basic Tax: 6436.64\r\n" + "Tax Increase: 514.9312\r\n"
@@ -71,7 +71,7 @@ public class TestFileContents {
 	    + "<Income> 100000.0 </Income>\r\n" + "<BasicTax> 6436.64 </BasicTax>\r\n"
 	    + "<TaxIncrease> 514.9312 </TaxIncrease>\r\n" + "<TotalTax> 6951.5712 </TotalTax>\r\n"
 	    + "<Receipts> 2 </Receipts>\r\n" + "<Entertainment> 0.0 </Entertainment>\r\n" + "<Basic> 100.0 </Basic>\r\n"
-	    + "<Travel> 200.0 </Travel>\r\n" + "<Health> 0.0 </Health>\r\n" + "<Other> 0.0 </Other>\r\n" + "";
+	    + "<Travel> 200.0 </Travel>\r\n" + "<Health> 0.0 </Health>\r\n" + "<Other> 0.0 </Other>";
 
     public static final String XML_LOG_AFTER_ADD = "<Name> Robert Martin </Name>\r\n" + "<AFM> 111111111 </AFM>\r\n"
 	    + "<Income> 100000.0 </Income>\r\n" + "<BasicTax> 6436.64 </BasicTax>\r\n"

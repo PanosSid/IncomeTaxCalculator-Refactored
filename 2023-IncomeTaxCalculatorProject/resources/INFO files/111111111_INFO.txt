@@ -25,3 +25,13 @@ City: aCity2
 Street: aStreet2
 Number: 20
 
+Receipt ID: 3
+Date: 30/3/2003
+Kind: Basic
+Amount: 300.0
+Company: aCompany1
+Country: aCountry1
+City: aCity1
+Street: aStreet1
+Number: 10
+

@@ -27,7 +27,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import incometaxcalculator.data.management.MainManager;
-import incometaxcalculator.data.management.TaxpayerManager;
 import incometaxcalculator.exceptions.TaxpayerAlreadyLoadedException;
 import incometaxcalculator.exceptions.WrongFileEndingException;
 import incometaxcalculator.exceptions.WrongFileFormatException;
@@ -41,7 +40,6 @@ import net.miginfocom.swing.MigLayout;
 public class MainView {
     
     private MainManager mainManager;
-    private TaxpayerManager taxpayerManager;
     private JFrame mainFrame;
     private JPanel mainPanel;
     private JLabel welcomeLabel;
@@ -51,7 +49,7 @@ public class MainView {
     
     public MainView(String text) {
 	mainManager = MainManager.getInstance();
-	taxpayerManager = mainManager.getTaxpayerManger();
+//	taxpayerManager = mainManager.getTaxpayerManger();
         initialize();    
     }
 
@@ -134,7 +132,7 @@ public class MainView {
  		int selectedRow = loadedTaxpayersTable.getSelectedRow();
  		if (selectedRow >= 0) {
  		    int trn = getSelectedTrnFromTable(); 
- 		    String nameAndTRN = taxpayerManager.getTaxpayerName(trn)+" "+trn;
+// 		    String nameAndTRN = mainManager.getTaxpayer(trn).getFullname()+" "+trn;
  		    new TaxpayerView(trn);
  		} else {
  		   JOptionPane.showMessageDialog(null, "To view a taxpayer info please select one from table", "No taxpayer selected", JOptionPane.INFORMATION_MESSAGE);
@@ -212,7 +210,7 @@ public class MainView {
     }
     
     private void addNewTaxpayerToLoadedTable() {
-	String lastLoadedTaxpayer[] = taxpayerManager.getLastLoadedTaxpayerNameAndTrn();
+	String lastLoadedTaxpayer[] = mainManager.getLastLoadedTaxpayerNameAndTrn();
 	tableModel.addRow(lastLoadedTaxpayer);	    
     }
 }

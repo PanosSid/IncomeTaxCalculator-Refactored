@@ -6,12 +6,7 @@ public class Company {
 
     private final String name;
     private final Address address;
-
-    public Company() {	// isos auto prepei na afairethei 
-	this.name = "";
-	this.address = null;
-    }
-
+    
     public Company(String name, String country, String city, String street, int number) {
 	this.name = name;
 	this.address = new Address(country, city, street, number);

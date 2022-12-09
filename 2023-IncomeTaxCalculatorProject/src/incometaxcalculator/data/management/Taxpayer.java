@@ -77,9 +77,9 @@ public class Taxpayer {
 	return receiptHashMap;
     }
     
-    public TaxpayerCategory getTaxpayerCategory() {
-	return taxpayerCategory;
-    }
+//    public TaxpayerCategory getTaxpayerCategory() {
+//	return taxpayerCategory;
+//    }
     
     public int getTotalReceiptsGathered() {
 	return receiptHashMap.size();
@@ -143,6 +143,10 @@ public class Taxpayer {
 	    sum += amountPerReceiptsKind.get(kind);
 	}
 	return sum;
+    }
+    
+    public List<Receipt> getReceiptList(){
+	return new ArrayList<Receipt>(receiptHashMap.values());
     }
 
     public double getBasicTax() {
