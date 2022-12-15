@@ -1,11 +1,7 @@
 package unit;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import incometaxcalculator.data.management.*;
 
 public class UnitTestTaxpayer {
     
