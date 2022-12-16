@@ -39,7 +39,6 @@ public class ReceiptFormView {
 	this.trn = trn;
 	this.taxpayerView = taxpayerView;
 	mainManager = MainManager.getInstance();
-//	taxpayerManager = TaxpayerManager.getInstance();
 	componentMap = new HashMap<String, JComponent>();
 	frame = new JFrame("Add new Receipt");
 	frame.setSize(300, 400);
@@ -58,15 +57,14 @@ public class ReceiptFormView {
 	addFormField("Receipt Id", "ec. 10");
 	addFormField("Issue Date", "dd/mm/yy");
 	JLabel lbl = new JLabel("Kind");
-	
+
 	lbl.setFont(new Font(null, Font.BOLD, 14));
 	panel.add(lbl);
-//	String choices[] = AppConfig.getReceiptKinds().toArray(new String[0]);
-	String choices[] = {"Entertainment", "Basic","Travel", "Health", "Other"};
+	String choices[] = { "Entertainment", "Basic", "Travel", "Health", "Other" };
 	JComboBox<String> kindComboBox = new JComboBox<String>(choices);
 	panel.add(kindComboBox, "wrap, span");
 	componentMap.put("Kind", kindComboBox);
-	
+
 	addFormField("Amount", "112.5");
 	addFormField("Company", "UOI");
 	addFormField("Country", "Greece");
@@ -77,41 +75,42 @@ public class ReceiptFormView {
 	panel.add(new JButton("Cancel"));
 
     }
-    
-    
+
     private void addFormField(String lblTxt, String txtPromt) {
 	JLabel lbl = new JLabel(lblTxt);
 	lbl.setFont(new Font(null, Font.BOLD, 14));
 	panel.add(lbl);
-	
+
 	JTextField tf = new JTextField(10);
 	TextPrompt tp = new TextPrompt(txtPromt, tf);
 	tp.changeStyle(Font.ITALIC);
 	panel.add(tf, "wrap, span");
-	
+
 	componentMap.put(lblTxt, tf);
     }
-    
+
     private void addSaveReceiptButton() {
 	JButton savebtn = new JButton("Save");
 	savebtn.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		int receiptIDValue = Integer.parseInt(((JTextField) componentMap.get("Receipt Id")).getText());
-		int numberValue = Integer.parseInt(((JTextField) componentMap.get("Street Number")).getText());;
+		int numberValue = Integer.parseInt(((JTextField) componentMap.get("Street Number")).getText());
+		;
 		float amountValue = Float.parseFloat(((JTextField) componentMap.get("Amount")).getText());
 		String dateValue = ((JTextField) componentMap.get("Issue Date")).getText();
 		String kindValue = String.valueOf(((JComboBox<String>) componentMap.get("Kind")).getSelectedItem());
-		String companyValue =  ((JTextField) componentMap.get("Company")).getText();
+		String companyValue = ((JTextField) componentMap.get("Company")).getText();
 		String countryValue = ((JTextField) componentMap.get("Country")).getText();
 		String streetValue = ((JTextField) componentMap.get("Street")).getText();
 		String cityValue = ((JTextField) componentMap.get("City")).getText();
 		try {
 		    mainManager.addReceiptToTaxpayer(receiptIDValue, dateValue, amountValue, kindValue, companyValue,
-		    	countryValue, cityValue, streetValue, numberValue, trn);
-		    String[] receiptContets = {""+receiptIDValue, dateValue, ""+amountValue};
+			    countryValue, cityValue, streetValue, numberValue, trn);
+		    String[] receiptContets = { "" + receiptIDValue, dateValue, "" + amountValue };
 		    taxpayerView.addNewReceiptToTable(receiptContets);
 		    closeWindow();
-		    JOptionPane.showMessageDialog(null, "Receipt added Succesfully", "Succesful Receipt Addition", JOptionPane.INFORMATION_MESSAGE);
+		    JOptionPane.showMessageDialog(null, "Receipt added Succesfully", "Succesful Receipt Addition",
+			    JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e1) {
 		    // TODO Auto-generated catch block
 		    e1.printStackTrace();
@@ -119,25 +118,25 @@ public class ReceiptFormView {
 		    // TODO Auto-generated catch block
 		    e1.printStackTrace();
 		} catch (WrongReceiptDateException e1) {
-		    JOptionPane.showMessageDialog(null, e1.getMessage(), "Wrong date format", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null, e1.getMessage(), "Wrong date format",
+			    JOptionPane.ERROR_MESSAGE);
 		    e1.printStackTrace();
 		} catch (ReceiptAlreadyExistsException e1) {
-		    JOptionPane.showMessageDialog(null, e1.getMessage(), "Receipt Already Exists", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null, e1.getMessage(), "Receipt Already Exists",
+			    JOptionPane.ERROR_MESSAGE);
 		    e1.printStackTrace();
 		}
-		
 
 	    }
 	});
 	panel.add(savebtn);
     }
-    
+
     private void closeWindow() {
-	frame.setVisible(false); //you can't see me!
-	frame.dispose(); //Destroy the JFrame object
+	frame.setVisible(false); 
+	frame.dispose(); 
     }
-    
-    
+
     public static void main(String[] args) {
 	SwingUtilities.invokeLater(new Runnable() {
 	    @Override
@@ -154,7 +153,7 @@ public class ReceiptFormView {
 			break;
 		    }
 		}
-new ReceiptFormView(123456789, new TaxpayerView(123456789));
+		new ReceiptFormView(123456789, new TaxpayerView(123456789));
 	    }
 	});
     }

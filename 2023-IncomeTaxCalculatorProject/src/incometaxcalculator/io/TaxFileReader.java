@@ -19,7 +19,7 @@ public class TaxFileReader {
     public List<String> infoFooters;
     public List<String> receiptHeaders;
     public List<String> receiptFooters;
-    
+
     public TaxFileReader(List<String> infoHeaders, List<String> infoFooters, List<String> receiptHeaders,
 	    List<String> receiptFooters) {
 	super();
@@ -47,7 +47,7 @@ public class TaxFileReader {
     private List<String> readTaxapyerInfo(Scanner inputStream, int taxRegNum) throws Exception {
 	List<String> infoHeaderTags = infoHeaders;
 	List<String> infoFooterTags = infoFooters;
-	
+
 	String fullname = removeTagsFromLine(inputStream.nextLine(), infoHeaderTags.get(0), infoFooterTags.get(0));
 	String trn = removeTagsFromLine(inputStream.nextLine(), infoHeaderTags.get(1), infoFooterTags.get(1));
 	if (Integer.parseInt(trn) != taxRegNum) {
@@ -62,7 +62,7 @@ public class TaxFileReader {
     private Map<String, List<String>> readReceiptsOfTaxpayer(Scanner inputStream, int taxRegNum)
 	    throws WrongFileReceiptSeperatorException, WrongFileFormatException, WrongReceiptKindException,
 	    WrongReceiptDateException, FileHasWrongTagsException {
-	if (!doesLineContainHeaderTag(inputStream.nextLine(), receiptHeaders.get(0)))	
+	if (!doesLineContainHeaderTag(inputStream.nextLine(), receiptHeaders.get(0)))
 	    throw new WrongFileReceiptSeperatorException();
 	inputStream.nextLine(); // skip a line
 	HashMap<String, List<String>> receiptMap = new HashMap<String, List<String>>();
@@ -75,12 +75,13 @@ public class TaxFileReader {
 	    String receiptId = removeTagsFromLine(line, receiptHeaders.get(1), receiptFooters.get(1));
 	    receiptData.add(receiptId);
 	    for (int i = 2; i < 10; i++) {
-		receiptData.add(removeTagsFromLine(inputStream.nextLine(), receiptHeaders.get(i), receiptFooters.get(i)));
+		receiptData.add(removeTagsFromLine(inputStream.nextLine(),
+			receiptHeaders.get(i), receiptFooters.get(i)));
 	    }
 	    receiptMap.put(receiptId, receiptData);
 	    inputStream.nextLine(); // skip a line
 	}
-	
+
 	if (!doesLineContainFooterTag(line, receiptFooters.get(0)))
 	    throw new WrongFileReceiptSeperatorException();
 	return receiptMap;
@@ -93,23 +94,23 @@ public class TaxFileReader {
 	}
 	return dataList;
     }
-    
 
-    public String removeTagsFromLine(String line, String header, String footer) throws FileHasWrongTagsException {
+    public String removeTagsFromLine(String line, String header, String footer)
+	    throws FileHasWrongTagsException {
 	if (!doesLineContainTags(line, header, footer)) {
 	    throw new FileHasWrongTagsException();
 	}
 	return line.replaceAll(header, "").replaceAll(footer, "").trim();
     }
-    
+
     public boolean doesLineContainTags(String line, String header, String footer) {
 	return line.startsWith(header) && line.endsWith(footer);
     }
-    
-    public boolean doesLineContainHeaderTag(String line, String header ) {
+
+    public boolean doesLineContainHeaderTag(String line, String header) {
 	return line.startsWith(header);
     }
-    
+
     public boolean doesLineContainFooterTag(String line, String footer) {
 	return line.endsWith(footer);
     }

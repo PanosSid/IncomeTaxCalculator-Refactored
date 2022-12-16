@@ -1,0 +1,12 @@
+Name: Robert Martin
+AFM: 111111111
+Income: 100000.0
+Basic Tax: 6436.64
+Tax Increase: 514.9312
+Total Tax: 6951.5712
+TotalReceiptsGathered: 2
+Entertainment: 0.0
+Basic: 100.0
+Travel: 200.0
+Health: 0.0
+Other: 0.0

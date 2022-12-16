@@ -21,23 +21,22 @@ public class TaxFileManager implements FileManager {
 	tagsMap = tagLoader.getTagsFromFile();
 	updateFileFormats();
     }
-    
+
     public void setTagsMap(Map<String, Tags> map) {
 	tagsMap = map;
 	updateFileFormats();
     }
-    
+
     private void updateFileFormats() {
 	fileFormats = new ArrayList<String>();
 	for (String format : tagsMap.keySet()) {
 	    fileFormats.add(format);
 	}
     }
-    
+
     public void addFilePathToMap(int trn, String filePath) {
 	filePathsMap.put(trn, filePath);
     }
-    
 
     @Override
     public Map<String, List<String>> readTaxpayerFromFile(String fileNamePath) throws Exception {
@@ -62,7 +61,6 @@ public class TaxFileManager implements FileManager {
     @Override
     public void removeTaxpayerFilePath(int taxRegNum) {
 	filePathsMap.remove(taxRegNum);
-
     }
 
     @Override
@@ -73,19 +71,20 @@ public class TaxFileManager implements FileManager {
 	    File infoFile = new File(fileNamePath);
 	    if (infoFile.exists()) {
 		Tags genTags = tagsMap.get(fileFormats.get(i));
-		List<String> allInfoData = DataTagger.getTaggedTaxpayerAsList(taxpayerInfoData, receiptsDataOfTaxpayer,
-			genTags.getTaxpayerAllInfoTags());
+		List<String> allInfoData = DataTagger.getTaggedTaxpayerAsList(taxpayerInfoData,
+			receiptsDataOfTaxpayer,	genTags.getTaxpayerAllInfoTags());
 		TaxFileWriter.writeTaggedData(fileNamePath, allInfoData);
 	    }
 	}
     }
 
     @Override
-    public void saveLogeFile(String filePath, String fileFormat, List<String> logData, boolean taxIncrease)
-	    throws IOException {
+    public void saveLogeFile(String filePath, String fileFormat,
+	    List<String> logData, boolean taxIncrease)  throws IOException {
 	String fileNamePath = filePath + fileFormat;
 	Tags genTags = tagsMap.get(fileFormat);
-	List<String> logTaggedData = DataTagger.tagData(logData, genTags.getLogHeaders(), genTags.getLogFooters());
+	List<String> logTaggedData = DataTagger.tagData(logData,
+		genTags.getLogHeaders(), genTags.getLogFooters());
 	TaxFileWriter.writeTaggedData(fileNamePath, logTaggedData);
     }
 
@@ -97,7 +96,5 @@ public class TaxFileManager implements FileManager {
     public void setFileMapEntry(int i, String string) {
 	filePathsMap.put(i, string);
     }
-
-
 
 }

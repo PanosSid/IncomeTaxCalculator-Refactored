@@ -5,10 +5,9 @@ import java.util.List;
 
 import javax.swing.filechooser.FileFilter;
 
-
 public class InfoFileFilter extends FileFilter {
     private List<String> fileFormats;
-    
+
     public InfoFileFilter(List<String> fileFormats) {
 	super();
 	this.fileFormats = fileFormats;
@@ -16,13 +15,13 @@ public class InfoFileFilter extends FileFilter {
 
     public boolean accept(File pathname) {
 	for (String format : fileFormats) {
-	    if (pathname.getName().endsWith("_INFO."+format)) {
+	    if (pathname.getName().endsWith("_INFO." + format)) {
 		return true;
 	    }
 	}
 	if (pathname.isDirectory())
 	    return true;
-	
+
 	return false;
 //	if (pathname.getName().endsWith("INFO.txt"))
 //	      return true;
@@ -37,7 +36,7 @@ public class InfoFileFilter extends FileFilter {
     public String getDescription() {
 	String s = "";
 	for (String format : fileFormats) {
-	    s += "(*INFO."+format+") ";
+	    s += "(*INFO." + format + ") ";
 	}
 	return s;
 //	return "(*INFO.txt) (*INFO.xml)";

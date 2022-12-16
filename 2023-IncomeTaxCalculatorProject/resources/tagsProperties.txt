@@ -110,7 +110,7 @@
 
 
 --TAG START
-*File Format = panos
+*File Format = sid
 
 #TAXPAYER INFO
 *Name = #Name# _ #/Name#   

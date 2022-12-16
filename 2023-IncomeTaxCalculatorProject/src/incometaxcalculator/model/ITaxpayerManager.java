@@ -12,12 +12,12 @@ import incometaxcalculator.model.exceptions.TaxpayerAlreadyLoadedException;
 
 public interface ITaxpayerManager {
 
-    void laodReadTaxpayer(int trn, Map<String, List<String>> infoFileContents) // TODO renaming
+    void laodTaxpayerInfo(int trn, Map<String, List<String>> infoFileContents) // TODO renaming
 	    throws TaxpayerAlreadyLoadedException, WrongReceiptDateException, WrongReceiptKindException;
 
     void removeTaxpayer(int taxRegNum);
 
-    void addReceiptToTaxapyer2(int receiptId, String issueDate, float amount, String kind, String companyName,
+    void addReceiptToTaxapyer(int receiptId, String issueDate, float amount, String kind, String companyName,
 	    String country, String city, String street, int number, int taxRegNum)
 	    throws WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException;
 

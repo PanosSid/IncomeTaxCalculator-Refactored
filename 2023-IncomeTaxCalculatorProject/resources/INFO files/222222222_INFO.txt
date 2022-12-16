@@ -1,6 +1,6 @@
 Name: Panos Sidiropoulos
 AFM: 222222222
-Status: PanosCategory
+Status: Custom Category
 Income: 75000.0
 
 Receipts:
@@ -15,43 +15,13 @@ City: Drama
 Street: Fukosima
 Number: 5
 
-Receipt ID: 2
-Date: 12/12/2015
-Kind: Basic
-Amount: 15.0
-Company: LOL
-Country: Greece
-City: Ioannina
-Street: Napolewn Zerva
-Number: 12
-
 Receipt ID: 3
-Date: 30/2/1998
-Kind: Basic
-Amount: 12.0
-Company: BMW
-Country: Germany
-City: munich
-Street: afklj
-Number: 3
-
-Receipt ID: 5
-Date: 2/2/2019
-Kind: Travel
-Amount: 100.0
-Company: sfsdf
-Country: sdfssdf
-City: sdfsd
-Street: sdfs
-Number: 1
-
-Receipt ID: 11
-Date: 11/11/1111
+Date: 21/2/2004
 Kind: Health
-Amount: 147.0
-Company: gfh
-Country: traes
-City: h
-Street: gag
-Number: 14
+Amount: 213.0
+Company: fad
+Country: fgdh
+City: ftqtuhw
+Street: uity
+Number: 77
 

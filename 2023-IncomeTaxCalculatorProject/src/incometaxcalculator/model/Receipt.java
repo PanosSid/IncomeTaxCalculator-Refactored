@@ -12,8 +12,7 @@ public class Receipt {
     private final Date issueDate;
     private final float amount;
     private final String kind;
-    private final Company company;   
-
+    private final Company company;
 
     public Receipt(int id, String issueDate, float amount, String kind, Company company)
 	    throws WrongReceiptDateException {
@@ -34,21 +33,21 @@ public class Receipt {
 	int year = Integer.parseInt(token[2]);
 	return new Date(day, month, year);
     }
-    
-    public List<String> getDataOfReceipt(){
+
+    public List<String> getDataOfReceipt() {
 	List<String> data = new ArrayList<String>();
-	data.add(""+id);
+	data.add("" + id);
 	data.add(issueDate.toString());
 	data.add(kind);
-	data.add(""+amount);
+	data.add("" + amount);
 	data.add(company.getName());
 	data.add(company.getCountry());
 	data.add(company.getCity());
 	data.add(company.getStreet());
-	data.add(""+company.getNumber());
+	data.add("" + company.getNumber());
 	return data;
     }
-    
+
     public int getId() {
 	return id;
     }
@@ -87,8 +86,7 @@ public class Receipt {
 
     public int getCompanyNumber() {
 	return company.getNumber();
-    }  
-
+    }
 
     @Override
     public int hashCode() {

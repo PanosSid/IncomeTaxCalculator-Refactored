@@ -40,7 +40,7 @@ public class TaxpayerView {
 	taxpayer = mainManager.getTaxpayer(trn);
 	initialize();
     }
-    
+
     public Taxpayer getViewedTaxpayer() {
 	return taxpayer;
     }
@@ -211,17 +211,18 @@ public class TaxpayerView {
     }
 
     private void openSelectFileTypeToBeSaved(String filePath) {
-	
+
 	Object[] possibilities = formatsToObjs();
 	String s = (String) JOptionPane.showInputDialog(frame, "Select the file format of LOG file", "Save LOG",
 		JOptionPane.PLAIN_MESSAGE, null, possibilities, "txt");
-	for(int i = 0; i < possibilities.length; i++) {
+	for (int i = 0; i < possibilities.length; i++) {
 	    String format = (String) possibilities[i];
 	    if ((s != null) && (s.equals(format))) {
 		try {
 		    mainManager.saveLogFile(trn, filePath, format);
-		    JOptionPane.showMessageDialog(null, "LOG file "+trn+"_LOG."+ format +" is saved succesfully to directory : "+filePath, "Succesful LOG save",
-				JOptionPane.INFORMATION_MESSAGE);
+		    JOptionPane.showMessageDialog(null,
+			    "LOG file " + trn + "_LOG." + format + " is saved succesfully to directory : " + filePath,
+			    "Succesful LOG save", JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException | WrongFileFormatException e1) {
 		    e1.printStackTrace();
 		}

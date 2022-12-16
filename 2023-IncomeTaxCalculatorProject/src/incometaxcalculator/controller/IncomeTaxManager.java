@@ -29,5 +29,4 @@ public interface IncomeTaxManager {
 
     String[] getLastLoadedTaxpayerNameAndTrn();
 
-
 }

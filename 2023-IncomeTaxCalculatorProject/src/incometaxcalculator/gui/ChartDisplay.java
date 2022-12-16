@@ -14,7 +14,7 @@ import org.jfree.ui.RefineryUtilities;
 
 public class ChartDisplay {
 
-    public  JFrame createPieChart(double entertainment, double basic, double travel, double health, double other) {
+    public JFrame createPieChart(double entertainment, double basic, double travel, double health, double other) {
 
 	JFrame pieChartFrame = new JFrame("Analysis of receipts");
 	pieChartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -81,10 +81,5 @@ public class ChartDisplay {
 	barChartDataset.addValue(totalTax, "Tax", "Total");
 	return barChartDataset;
     }
-    
-    public static void main(String args[]) {
-//	createPieChart(500, 120, 200, 78, 47);
-//	createBarChart(10000, 250, 10250);
-	
-    }
+
 }

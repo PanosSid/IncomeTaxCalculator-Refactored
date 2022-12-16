@@ -14,7 +14,7 @@ public class Taxpayer {
     private TaxpayerCategory taxpayerCategory;
     private Map<String, Float> amountPerReceiptsKind;
     private HashMap<Integer, Receipt> receiptHashMap;
-    
+
     public Taxpayer(String fullname, int taxRegistrationNumber, float income, TaxpayerCategory category) {
 	this.receiptHashMap = new HashMap<Integer, Receipt>();
 	this.fullname = fullname;
@@ -25,56 +25,56 @@ public class Taxpayer {
     }
 
     private void initAmountPerReceiptKindMap() {
-	String receiptKinds[] = {"Entertainment", "Basic","Travel", "Health", "Other"};
+	String receiptKinds[] = { "Entertainment", "Basic", "Travel", "Health", "Other" };
 	amountPerReceiptsKind = new HashMap<String, Float>(receiptKinds.length);
 	for (int i = 0; i < receiptKinds.length; i++) {
 	    amountPerReceiptsKind.put(receiptKinds[i], (float) 0.0);
 	}
 
     }
-     
-    public List<String> getTaxpayerInfoData(){
+
+    public List<String> getTaxpayerInfoData() {
 	List<String> taxpayerInfoData = new ArrayList<String>();
 	taxpayerInfoData.add(fullname);
-	taxpayerInfoData.add(""+taxRegistrationNumber);
+	taxpayerInfoData.add("" + taxRegistrationNumber);
 	taxpayerInfoData.add(taxpayerCategory.getCategoryName());
-	taxpayerInfoData.add(""+income);
+	taxpayerInfoData.add("" + income);
 	return taxpayerInfoData;
     }
-    
-    public Map<Integer, List<String>> getReceiptsDataOfTaxpayer(){
-	 Map<Integer, List<String>> receiptsDataMap = new HashMap<Integer, List<String>>();
-	 for (Integer id : receiptHashMap.keySet()) {
-	     Receipt r = receiptHashMap.get(id);
-	     receiptsDataMap.put(id, r.getDataOfReceipt());
-	 }
-	 return receiptsDataMap;
+
+    public Map<Integer, List<String>> getReceiptsDataOfTaxpayer() {
+	Map<Integer, List<String>> receiptsDataMap = new HashMap<Integer, List<String>>();
+	for (Integer id : receiptHashMap.keySet()) {
+	    Receipt r = receiptHashMap.get(id);
+	    receiptsDataMap.put(id, r.getDataOfReceipt());
+	}
+	return receiptsDataMap;
     }
-    
+
     public String getFullname() {
 	return fullname;
     }
-    
+
     public int getTaxRegistrationNumber() {
 	return taxRegistrationNumber;
     }
-    
+
     public float getIncome() {
 	return income;
     }
-    
+
     public HashMap<Integer, Receipt> getReceiptHashMap() {
 	return receiptHashMap;
     }
-    
-    public List<Receipt> getReceiptList(){
+
+    public List<Receipt> getReceiptList() {
 	return new ArrayList<Receipt>(receiptHashMap.values());
     }
-    
+
     public int getTotalReceiptsGathered() {
 	return receiptHashMap.size();
     }
-    
+
     public float getAmountOfReceiptKind(String kind) {
 	return amountPerReceiptsKind.get(kind);
     }
@@ -82,8 +82,8 @@ public class Taxpayer {
     public double calculateBasicTax() {
 	double incomeUpperLimit[] = taxpayerCategory.getIncomeUpperLimit();
 	double taxPercentage[] = taxpayerCategory.getTaxPercentage();
-	double correspondingTax[] =taxpayerCategory.getCorrespondingTax();
-	
+	double correspondingTax[] = taxpayerCategory.getCorrespondingTax();
+
 	if (income < incomeUpperLimit[0]) {
 	    return correspondingTax[0] + taxPercentage[0] * income;
 	} else if (income < incomeUpperLimit[1]) {
@@ -96,14 +96,13 @@ public class Taxpayer {
 	    return correspondingTax[4] + taxPercentage[4] * (income - incomeUpperLimit[3]);
 	}
     }
-    
-    
+
     public void addReceipt(Receipt receipt) throws WrongReceiptKindException {
 	receiptHashMap.put(receipt.getId(), receipt);
-	String kind = receipt.getKind();	
-	amountPerReceiptsKind.put(kind, amountPerReceiptsKind.get(kind)+ receipt.getAmount());
+	String kind = receipt.getKind();
+	amountPerReceiptsKind.put(kind, amountPerReceiptsKind.get(kind) + receipt.getAmount());
     }
-    
+
     public void removeReceipt(int receiptId) {
 	Receipt receipt = receiptHashMap.get(receiptId);
 	String kind = receipt.getKind();
@@ -114,17 +113,17 @@ public class Taxpayer {
     public double getTotalTax() {
 	return calculateBasicTax() + getVariationTaxOnReceipts();
     }
-    
+
     public double getVariationTaxOnReceipts() {
 	float totalAmountOfReceipts = getTotalAmountOfReceipts();
-	double incomePercentages[] = {0.2, 0.4, 0.6};
-	double taxFactor[] = {0.08, 0.04, -0.15};
+	double incomePercentages[] = { 0.2, 0.4, 0.6 };
+	double taxFactor[] = { 0.08, 0.04, -0.15 };
 	double taxFactorAboveSixtyPercent = -0.3;
-	for (int i = 0; i <incomePercentages.length; i++) {
-	    if (totalAmountOfReceipts <  income*incomePercentages[i])
+	for (int i = 0; i < incomePercentages.length; i++) {
+	    if (totalAmountOfReceipts < income * incomePercentages[i])
 		return calculateBasicTax() * taxFactor[i];
 	}
-	return calculateBasicTax()*taxFactorAboveSixtyPercent;
+	return calculateBasicTax() * taxFactorAboveSixtyPercent;
     }
 
     private float getTotalAmountOfReceipts() {
@@ -134,21 +133,21 @@ public class Taxpayer {
 	}
 	return sum;
     }
-    
+
     public double getBasicTax() {
 	return calculateBasicTax();
     }
-    
+
     public String getTaxpayerCategoryName() {
 	return taxpayerCategory.getCategoryName();
     }
-    
+
     public List<String> getDataForLog() {
 	List<String> logData = new ArrayList<String>();
 	logData.add("" + getFullname());
 	logData.add("" + getTaxRegistrationNumber());
 	logData.add("" + getIncome());
-	logData.add("" +  getBasicTax());
+	logData.add("" + getBasicTax());
 	logData.add("" + getVariationTaxOnReceipts());
 	logData.add("" + getTotalTax());
 	logData.add("" + getTotalReceiptsGathered());
@@ -161,7 +160,6 @@ public class Taxpayer {
 
     }
 
-    
     public boolean hasReceiptId(int receiptId) {
 	return receiptHashMap.containsKey(receiptId);
     }

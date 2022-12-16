@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class TaxpayerCategoryLoader {
-    
-    private String fileNamePath = System.getProperty("user.dir") + "\\resources\\appSettings.txt";
-    
-    public TaxpayerCategoryLoader() {};
-    
+
+    private String fileNamePath = System.getProperty("user.dir") + "\\resources\\taxpayerProperties.txt";
+
+    public TaxpayerCategoryLoader() {
+    };
+
     public TaxpayerCategoryLoader(String fileNamePath) {
 	super();
 	this.fileNamePath = fileNamePath;
@@ -21,7 +22,7 @@ public class TaxpayerCategoryLoader {
 	fileNamePath = path;
     }
 
-    public Map<String,TaxpayerCategory> getTaxapayerCategoreis() throws FileNotFoundException {	
+    public Map<String, TaxpayerCategory> getTaxapayerCategoreis() throws FileNotFoundException {
 	Scanner scanner = new Scanner(new File(fileNamePath));
 	Map<String, TaxpayerCategory> taxpayerCategoriesMap = new HashMap<String, TaxpayerCategory>();
 	while (scanner.hasNextLine()) {

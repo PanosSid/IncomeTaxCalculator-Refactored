@@ -1,0 +1,28 @@
+#Name# Panos Sidiropoulos #/Name#
+#AFM# 222222222 #/AFM#
+#Status# Custom Category #/Status#
+#Income# 75000.0 #/Income#
+
+#Receipts#
+
+#ReceiptID# 1 #/ReceiptID#
+#Date# 10/5/1996 #/Date#
+#Kind# Basic #/Kind#
+#Amount# 251.0 #/Amount#
+#Company# Parta #/Company#
+#Country# Jakusa #/Country#
+#City# Drama #/City#
+#Street# Fukosima #/Street#
+#Number# 5 #/Number#
+
+#ReceiptID# 3 #/ReceiptID#
+#Date# 21/2/2004 #/Date#
+#Kind# Health #/Kind#
+#Amount# 213.0 #/Amount#
+#Company# fad #/Company#
+#Country# fgdh #/Country#
+#City# ftqtuhw #/City#
+#Street# uity #/Street#
+#Number# 77 #/Number#
+
+#/Receipts#

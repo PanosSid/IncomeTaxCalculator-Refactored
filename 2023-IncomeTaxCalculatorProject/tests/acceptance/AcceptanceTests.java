@@ -37,7 +37,8 @@ public class AcceptanceTests {
     private final static String TEST_RESOURCES_PATH = System.getProperty("user.dir") + "\\resources\\testing resources\\"; 
     
 
-    public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException, WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
+    public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException,
+    		WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	super();
 	this.taxpayerManager = new TaxpayerManager();
 	taxpayerManager.getTaxpayerHashMap().put(taxRegNum, getExpectedTaxpayerID1());
@@ -54,7 +55,7 @@ public class AcceptanceTests {
     
     // used to make test independent from the actual app 
     private void loadTaxpayerCategoriesFromTestDir() {
-	TaxpayerCategoryLoader catLoader = new TaxpayerCategoryLoader(TEST_RESOURCES_PATH + "appSettings_test.txt");
+	TaxpayerCategoryLoader catLoader = new TaxpayerCategoryLoader(TEST_RESOURCES_PATH + "test_taxpayerProperties.txt");
 	try {
 	    taxpayerManager.setTaxpayerCategoriesMap(catLoader.getTaxapayerCategoreis());
 	} catch (FileNotFoundException e) {
@@ -64,7 +65,7 @@ public class AcceptanceTests {
 
     // used to make test independent from the actual app
     private void loadTagsFromTestDir() {
-	TagLoader tagLoader = new TagLoader(TEST_RESOURCES_PATH + "tagsProperties_test.txt");
+	TagLoader tagLoader = new TagLoader(TEST_RESOURCES_PATH + "test_tagsProperties.txt");
 	mainManager.getTaxFileManager().setTagsMap(tagLoader.getTagsFromFile());
     }
     
@@ -108,7 +109,8 @@ public class AcceptanceTests {
     }
     
     private Taxpayer getExpectedTaxpayerID1() throws WrongReceiptDateException, WrongReceiptKindException {
-	Taxpayer aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0, taxpayerManager.getTaxpayerCategoryByName("Married Filing Jointly"));
+	Taxpayer aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0,
+		taxpayerManager.getTaxpayerCategoryByName("Married Filing Jointly"));
 	Company company1 = new Company("aCompany1", "aCountry1", "aCity1", "aStreet1", 10);
 	Company company2 = new Company("aCompany2", "aCountry2", "aCity2", "aStreet2", 20);
 	Receipt receipt1 = new Receipt(1, "10/10/2010", (float) 100.0, "Basic", company1);

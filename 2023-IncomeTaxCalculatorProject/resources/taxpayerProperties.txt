@@ -1,4 +1,4 @@
-#Taxpayer Types:
+#Taxpayer Categories:
 @ Married Filing Jointly
 	income limits = 36080; 90000; 143350; 254240;
 	base tax	  = 0; 1930.28; 5731.64; 9492.82; 18197.69;
@@ -19,21 +19,10 @@
 	base tax	  = 0; 1320.38; 5296.58; 5996.80; 10906.19;
 	percentage 	  = 0.0535; 0.0705; 0.0785; 0.0785; 0.0985;
 	
-@ Panos Category
-	income limits = 24680; 81080; 90000; 152540;
-	base tax	  = 0; 0; 0; 0; 0;
+@ Custom Category
+	income limits = 10000; 20000; 30000; 40000;
+	base tax	  = 100; 200; 300; 400; 500;
 	percentage 	  = 0; 0; 0; 0; 0;
-
-
-#Receipt categories:
-* Entertainment
-* Basic
-* Travel
-* Health
-* Other
-* Computers
-* Football
-
 
 	 
 	  
