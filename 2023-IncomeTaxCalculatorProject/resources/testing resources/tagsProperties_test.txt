@@ -1,0 +1,111 @@
+--TAG START
+*File Format = txt
+
+#TAXPAYER INFO
+*Name = Name:  
+*TRN = AFM:
+*Status = Status:
+*Income = Income:
+
+#RECEIPTS
+*Receipt Decleration = Receipts:
+*Receipt ID = Receipt ID: 
+*Date = Date:
+*Kind =  Kind:
+*Amount =  Amount:
+*Company = Company:
+*Country = Country:
+*City = City:
+*Street =  Street:
+*Number = Number: 
+
+#LOG
+*Name = Name:
+*TRN = AFM:
+*Income = Income:  
+*Basic Tax = Basic Tax:  
+*Tax Increase = Tax Increase: 
+*Total Tax = Total Tax: 
+*TotalReceiptsGathered = TotalReceiptsGathered: 
+*Entertainment = Entertainment:
+*Basic = Basic:
+*Travel = Travel:
+*Health = Health:
+*Other = Other:
+
+--TAG END
+
+--TAG START
+*File Format = xml
+
+#TAXPAYER INFO
+*Name = <Name> _ </Name>   
+*TRN = <AFM> _ </AFM>
+*Status = <Status> _ </Status>
+*Income = <Income> _ </Income>
+
+#RECEIPTS
+*Receipt Decleration = <Receipts> _ </Receipts>
+*Receipt ID = <ReceiptID> _ </ReceiptID>
+*Date  =  <Date> _ </Date>
+*Kind =  <Kind> _ </Kind>
+*Amount =  <Amount> _ </Amount>
+*Company = <Company> _ </Company>
+*Country = <Country> _ </Country>
+*City = <City> _ </City>
+*Street =  <Street> _ </Street>
+*Number = <Number> _ </Number> 
+
+#LOG
+*Name = <Name> _ </Name>  
+*TRN = <AFM> _ </AFM>
+*Income =  <Income> _ </Income>
+*Basic Tax = <BasicTax> _ </BasicTax>
+*Tax Increase = <TaxIncrease> _ </TaxIncrease>
+*Total Tax =  <TotalTax> _ </TotalTax>
+*TotalReceiptsGathered = <Receipts> _ </Receipts>
+*Entertainment = <Entertainment> _  </Entertainment>
+*Basic = <Basic> _ </Basic>
+*Travel = <Travel> _ </Travel>
+*Health = <Health> _ </Health>
+*Other = <Other> _ </Other>
+--TAG END
+
+
+--TAG START
+*File Format = xml
+
+#TAXPAYER INFO
+*Name = <Name> _ </Name>   
+*TRN = <AFM> _ </AFM>
+*Status = <Status> _ </Status>
+*Income = <Income> _ </Income>
+
+#RECEIPTS
+*Receipt Decleration = <Receipts> _ </Receipts>
+*Receipt ID = <ReceiptID> _ </ReceiptID>
+*Date  =  <Date> _ </Date>
+*Kind =  <Kind> _ </Kind>
+*Amount =  <Amount> _ </Amount>
+*Company = <Company> _ </Company>
+*Country = <Country> _ </Country>
+*City = <City> _ </City>
+*Street =  <Street> _ </Street>
+*Number = <Number> _ </Number> 
+
+#LOG
+*Name = <Name> _ </Name>  
+*TRN = <AFM> _ </AFM>
+*Income =  <Income> _ </Income>
+*Basic Tax = <BasicTax> _ </BasicTax>
+*Tax Increase = <TaxIncrease> _ </TaxIncrease>
+*Total Tax =  <TotalTax> _ </TotalTax>
+*TotalReceiptsGathered = <Receipts> _ </Receipts>
+*Entertainment = <Entertainment> _  </Entertainment>
+*Basic = <Basic> _ </Basic>
+*Travel = <Travel> _ </Travel>
+*Health = <Health> _ </Health>
+*Other = <Other> _ </Other>
+--TAG END
+
+

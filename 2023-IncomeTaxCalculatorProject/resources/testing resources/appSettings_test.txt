@@ -18,23 +18,3 @@
 	income limits = 24680; 81080; 90000; 152540;
 	base tax	  = 0; 1320.38; 5296.58; 5996.80; 10906.19;
 	percentage 	  = 0.0535; 0.0705; 0.0785; 0.0785; 0.0985;
-	
-@ Panos Category
-	income limits = 24680; 81080; 90000; 152540;
-	base tax	  = 0; 0; 0; 0; 0;
-	percentage 	  = 0; 0; 0; 0; 0;
-
-
-#Receipt categories:
-* Entertainment
-* Basic
-* Travel
-* Health
-* Other
-* Computers
-* Football
-
-
-	 
-	  
-

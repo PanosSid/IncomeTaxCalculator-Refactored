@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import incometaxcalculator.controller.IncomeTaxManager;
 import incometaxcalculator.controller.MainManager;
 import incometaxcalculator.io.exceptions.WrongFileFormatException;
 import incometaxcalculator.model.Receipt;
@@ -27,7 +28,7 @@ import net.miginfocom.swing.MigLayout;
 public class TaxpayerView {
     private JFrame frame;
     private JPanel panel;
-    private MainManager mainManager;
+    private IncomeTaxManager mainManager;
     private Taxpayer taxpayer;
     private int trn;
     private JTable receiptsTable;
@@ -38,6 +39,10 @@ public class TaxpayerView {
 	mainManager = MainManager.getInstance();
 	taxpayer = mainManager.getTaxpayer(trn);
 	initialize();
+    }
+    
+    public Taxpayer getViewedTaxpayer() {
+	return taxpayer;
     }
 
     private void initialize() {

@@ -2,35 +2,38 @@ package incometaxcalculator.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class TaxpayerCategoryLoader {
-
-    public void loadSettingsFile(Map<String,TaxpayerCategory> taxpayerCategoriesMap) throws FileNotFoundException {
-//	List<String> receiptKinds = null;
-	String projectDir = System.getProperty("user.dir");
-	String fileNamePath = projectDir + "\\resources\\appSettings.txt";
-	
-	Scanner scanner = new Scanner(new File(fileNamePath));
-
-	while (scanner.hasNextLine()) {
-	String line = scanner.nextLine();
-	if (line.startsWith("@")) {
-	    TaxpayerCategory tc = getTaxpayerCategory(line, scanner);
-	    taxpayerCategoriesMap.put(tc.getCategoryName(), tc);
-	}
-//		} else if (line.startsWith("*")) {
-//		    receiptKinds.add(getReceiptKindFromLine(line));
-//		}
-	}
-
-	scanner.close();
+    
+    private String fileNamePath = System.getProperty("user.dir") + "\\resources\\appSettings.txt";
+    
+    public TaxpayerCategoryLoader() {};
+    
+    public TaxpayerCategoryLoader(String fileNamePath) {
+	super();
+	this.fileNamePath = fileNamePath;
     }
 
-//    private String getReceiptKindFromLine(String line) {
-//	return line.replace("*", "").trim();
-//    }
+    public void setFileNamePath(String path) {
+	fileNamePath = path;
+    }
+
+    public Map<String,TaxpayerCategory> getTaxapayerCategoreis() throws FileNotFoundException {	
+	Scanner scanner = new Scanner(new File(fileNamePath));
+	Map<String, TaxpayerCategory> taxpayerCategoriesMap = new HashMap<String, TaxpayerCategory>();
+	while (scanner.hasNextLine()) {
+	    String line = scanner.nextLine();
+	    if (line.startsWith("@")) {
+		TaxpayerCategory tc = getTaxpayerCategory(line, scanner);
+		taxpayerCategoriesMap.put(tc.getCategoryName(), tc);
+	    }
+	}
+	scanner.close();
+	return taxpayerCategoriesMap;
+    }
 
     private TaxpayerCategory getTaxpayerCategory(String line, Scanner scanner) {
 	String type = line.replace("@", "").trim();

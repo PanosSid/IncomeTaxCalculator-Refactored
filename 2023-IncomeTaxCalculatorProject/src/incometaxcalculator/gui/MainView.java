@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import incometaxcalculator.controller.IncomeTaxManager;
 import incometaxcalculator.controller.MainManager;
 import incometaxcalculator.io.exceptions.WrongFileFormatException;
 import incometaxcalculator.io.exceptions.WrongFileReceiptSeperatorException;
@@ -33,7 +34,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class MainView {
     
-    private MainManager mainManager;
+    private IncomeTaxManager mainManager;
     private JFrame mainFrame;
     private JPanel mainPanel;
     private JLabel welcomeLabel;

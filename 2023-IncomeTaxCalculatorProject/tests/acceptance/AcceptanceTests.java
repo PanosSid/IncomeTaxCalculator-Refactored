@@ -2,27 +2,28 @@ package acceptance;
 
 import static org.junit.Assert.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.nio.charset.StandardCharsets;
-
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import incometaxcalculator.controller.MainManager;
+import incometaxcalculator.gui.TaxpayerView;
 import incometaxcalculator.gui.WrongTaxpayerStatusException;
+import incometaxcalculator.io.TagLoader;
 import incometaxcalculator.io.exceptions.WrongFileFormatException;
 import incometaxcalculator.io.exceptions.WrongReceiptDateException;
 import incometaxcalculator.io.exceptions.WrongReceiptKindException;
 import incometaxcalculator.model.Company;
 import incometaxcalculator.model.Receipt;
 import incometaxcalculator.model.Taxpayer;
+import incometaxcalculator.model.TaxpayerCategoryLoader;
 import incometaxcalculator.model.TaxpayerManager;
 import incometaxcalculator.model.exceptions.TaxpayerAlreadyLoadedException;
 
@@ -31,23 +32,42 @@ public class AcceptanceTests {
     private TaxpayerManager taxpayerManager;
     private MainManager mainManager = MainManager.getInstance();
     private int taxRegNum = 111111111;
-    private String[] fileFormats = TestFileContents.fileFormats;	// TODO get from gloabl proin from app
+    private String[] fileFormats = TestFileContents.fileFormats; //file formats for testing
     private Map<String, File> testInfoFilesMap = new HashMap<String, File>();
     private final static String TEST_RESOURCES_PATH = System.getProperty("user.dir") + "\\resources\\testing resources\\"; 
     
 
     public AcceptanceTests() throws WrongReceiptDateException, WrongReceiptKindException, WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	super();
-	this.taxpayerManager = new TaxpayerManager(); /*TaxpayerManager.getInstance();*/
+	this.taxpayerManager = new TaxpayerManager();
 	taxpayerManager.getTaxpayerHashMap().put(taxRegNum, getExpectedTaxpayerID1());
-//	taxpayerManager.getFilePathsMap().put(taxRegNum, TEST_RESOURCES_PATH+"111111111_INFO");
 	mainManager.setTaxpayerManager(taxpayerManager);
+	loadTaxpayerCategoriesFromTestDir();
+	loadTagsFromTestDir();
 	
 	File testedInfoTxt = new File(TEST_RESOURCES_PATH+"111111111_INFO.txt");
 	File testedInfoXml = new File(TEST_RESOURCES_PATH+"111111111_INFO.xml");
 	testInfoFilesMap.put("txt", testedInfoTxt);
 	testInfoFilesMap.put("xml", testedInfoXml);
     }
+    
+    
+    // used to make test independent from the actual app 
+    private void loadTaxpayerCategoriesFromTestDir() {
+	TaxpayerCategoryLoader catLoader = new TaxpayerCategoryLoader(TEST_RESOURCES_PATH + "appSettings_test.txt");
+	try {
+	    taxpayerManager.setTaxpayerCategoriesMap(catLoader.getTaxapayerCategoreis());
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	}
+    }
+
+    // used to make test independent from the actual app
+    private void loadTagsFromTestDir() {
+	TagLoader tagLoader = new TagLoader(TEST_RESOURCES_PATH + "tagsProperties_test.txt");
+	mainManager.getTaxFileManager().setTagsMap(tagLoader.getTagsFromFile());
+    }
+    
 
     @Before
     public void setUpInfoFileInResources() {
@@ -65,41 +85,21 @@ public class AcceptanceTests {
 	    fileWriter.write(newContent);
 	    fileWriter.close();
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
 
-//    @After
-//    public void destroyTaxpayerManager() {
-//	TaxpayerManager.tearDownTaxpayerManager();
-//    }
-    
-    @AfterClass
-    public static void tearDown() {
-	
-	
-//	try {
-//	    Files.deleteIfExists(Paths.get(TEST_RESOURCES_PATH + "111111111_LOG.txt"));
-//	    Files.deleteIfExists(Paths.get(TEST_RESOURCES_PATH + "111111111_LOG.xml"));
-//	} catch (IOException e) {
-//	    e.printStackTrace();
-//	}
-    }
-    
-
+   
     @Test
     public void testUC1LoadTaxpayer()
 	    throws Exception {
-//	MainManager mainManager = new MainManager();
 	for (String fType : fileFormats) {
 	    String filename = TEST_RESOURCES_PATH + taxRegNum + "_INFO." + fType;
 	    try {
-//		taxpayerManager.loadTaxpayer(filename);
 		mainManager.loadTaxpayer(filename);
 		
 	    } catch (TaxpayerAlreadyLoadedException e) {
-		// TODO fix this ugly hack
+		
 	    }
 	    Taxpayer actualTaxpayer = taxpayerManager.getTaxpayer(taxRegNum);
 	    Taxpayer expectedTaxpayer = getExpectedTaxpayerID1();
@@ -108,7 +108,6 @@ public class AcceptanceTests {
     }
     
     private Taxpayer getExpectedTaxpayerID1() throws WrongReceiptDateException, WrongReceiptKindException {
-//	Taxpayer aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0, "Married Filing Jointly");
 	Taxpayer aTaxpayer = new Taxpayer("Robert Martin", 111111111, (float) 100000.0, taxpayerManager.getTaxpayerCategoryByName("Married Filing Jointly"));
 	Company company1 = new Company("aCompany1", "aCountry1", "aCity1", "aStreet1", 10);
 	Company company2 = new Company("aCompany2", "aCountry2", "aCity2", "aStreet2", 20);
@@ -119,10 +118,13 @@ public class AcceptanceTests {
 	return aTaxpayer;
     }
     
-    @Ignore
-//    @Test
-    public void testUC2DisplayTaxpayerInfo() {
-	fail("not implemented yet");
+
+    @Test
+    public void testUC2DisplayTaxpayerInfo() throws WrongReceiptDateException, WrongReceiptKindException {
+	TaxpayerView taxpayerView = new TaxpayerView(taxRegNum);
+	Taxpayer expectedTaxpayer = getExpectedTaxpayerID1();
+	Assert.assertEquals(expectedTaxpayer, taxpayerView.getViewedTaxpayer());
+	
     }
 
     @Test
@@ -140,14 +142,10 @@ public class AcceptanceTests {
 	int number = company1.getNumber();
 	
 	mainManager.getTaxFileManager().addFilePathToMap(taxRegNum, TEST_RESOURCES_PATH+"111111111_INFO");
-//	mainManager.loadTaxpayer(TEST_RESOURCES_PATH+"111111111_INFO"+".txt");
 	
 	mainManager.addReceiptToTaxpayer(receiptId, issueDate, amount, kind,
-		companyName, country, city, street, number,taxRegNum);
-//	taxpayerManager.addReceiptToTaxpayer(receiptId, issueDate, amount, kind, companyName, country, city, street, number,
-//		taxRegNum);
+		companyName, country, city, street, number,taxRegNum);		
 
-//	HashMap<Integer, Receipt> receiptHashMap = taxpayerManager.getReceiptHashMap(taxRegNum);
 	Taxpayer taxpayer = taxpayerManager.getTaxpayer(taxRegNum);
 	HashMap<Integer, Receipt> receiptHashMap = taxpayer.getReceiptHashMap();
 	Receipt addedReceipt = receiptHashMap.get(receiptId);
@@ -183,7 +181,6 @@ public class AcceptanceTests {
 	for (int i = 0; i < fileFormats.length; i++) {
 	    String currentFtype = fileFormats[i];
 	    mainManager.saveLogFile(taxRegNum, TEST_RESOURCES_PATH,  fileFormats[i]);
-//	    taxpayerManager.saveLogFile(taxRegNum,TEST_RESOURCES_PATH, currentFtype);
 	    String logFilename = taxRegNum + "_LOG." + currentFtype;
 	    File logFile = new File(TEST_RESOURCES_PATH+ logFilename);
 	    boolean logFileExists = logFile.exists();
@@ -199,26 +196,19 @@ public class AcceptanceTests {
     public void testUC7RemoveTaxpayerFromList() throws WrongTaxpayerStatusException, TaxpayerAlreadyLoadedException {
 	mainManager.getTaxpayerManger().getTaxpayerHashMap().put(333333333, new Taxpayer("Will Deleted", 333333333, 300000, null));
 	mainManager.getTaxFileManager().setFileMapEntry(333333333, TEST_RESOURCES_PATH + "333333333_INFO");
-
-	taxpayerManager.removeTaxpayer(222222222);
-	Taxpayer returnedTaxpayer = taxpayerManager.getTaxpayer(222222222);
-	Assert.assertEquals(null, returnedTaxpayer);
+	taxpayerManager.removeTaxpayer(333333333);
+	Taxpayer returnedTaxpayer = taxpayerManager.getTaxpayer(333333333);
+	Assert.assertNull(returnedTaxpayer);
     }
 
     @Test
     public void testUC5CalculateTaxCharts() {
-//	fail("not implemented yet");
-	
 	Taxpayer taxpayer = taxpayerManager.getTaxpayer(taxRegNum);
 	
 	double expectedBasicTax = 6436.64;
 	double expectedTaxIncrease = 514.9312;
 	double expectedTotalTax = expectedBasicTax + expectedTaxIncrease;
 
-//	double actualBasicTax = taxpayerManager.getTaxpayerBasicTax(taxRegNum);
-//	double actualTaxIncrease = taxpayerManager.getTaxpayerVariationTaxOnReceipts(taxRegNum);
-//	double actualTotalTax = taxpayerManager.getTaxpayerTotalTax(taxRegNum);
-	
 	double actualBasicTax = taxpayer.getBasicTax();
 	double actualTaxIncrease = taxpayer.getVariationTaxOnReceipts();
 	double actualTotalTax = taxpayer.getTotalTax();
@@ -227,38 +217,12 @@ public class AcceptanceTests {
 	Assert.assertEquals(expectedTaxIncrease, actualTaxIncrease, 0.0);
 	Assert.assertEquals(expectedTotalTax, actualTotalTax, 0.0);
 
-	mainManager.getTaxpayerManger();
-	
-//	List<String> receiptKinds = AppConfig.getReceiptKinds();
-//	for (String kind : receiptKinds) {
-//	    double actualReceiptAmount = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegNum,
-//		    kind);
-//	    Assert.assertEquals(expectedReceiptAmount, actualReceiptAmount, 0.0);
-//	}
-	double actualReceiptAmount = taxpayer.getAmountOfReceiptKind("Entertainment");
-	Assert.assertEquals(0.0, actualReceiptAmount, 0.0);
-	
-	double actualReceiptAmount1 = taxpayer.getAmountOfReceiptKind("Basic");
-	Assert.assertEquals(100.0, actualReceiptAmount1, 0.0);
-	
-	double actualReceiptAmount2 = taxpayer.getAmountOfReceiptKind("Travel");
-	Assert.assertEquals(200.0, actualReceiptAmount2, 0.0);
-	
-	double actualReceiptAmount3 = taxpayer.getAmountOfReceiptKind("Health");
-	Assert.assertEquals(0.0, actualReceiptAmount3, 0.0);
-
-	double actualReceiptAmount4 = taxpayer.getAmountOfReceiptKind("Other");
-	Assert.assertEquals(0.0, actualReceiptAmount4, 0.0);
-
-	    
-	
-	
-//	double expectedReceiptAmount[] = { 0.0, 100.0, 200.0, 0.0, 0.0 };
-//	for (int receiptKind = 0; receiptKind < 5; receiptKind++) {
-//	    double actualReceiptAmount = taxpayerManager.getTaxpayerAmountOfReceiptKind(taxRegNum,
-//		    (short) receiptKind);
-//	    Assert.assertEquals(expectedReceiptAmount[receiptKind], actualReceiptAmount, 0.0);
-//	}
+	String receiptKinds[] = {"Entertainment", "Basic","Travel", "Health", "Other"};
+	double expectedReceiptAmount[] = { 0.0, 100.0, 200.0, 0.0, 0.0 };
+	for (int i = 0; i < receiptKinds.length; i++) {
+	    double actualReceiptAmount = taxpayer.getAmountOfReceiptKind(receiptKinds[i]);
+	    Assert.assertEquals(expectedReceiptAmount[i], actualReceiptAmount, 0.0);
+	}
 
     }
 }

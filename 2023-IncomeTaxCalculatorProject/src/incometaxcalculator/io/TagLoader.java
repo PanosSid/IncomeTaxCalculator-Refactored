@@ -10,10 +10,17 @@ import java.util.Scanner;
 
 public class TagLoader {
     private Scanner scanner; 
+    private String fileNamePath =  System.getProperty("user.dir") + "\\resources\\tagsProperties.txt";
+    
+    public TagLoader() {}
+    
+    public TagLoader(String fileNamePath) {
+	super();
+	this.fileNamePath = fileNamePath;
+    }
 
-    public void loadTags(Map<String, Tags> genTagsMap) {
-	String projectDir = System.getProperty("user.dir");
-	String fileNamePath = projectDir + "\\resources\\tagsProperties.txt";
+    public Map<String, Tags> getTagsFromFile() {
+	Map<String, Tags> tagsMap = new HashMap<String, Tags>();
 	try {
 	    scanner = new Scanner(new File(fileNamePath));
 	    while (scanner.hasNextLine()) {
@@ -22,7 +29,7 @@ public class TagLoader {
 		    Tags tag ;
 		    try {
 			tag = getTagFromFile();
-			genTagsMap.put(tag.getFileFormat(), tag);	/// 
+			tagsMap.put(tag.getFileFormat(), tag);	/// 
 		    } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,6 +40,7 @@ public class TagLoader {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+	return tagsMap;
     }
     
     private Tags getTagFromFile() throws Exception {
@@ -72,7 +80,8 @@ public class TagLoader {
 	return lines;
     }
     
-    private void laodHeadersAndFooters(List<String> lines, List<String> headers, List<String> footers) throws Exception {
+    private void laodHeadersAndFooters(List<String> lines, List<String> headers,
+	    List<String> footers) throws Exception {
 	for (String line : lines) {
 	    String partsOfLine[] = line.split("_");
 	    if (partsOfLine.length == 2 ) {
@@ -96,11 +105,5 @@ public class TagLoader {
 	}
 	return null;
     }
-    
-    
-    public static void main(String args[]) {
-	Map<String, Tags> genTagsMap = new HashMap<String, Tags>();
-	TagLoader tagLoader = new TagLoader();
-	tagLoader.loadTags(genTagsMap);
-    }
+
 }

@@ -14,20 +14,25 @@ import incometaxcalculator.model.exceptions.ReceiptAlreadyExistsException;
 import incometaxcalculator.model.exceptions.TaxpayerAlreadyLoadedException;
 
 
-public class TaxpayerManager {
+public class TaxpayerManager implements ITaxpayerManager {
     private Map<Integer, Taxpayer> taxpayerHashMap;
     private Map<String, TaxpayerCategory> taxpayerCategoriesMap;
 
     public TaxpayerManager() {
-	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0);
+	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0); // must be linked to maintain order for gui
 	initTaxpayerCategories();
     }
 
     public Map<Integer, Taxpayer> getTaxpayerHashMap() {
 	return taxpayerHashMap;
     }
+    
+    public void setTaxpayerCategoriesMap( Map<String, TaxpayerCategory> map) {
+	taxpayerCategoriesMap = map;
+    }
         
 
+    @Override
     public void laodReadTaxpayer(int trn, Map<String, List<String>> infoFileContents) // TODO renaming
 	    throws TaxpayerAlreadyLoadedException, WrongReceiptDateException, WrongReceiptKindException {
 	loadTaxpayerData(infoFileContents.get("taxpayerInfo"));
@@ -71,10 +76,12 @@ public class TaxpayerManager {
 
     }
 
+    @Override
     public void removeTaxpayer(int taxRegNum) {
 	taxpayerHashMap.remove(taxRegNum);
     }
 
+    @Override
     public void addReceiptToTaxapyer2(int receiptId, String issueDate, float amount, String kind,
 	    String companyName, String country, String city, String street, int number, int taxRegNum)
 	    throws WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException {
@@ -97,10 +104,12 @@ public class TaxpayerManager {
 	return taxpayerHashMap.get(taxRegNum).hasReceiptId(receiptid);
     }
     
+    @Override
     public void deleteReceiptFromTaxpayer(int receiptId, int trn) throws IOException {
 	taxpayerHashMap.get(trn).removeReceipt(receiptId);
     }
 
+    @Override
     public Taxpayer getTaxpayer(int taxRegNum) {
 	return taxpayerHashMap.get(taxRegNum);
     }
@@ -118,6 +127,7 @@ public class TaxpayerManager {
 	return taxpayerHashMap.get(taxRegNum).getTaxpayerInfoData();
     }
 
+    @Override
     public Map<Integer, List<String>> getReceiptsDataOfTaxpayer(int taxRegNum) {
 	return taxpayerHashMap.get(taxRegNum).getReceiptsDataOfTaxpayer();
     }
@@ -128,17 +138,16 @@ public class TaxpayerManager {
 	return  false;
     }
     
-    private void initTaxpayerCategories() {
-	taxpayerCategoriesMap = new HashMap<String, TaxpayerCategory>();
-	loadTaxpayerCategories();
-    }
+//    private void initTaxpayerCategories() {
+//	taxpayerCategoriesMap = new HashMap<String, TaxpayerCategory>();
+//	loadTaxpayerCategories();
+//    }
     
-    private void loadTaxpayerCategories() {
+    private void initTaxpayerCategories() {
 	TaxpayerCategoryLoader categoryLoader = new TaxpayerCategoryLoader();
 	try {
-	    categoryLoader.loadSettingsFile(taxpayerCategoriesMap);
+	    taxpayerCategoriesMap = categoryLoader.getTaxapayerCategoreis();
 	} catch (FileNotFoundException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }

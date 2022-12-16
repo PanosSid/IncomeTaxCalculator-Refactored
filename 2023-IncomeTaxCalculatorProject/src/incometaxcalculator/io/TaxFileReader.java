@@ -62,41 +62,26 @@ public class TaxFileReader {
     private Map<String, List<String>> readReceiptsOfTaxpayer(Scanner inputStream, int taxRegNum)
 	    throws WrongFileReceiptSeperatorException, WrongFileFormatException, WrongReceiptKindException,
 	    WrongReceiptDateException, FileHasWrongTagsException {
-	List<String> receiptHeaderTags = receiptHeaders;
-	List<String> receiptFooterTags = receiptFooters;
-	if (!doesLineContainHeaderTag(inputStream.nextLine(), receiptHeaderTags.get(0)))	
+	if (!doesLineContainHeaderTag(inputStream.nextLine(), receiptHeaders.get(0)))	
 	    throw new WrongFileReceiptSeperatorException();
 	inputStream.nextLine(); // skip a line
 	HashMap<String, List<String>> receiptMap = new HashMap<String, List<String>>();
 	String line = null;
 	while (inputStream.hasNextLine()) {
 	    line = inputStream.nextLine();
-	    if (line.equals(receiptFooterTags.get(0)))
+	    if (line.equals(receiptFooters.get(0)))
 		break;
 	    List<String> receiptData = new ArrayList<String>();
-	    String receiptId = removeTagsFromLine(line, receiptHeaderTags.get(1), receiptFooterTags.get(1));
+	    String receiptId = removeTagsFromLine(line, receiptHeaders.get(1), receiptFooters.get(1));
 	    receiptData.add(receiptId);
 	    for (int i = 2; i < 10; i++) {
-		receiptData.add(removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(i), receiptFooterTags.get(i)));
+		receiptData.add(removeTagsFromLine(inputStream.nextLine(), receiptHeaders.get(i), receiptFooters.get(i)));
 	    }
 	    receiptMap.put(receiptId, receiptData);
 	    inputStream.nextLine(); // skip a line
-	    
-//	    String receiptId = removeTagsFromLine(line, receiptHeaderTags.get(1), receiptFooterTags.get(1));
-//	    String issueDate = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(2), receiptFooterTags.get(2));
-//	    String kind = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(3), receiptFooterTags.get(3));
-//	    String amount = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(4), receiptFooterTags.get(4));
-//	    String companyName = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(5), receiptFooterTags.get(5));
-//	    String country = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(6), receiptFooterTags.get(6));
-//	    String city = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(7), receiptFooterTags.get(7));
-//	    String street = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(8), receiptFooterTags.get(8));
-//	    String number = removeTagsFromLine(inputStream.nextLine(), receiptHeaderTags.get(9), receiptFooterTags.get(9));
-//	    line = inputStream.nextLine(); // skip a line
-//	    receiptMap.put(receiptId, getDataAsAListOfStrings(receiptId, issueDate, kind, amount, companyName, country,
-//		    city, street, number));
 	}
 	
-	if (!doesLineContainFooterTag(line, receiptFooterTags.get(0)))
+	if (!doesLineContainFooterTag(line, receiptFooters.get(0)))
 	    throw new WrongFileReceiptSeperatorException();
 	return receiptMap;
     }

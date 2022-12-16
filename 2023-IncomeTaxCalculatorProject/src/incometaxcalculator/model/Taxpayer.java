@@ -23,34 +23,14 @@ public class Taxpayer {
 	this.taxpayerCategory = category;
 	initAmountPerReceiptKindMap();
     }
-    
-//    public Taxpayer(String fullname, int taxRegistrationNumber, float income, String status) {
-//	this.receiptHashMap = new HashMap<Integer, Receipt>();
-//	this.fullname = fullname;
-//	this.taxRegistrationNumber = taxRegistrationNumber;
-//	this.income = income;
-//	this.taxpayerCategory  = AppConfig.getTaxpayerCategoryByName(status);
-//	initAmountPerReceiptKindMap();
-//    }
-    
+
     private void initAmountPerReceiptKindMap() {
-//	List<String> receiptKinds = AppConfig.getReceiptKinds();
-//	amountPerReceiptsKind = new HashMap<String, Float>(receiptKinds.size());
-//	for (String kind : receiptKinds) {
-//	    amountPerReceiptsKind.put(kind, (float) 0.0);
-//	}
 	String receiptKinds[] = {"Entertainment", "Basic","Travel", "Health", "Other"};
 	amountPerReceiptsKind = new HashMap<String, Float>(receiptKinds.length);
 	for (int i = 0; i < receiptKinds.length; i++) {
 	    amountPerReceiptsKind.put(receiptKinds[i], (float) 0.0);
 	}
 
-    }
-    
-    public List<String> getReceiptKinds(){
-	List<String> receiptKinds = new ArrayList<String>();
-	receiptKinds.addAll(amountPerReceiptsKind.keySet());
-	return receiptKinds;	
     }
      
     public List<String> getTaxpayerInfoData(){
@@ -172,12 +152,6 @@ public class Taxpayer {
 	logData.add("" + getVariationTaxOnReceipts());
 	logData.add("" + getTotalTax());
 	logData.add("" + getTotalReceiptsGathered());
-
-//	Map<String, Float> amountPerReceipKind = getAllReceiptsAmountOfTaxpayer(taxRegNum);
-//	for (String kindName : amountPerReceipKind.keySet()) {
-//	    logData.add("" + amountPerReceipKind.get(kindName));
-//	}
-
 	logData.add("" + getAmountOfReceiptKind("Entertainment"));
 	logData.add("" + getAmountOfReceiptKind("Basic"));
 	logData.add("" + getAmountOfReceiptKind("Travel"));

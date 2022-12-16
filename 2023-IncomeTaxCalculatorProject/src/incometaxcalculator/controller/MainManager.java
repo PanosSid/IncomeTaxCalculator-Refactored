@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import incometaxcalculator.io.FileManager;
 import incometaxcalculator.io.TaxFileManager;
 import incometaxcalculator.io.exceptions.WrongFileFormatException;
 import incometaxcalculator.io.exceptions.WrongReceiptDateException;
 import incometaxcalculator.io.exceptions.WrongReceiptKindException;
+import incometaxcalculator.model.ITaxpayerManager;
 import incometaxcalculator.model.Taxpayer;
 import incometaxcalculator.model.TaxpayerManager;
 import incometaxcalculator.model.exceptions.ReceiptAlreadyExistsException;
@@ -15,8 +17,8 @@ import incometaxcalculator.model.exceptions.ReceiptAlreadyExistsException;
 
 public class MainManager implements IncomeTaxManager {
     private static MainManager instance; 
-    private TaxpayerManager taxpayerManager;
-    private TaxFileManager fileManager;
+    private ITaxpayerManager taxpayerManager;
+    private FileManager fileManager;
 
     private MainManager() {	
 	taxpayerManager = new TaxpayerManager();
@@ -30,11 +32,11 @@ public class MainManager implements IncomeTaxManager {
  	return instance;
      }
     
-    public TaxpayerManager getTaxpayerManger() {
+    public ITaxpayerManager getTaxpayerManger() {
 	return taxpayerManager;
     }
     
-    public TaxFileManager getTaxFileManager() {
+    public FileManager getTaxFileManager() {
 	return fileManager;
     }
 
@@ -78,13 +80,6 @@ public class MainManager implements IncomeTaxManager {
 	fileManager.saveLogeFile(fileNamePath, fileFormat, logData, taxIncrease);
     }
     
-    
-//    public void loadAppSettings() {
-//	fileManager.loadTaxpayerAndReceiptParams();
-////	Map<String, TaxpayerCategory> categoriesMap = fileManager.getTaxpayerCategoriesFromFile();
-////	taxpayerManager.setTaxpayerCategories(categoriesMap);
-//    }
-    
     public void setTaxpayerManager(TaxpayerManager taxpayerManager) {
 	this.taxpayerManager = taxpayerManager;
 	
@@ -102,10 +97,5 @@ public class MainManager implements IncomeTaxManager {
     public List<String> getFileFormats(){
 	return fileManager.getFileFormats();
     }
-    
-//    public Taxpayer getTaxpayer(int taxRegNum) {
-//	return taxpayerManager.getTaxpayer(taxRegNum);
-//	
-//    }
 
 }
