@@ -98,6 +98,7 @@ public class ReceiptFormView {
 		;
 		float amountValue = Float.parseFloat(((JTextField) componentMap.get("Amount")).getText());
 		String dateValue = ((JTextField) componentMap.get("Issue Date")).getText();
+		@SuppressWarnings("unchecked")
 		String kindValue = String.valueOf(((JComboBox<String>) componentMap.get("Kind")).getSelectedItem());
 		String companyValue = ((JTextField) componentMap.get("Company")).getText();
 		String countryValue = ((JTextField) componentMap.get("Country")).getText();

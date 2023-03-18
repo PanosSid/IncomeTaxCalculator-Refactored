@@ -80,6 +80,11 @@ public class MainView {
 	lblLoadedTaxpayers.setFont(new Font("Sans-serif", Font.BOLD, 16));
 
 	loadedTaxpayersTable = new JTable() {
+	    /**
+	     * 
+	     */
+	    private static final long serialVersionUID = 1L;
+
 	    @Override
 	    public boolean isCellEditable(int row, int column) {
 		return false;

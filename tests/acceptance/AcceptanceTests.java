@@ -1,6 +1,5 @@
 package acceptance;
 
-import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -11,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import incometaxcalculator.controller.MainManager;
 import incometaxcalculator.gui.TaxpayerView;

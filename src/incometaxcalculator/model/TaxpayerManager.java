@@ -3,7 +3,6 @@ package incometaxcalculator.model;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class TaxpayerManager implements ITaxpayerManager {
     private Map<String, TaxpayerCategory> taxpayerCategoriesMap;
 
     public TaxpayerManager() {
-	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0); // must be linked to maintain order for gui
+	taxpayerHashMap = new LinkedHashMap<Integer, Taxpayer>(0); 	// must be linked to maintain order for gui
 	initTaxpayerCategories();
     }
 

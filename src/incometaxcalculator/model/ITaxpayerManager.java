@@ -1,6 +1,5 @@
 package incometaxcalculator.model;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import incometaxcalculator.model.exceptions.TaxpayerAlreadyLoadedException;
 
 public interface ITaxpayerManager {
 
-    void laodTaxpayerInfo(int trn, Map<String, List<String>> infoFileContents) // TODO renaming
+    void laodTaxpayerInfo(int trn, Map<String, List<String>> infoFileContents) 
 	    throws TaxpayerAlreadyLoadedException, WrongReceiptDateException, WrongReceiptKindException;
 
     void removeTaxpayer(int taxRegNum);
