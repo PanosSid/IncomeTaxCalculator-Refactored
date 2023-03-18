@@ -3,7 +3,7 @@ IncomeTaxCalculator is a re-engineered Java application that calculates income t
 
 ## Summary
 
-The objective of this project is to re-engineer a Java application that calculates income tax for citizens of Minnesota state. The tax calculation takes into account the citizen's marital status, income, and expenses, as evidenced by a set of receipts submitted with the income. The legacy application takes txt or xml files as input that contain the necessary data for each citizen. The tax calculation is based on a complex algorithm provided by the state. The application also generates graphical representations of the data in the form of bar and pie charts, and produces output reports in txt or xml format. The objectives of this phase of the project are to simplify the design to make it more extensible and maintainable, and to redesign the graphical interface to enhance its user-friendliness.
+The objective of this project is to re-engineer a Java application that calculates income tax for citizens of Minnesota state. The tax calculation takes into account the citizen's marital status, income, and expenses, as evidenced by a set of receipts submitted with the income. The legacy application takes txt or xml files as input that contain the necessary data for each citizen. The tax calculation is based on a complex algorithm provided by the state. The application also generates graphical representations of the data in the form of bar and pie charts, and produces output reports in txt or xml format.
 
 ## Project Objectives
 
