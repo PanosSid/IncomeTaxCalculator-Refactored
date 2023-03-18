@@ -11,27 +11,27 @@ import incometaxcalculator.model.exceptions.TaxpayerAlreadyLoadedException;
 
 public interface ITaxpayerManager {
 
-    void laodTaxpayerInfo(int trn, Map<String, List<String>> infoFileContents) 
-	    throws TaxpayerAlreadyLoadedException, WrongReceiptDateException, WrongReceiptKindException;
+	void laodTaxpayerInfo(int trn, Map<String, List<String>> infoFileContents)
+			throws TaxpayerAlreadyLoadedException, WrongReceiptDateException, WrongReceiptKindException;
 
-    void removeTaxpayer(int taxRegNum);
+	void removeTaxpayer(int taxRegNum);
 
-    void addReceiptToTaxapyer(int receiptId, String issueDate, float amount, String kind, String companyName,
-	    String country, String city, String street, int number, int taxRegNum)
-	    throws WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException;
+	void addReceiptToTaxapyer(int receiptId, String issueDate, float amount, String kind, String companyName,
+			String country, String city, String street, int number, int taxRegNum)
+			throws WrongReceiptKindException, WrongReceiptDateException, ReceiptAlreadyExistsException;
 
-    void deleteReceiptFromTaxpayer(int receiptId, int trn) throws IOException;
+	void deleteReceiptFromTaxpayer(int receiptId, int trn) throws IOException;
 
-    Taxpayer getTaxpayer(int taxRegNum);
+	Taxpayer getTaxpayer(int taxRegNum);
 
-    Map<Integer, List<String>> getReceiptsDataOfTaxpayer(int taxRegNum);
+	Map<Integer, List<String>> getReceiptsDataOfTaxpayer(int taxRegNum);
 
-    List<String> getTaxpayerInfoData(int taxRegNum);
+	List<String> getTaxpayerInfoData(int taxRegNum);
 
-    boolean isTaxIncreasingForTaxpayer(int taxRegNum);
+	boolean isTaxIncreasingForTaxpayer(int taxRegNum);
 
-    String[] getLastLoadedTaxpayerNameAndTrn();
+	String[] getLastLoadedTaxpayerNameAndTrn();
 
-    Map<Integer, Taxpayer> getTaxpayerHashMap();
+	Map<Integer, Taxpayer> getTaxpayerHashMap();
 
 }
