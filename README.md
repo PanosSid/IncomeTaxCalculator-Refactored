@@ -1,5 +1,5 @@
 # IncomeTaxCalculator
-IncomeTaxCalculator is a re-engineered Java application that calculates income tax for citizens of Minnesota state. This project was developed as part of the [Software Development II ](https://www.cse.uoi.gr/course/software-engineering-ii/?lang=en) course [@cse.uoi.gr](https://www.cs.uoi.gr/) during the fall semester of 2022.
+IncomeTaxCalculator is a refactored Java application that calculates income tax for citizens of Minnesota state. This project was developed as part of the [Software Development II ](https://www.cse.uoi.gr/course/software-engineering-ii/?lang=en) course [@cse.uoi.gr](https://www.cs.uoi.gr/) during the fall semester of 2022.
 
 ## Summary
 
